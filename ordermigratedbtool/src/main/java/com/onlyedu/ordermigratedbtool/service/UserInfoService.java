@@ -16,6 +16,7 @@ public class UserInfoService {
 
   public   UserInfo getUserWithOrder(String userId)
   {
+      logger.info("test");
       return userInfoMapper.getUserWithOrder(userId);
   }
 }
