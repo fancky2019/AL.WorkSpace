@@ -1,0 +1,37 @@
+server:
+  port: 8101
+#公共配置与profiles选择无关 mapperLocations指的路径是src/main/resources
+#mapper路径和实体对象路径
+
+mybatis:
+  #  Mapper文件存放的位置
+  mapperLocations: classpath:mapper/**/*.xml
+  #  实体类所在的包
+  typeAliasesPackage: com.onlyedu.ordermigratedbtool.model.entity
+
+logging:
+  config: classpath:log4j2.xml
+#开发配置
+spring:
+  application:
+    name: OrderMigrateDbTool
+  datasource:
+    #注意冒号有空格，多数据源是jdbcUrl，spring默认url
+    url: jdbc:sqlserver://106.14.212.77:1433;DatabaseName=NewClassesAdmin
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    username: EduLifeOnline
+    password: 123qwe!@#QWE
+    # HikariCP： springboot2.0 默认的连接池。https://github.com/brettwooldridge/HikariCP
+    #HikariCP  高并发性能优。mysql 8h 空闲断开连接可用quartz 调度定期select 1  。
+    #产生此问题DB工作就不繁忙，性能要求不高。可以用上面dbcp2的配置，采取空闲查询策略。
+
+    # Hikari will use the above plus the following to setup connection pooling
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 15
+      auto-commit: false
+      idle-timeout: 30000
+      max-lifetime: 1800000
+      connection-timeout: 30000
+
