@@ -20,7 +20,7 @@ target/
 *.ipr
 .idea/
 *.log
-uploadfiles/
+../uploadfiles/
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
