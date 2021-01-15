@@ -5,6 +5,7 @@ import com.onlyedu.ordermigratedbtool.model.entity.UserInfo;
 
 import com.onlyedu.ordermigratedbtool.model.pojo.MessageResult;
 import com.onlyedu.ordermigratedbtool.model.pojo.PageData;
+import com.onlyedu.ordermigratedbtool.model.vo.StudentOrderVO;
 import com.onlyedu.ordermigratedbtool.model.vo.UserInfoVO;
 import com.onlyedu.ordermigratedbtool.service.UserInfoService;
 import org.apache.logging.log4j.LogManager;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/userinfo")
@@ -27,10 +30,14 @@ public class UserInfoController {
     @GetMapping("/getUserWithOrderPage")
     public MessageResult<PageData<UserInfoVO>> getUserWithOrderPage(UserInfoDto userInfoDto) {
         MessageResult<PageData<UserInfoVO>> message = userInfoService.getUserWithOrderPage(userInfoDto);
-        Integer m = 0;
         return message;
     }
 
+    @GetMapping("/getOrderByStudentGuid")
+    public MessageResult<List<StudentOrderVO>> getOrderByStudentGuid(String studentGuid) {
+        MessageResult<List<StudentOrderVO>> message = userInfoService.getOrderByStudentGuid(studentGuid);
+        return message;
+    }
 
     @PostMapping("/subbmit")
     public void subbmit(String name) {
