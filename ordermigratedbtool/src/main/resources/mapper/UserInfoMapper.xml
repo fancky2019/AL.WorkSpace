@@ -1,11 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.onlyedu.ordermigratedbtool.dao.UserInfoMapper">
+    <sql id="dynamicWhere">
+        <if test="userId != null">
+            and UserId LIKE CONCAT('%',#{UserId},'%')
+        </if>
+    </sql>
 
-  <select id="getUserWithOrder" parameterType="java.lang.String" resultType="com.onlyedu.ordermigratedbtool.model.entity.UserInfo">
-    select 
-   *
-    from UserInfo
-    where UserId = #{userId,jdbcType=CHAR}
+  <select id="getUserWithOrder" parameterType="com.onlyedu.ordermigratedbtool.model.dto.UserInfoDto" resultType="com.onlyedu.ordermigratedbtool.model.dto.UserInfoDto">
+    select * from (
+                      select ROW_NUMBER() over(order by (select 0) ) as RowNum,*
+                      from
+                          (
+                              select ui.Id,  ui.UserId,ui.StudentId,ui.UserName ,ui.Grade ,ui.MobilePhone,ui.Tel,s.School,ui.RegTime,
+                              ui.[RelativeState],ui.[EOSUserInfo]
+                              from [NewClassesAdmin].[dbo].OrderHead  oh
+                              join [NewClassesAdmin].[dbo].UserInfo ui  on ui.StudentId=oh.StudentId
+                              left join School s on s.Guid=ui.SchoolId
+                              where 1=1
+                              and oh.IsDelete=0 and oh.OrderType between 1 and 2 and oh.OrderStateId=6
+                              and ui.IsDelete=0 and ISNULL(ui.Status,0)=1 and ISNULL(ui.UserType,0)=1 and ISNULL(ui.UserId,'')<![CDATA[ <> ]]>''
+                              <include refid="dynamicWhere"></include>
+                          ) t1
+                  )t2
+    where t2.RowNum BETWEEN  (#{pageIndex,jdbcType=INTEGER}-1)*#{pageSize,jdbcType=INTEGER} and #{pageIndex,jdbcType=INTEGER}*#{pageSize,jdbcType=INTEGER}
   </select>
+
+    <select id="getUserWithOrderCount" parameterType="com.onlyedu.ordermigratedbtool.model.dto.UserInfoDto" resultType="java.lang.Integer">
+        select count(ui.Id) [count]
+        from [NewClassesAdmin].[dbo].OrderHead  oh
+        join [NewClassesAdmin].[dbo].UserInfo ui  on ui.StudentId=oh.StudentId
+        left join School s on s.Guid=ui.SchoolId
+        where 1=1
+        and oh.IsDelete=0 and oh.OrderType between 1 and 2 and oh.OrderStateId=6
+        and ui.IsDelete=0 and ISNULL(ui.Status,0)=1 and ISNULL(ui.UserType,0)=1 and ISNULL(ui.UserId,'')<![CDATA[ <> ]]>''
+        <include refid="dynamicWhere"></include>
+    </select>
 </mapper>

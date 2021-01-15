@@ -123,6 +123,8 @@ public class UserInfo {
 
     private String boxid;
 
+    private String eOSUserInfo;
+
     public UserInfo(String studentid, Integer id, String studentno, String userid, String password, String pwd, String username, String sex, String birthday, String avatar, String provinceid, String districtid, String schoolid, String grade, String educationlevel, String tel, String mobilephone, String address, String postcode, String email, String msn, String qq, Date lastlogintime, String lastloginip, Date regtime, String regip, Integer status, String usertype, String usersourceid, Boolean erroraddress, String othercourse, String isjoinrecruitment, String nowadmin, Date addadmintime, Integer isonline, Integer locktype, String regsourceid, String regsourcein, String regsourcepage, Boolean islistforcf, String othertel, Integer isranking, Boolean isclear, Integer bmlevel, String userclassguid, String remark, String addby, Date addedtime, Boolean isdelete, String deleteby, Date deletetime, Boolean ismodify, String modifyby, Date modifytime, Boolean isexamine, Integer studenttype, Date studenttypetime, Integer validtype, Integer smallvalidtype, String boxid) {
         this.studentid = studentid;
         this.id = id;
@@ -668,5 +670,13 @@ public class UserInfo {
 
     public void setBoxid(String boxid) {
         this.boxid = boxid == null ? null : boxid.trim();
+    }
+
+    public String geteOSUserInfo() {
+        return eOSUserInfo;
+    }
+
+    public void seteOSUserInfo(String eOSUserInfo) {
+        this.eOSUserInfo = eOSUserInfo;
     }
 }

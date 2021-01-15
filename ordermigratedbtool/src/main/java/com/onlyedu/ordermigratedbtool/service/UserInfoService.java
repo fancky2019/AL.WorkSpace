@@ -1,11 +1,20 @@
 package com.onlyedu.ordermigratedbtool.service;
 
 import com.onlyedu.ordermigratedbtool.dao.UserInfoMapper;
+import com.onlyedu.ordermigratedbtool.model.dto.UserInfoDto;
 import com.onlyedu.ordermigratedbtool.model.entity.UserInfo;
+import com.onlyedu.ordermigratedbtool.model.pojo.MessageResult;
+import com.onlyedu.ordermigratedbtool.model.pojo.PageData;
+import com.onlyedu.ordermigratedbtool.model.vo.UserInfoVO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UserInfoService {
@@ -14,9 +23,30 @@ public class UserInfoService {
     private UserInfoMapper userInfoMapper;
 
 
-  public   UserInfo getUserWithOrder(String userId)
-  {
-      logger.info("test");
-      return userInfoMapper.getUserWithOrder(userId);
-  }
+    public MessageResult<PageData<UserInfoVO>> getUserWithOrderPage(UserInfoDto userInfoDto) {
+        MessageResult<PageData<UserInfoVO>> message = new MessageResult<>();
+
+        try {
+            Integer count = userInfoMapper.getUserWithOrderCount(userInfoDto);
+            List<UserInfoDto> userInfoDtoList = userInfoMapper.getUserWithOrder(userInfoDto);
+            PageData<UserInfoVO> pageData = new PageData<>();
+            pageData.setCount(count);
+            message.setSuccess(true);
+            List<UserInfoVO> userInfoVOList = new ArrayList<>();
+            userInfoDtoList.forEach(p ->
+            {
+                UserInfoVO userInfoVO = new UserInfoVO();
+                BeanUtils.copyProperties(p, userInfoVO);
+                userInfoVO.setRegTime(p.getRegTime().format( DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")));
+                userInfoVOList.add(userInfoVO);
+            });
+            pageData.setData(userInfoVOList);
+            message.setData(pageData);
+        } catch (Exception ex) {
+            message.setSuccess(false);
+            message.setMessage(ex.getMessage());
+            logger.error(ex.toString());
+        }
+        return message;
+    }
 }
