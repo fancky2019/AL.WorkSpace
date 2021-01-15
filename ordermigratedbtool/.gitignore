@@ -19,8 +19,6 @@ target/
 *.iml
 *.ipr
 .idea/
-*.log
-../uploadfiles/
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
@@ -33,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+#####
+*.log
+../uploadfiles/
