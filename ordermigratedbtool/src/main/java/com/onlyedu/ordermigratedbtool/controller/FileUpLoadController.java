@@ -32,7 +32,7 @@ public class FileUpLoadController {
             String dateStr = localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             String rootPath = System.getProperty("user.dir");
 //            String rootPath =   ResourceUtils.getURL("classpath:").getPath();
-            String directory = rootPath + "/uploadfiles" + "/" + dateStr + "/";
+            String directory = rootPath + "\\uploadfiles" + "\\" + dateStr + "\\";
             File destFile = new File(directory);
             //判断路径是否存在,和C#不一样。她判断路径和文件是否存在
             if (!destFile.exists()) {
@@ -59,7 +59,6 @@ public class FileUpLoadController {
     }
 
     @RequestMapping(value = "/uploadFileAndForm", method = RequestMethod.POST)
-    @ResponseBody
     public MessageResult<Void> uploadFileAndForm(@RequestParam(value = "files") MultipartFile[] files, HttpServletRequest request) {
         MessageResult<Void> messageResult = new MessageResult<>();
         logger.info("uploadFileAndForm");
@@ -108,7 +107,6 @@ public class FileUpLoadController {
 
 
     @RequestMapping(value = "/uploadStatus")
-    @ResponseBody
     public Integer uploadStatus(HttpServletRequest request) {
         HttpSession session = request.getSession();
         Object percent = session.getAttribute("upload_percent");
@@ -117,7 +115,6 @@ public class FileUpLoadController {
 
 
     @RequestMapping(value = "/deleteFile")
-    @ResponseBody
     public MessageResult<Void> deleteFile(@RequestBody String filePath) {
         File file = new File(filePath);
         String returnMsg = "";
