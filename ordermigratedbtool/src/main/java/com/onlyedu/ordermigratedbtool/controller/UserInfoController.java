@@ -39,6 +39,7 @@ public class UserInfoController {
         return message;
     }
 
+
     @PostMapping("/subbmit")
     public void subbmit(String name) {
 
