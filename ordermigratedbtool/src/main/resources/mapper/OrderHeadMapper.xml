@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.onlyedu.ordermigratedbtool.dao.OrderHeadMapper">
+  <update id="updateRelative" parameterType="com.onlyedu.ordermigratedbtool.model.entity.OrderHead">
+    update OrderHead
+    set
+      EOSOrder = #{eosorder,jdbcType=LONGVARCHAR},
+      EOSBalance = #{eosbalance,jdbcType=DECIMAL},
+      RelativeState = #{relativestate,jdbcType=BIT}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="getOrderByStudentGuid" parameterType="java.lang.String" resultType="com.onlyedu.ordermigratedbtool.model.dto.StudentOrderDto">
+    select ui.UserId ,ui.studentno studentNo , ui.UserName ,ui.Grade,
+    ui.MobilePhone ,ui.Tel ,sch.[School] , oh.OrderNo ,
+    case p.ProductType when 'N' then 'N_'+ N.[CourseWareTitle]
+    when 'X' then 'X_'+ X.OC_Name
+    when 'L' then 'L_'+ L.[Name]
+    ELSE '其他课程'
+    end as CourseWareName,
+    p.ProductName ,oh.AddedTime , oc.[CourseStime] CourseStartTime ,oc.[OverTime] CourseEndTime ,
+    case   when oh.OrderType= 1 then '正式'
+    when oh.OrderType= 2 then '试听'
+    else '其他'
+    end OrderType,
+    case  om.[PayType]  when 1 then '定金'
+    when 0 then '全额'
+    ELSE '其他'
+    end PayType,
+    oh.[ShareUserId] , om.PayMoney,oh.[RelativeState],oh.[EOSOrder],oh.[EOSBalance]
+    from NewClassesAdmin.dbo.OrderHead oh
+    join NewClassesAdmin.dbo.UserInfo ui on oh.StudentId=ui.StudentId
+    left join [NewClassesAdmin].[dbo].School sch on ui.SchoolId=sch.[Guid]
+    join NewClassesAdmin.dbo.OrderMoney om on om.OrderNo=oh.OrderNo
+    join NewClassesAdmin.dbo.OrderCourse oc on oh.OrderNo=oc.OrderNo
+    join NewClassesAdmin.dbo.Product p on oc.ProductGuid=p.ProductGuid
+    join NewClassesAdmin.dbo.ProductDetail pd on pd.FKID=p.ProductId
+    left join (
+    select tcw.CourseWareGuid,tcw.CourseWareTitle,ty.YearName,ts.SubjectName--,tg.GradeName
+    from  studyDBNewAdmin.dbo.tblCourseWare tcw
+    join studyDBNewAdmin.dbo.tblCourseWareYear tcwy on tcw.CourseWareGuid=tcwy.CourseWareGuid
+    join studyDBNewAdmin.dbo.tblYear ty on tcwy.YearGuid=ty.YearGuid
+    join studyDBNewAdmin.dbo.tblCourseWareSubject tcws on tcw.CourseWareGuid=tcws.CourseWareGuid
+    join studyDBNewAdmin.dbo.tblSubject ts on tcws.SubjectGuid=ts.SubjectGuid
+    where tcw.DelFlag=0
+    )N on pd.CourseWareGuid=N.CourseWareGuid
+    left join(
+    select  ocsv.PK_OCS_Guid ,ocv.OC_Name, ty.YearName,ts.SubjectName--,tg.GradeName
+    from OfflineCourseV25  ocv
+    join NewClassesAdmin.dbo.OfflineCourseSubjectV25 ocsv  on ocsv.FK_OC_Guid=ocv.PK_OC_Guid
+    join studyDBNewAdmin.dbo.tblSubject ts on ts.SubjectGuid=ocsv.FK_Subject_Guid
+    join studyDBNewAdmin.dbo.tblYear ty on ocv.FK_Year_Guid=ty.YearGuid
+    where ocv.IsDelete=0 and ocsv.IsDelete=0
+    )X on pd.CourseWareGuid=x.PK_OCS_Guid
+    left join (
+    select lc.PK_LiveCourseGuid, lc.Name,ty.YearName,ts.SubjectName
+    from NewClassesAdmin.dbo.LiveCourse lc
+    join studyDBNewAdmin.dbo.tblYear ty on lc.FK_TblYearGuid=ty.YearGuid
+    join studyDBNewAdmin.dbo.tblSubject ts on lc.FK_TblSubjectGuid=ts.SubjectGuid
+    where lc.IsDeleted=0
+
+    )L on l.PK_LiveCourseGuid= CAST( pd.CourseWareGuid as nvarchar(50))
+    left  join studyDBNewAdmin.dbo.tblGrade tg on p.GradeGuid=tg.GradeGuid
+    where 1=1
+    and oh.IsDelete=0 and oh.OrderType between 1 and 2 and oh.OrderStateId=6
+    and p.IsDelete=0 and p.Isopen=1
+    and pd.isDelete=0 and  pd.FKID=pd.ZID
+    <if test="studentGuid != null">
+      and ui.StudentId=  #{studentGuid,jdbcType=VARCHAR}
+    </if>
+  </select>
+
+</mapper>
