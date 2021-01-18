@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Data
@@ -21,4 +22,5 @@ public class UserInfoDto extends Page {
     private LocalDateTime regTime;
     private Boolean relativeState;
     private String eOSUserInfo;
+    private List<String> names;
 }

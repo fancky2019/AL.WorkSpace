@@ -14,6 +14,6 @@ public interface UserInfoMapper {
 
     List<UserInfoDto> getUserWithOrder(UserInfoDto userInfoDto);
 
-    List<StudentOrderDto>  getOrderByStudentGuid(String studentGuid);
+    Integer updateRelative(UserInfo userInfo);
 
 }

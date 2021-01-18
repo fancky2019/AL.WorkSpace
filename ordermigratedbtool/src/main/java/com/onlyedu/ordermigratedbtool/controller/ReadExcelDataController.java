@@ -3,18 +3,18 @@ package com.onlyedu.ordermigratedbtool.controller;
 import com.onlyedu.ordermigratedbtool.model.pojo.MessageResult;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -24,7 +24,7 @@ import java.util.List;
 @RequestMapping("/readexceldata")
 public class ReadExcelDataController {
 
-    private final static Logger logger = LogManager.getLogger(UserInfoController.class);
+    private final static Logger logger = LogManager.getLogger(ReadExcelDataController.class);
 
     /*
      注意：url中含有参数是路径会报400，encodeURIComponent(url中的参数值);
@@ -118,7 +118,6 @@ public class ReadExcelDataController {
 
     /**
      * 判断文件格式
-     *
      * @param in
      * @param fileName
      * @return
@@ -127,7 +126,6 @@ public class ReadExcelDataController {
 
         Workbook book = null;
         String filetype = fileName.substring(fileName.lastIndexOf("."));
-
         if (".xls".equals(filetype)) {
             book = new HSSFWorkbook(in);
         } else if (".xlsx".equals(filetype)) {

@@ -1,21 +1,22 @@
 package com.onlyedu.ordermigratedbtool.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.onlyedu.ordermigratedbtool.model.dto.UserInfoDto;
 import com.onlyedu.ordermigratedbtool.model.entity.UserInfo;
-
 import com.onlyedu.ordermigratedbtool.model.pojo.MessageResult;
 import com.onlyedu.ordermigratedbtool.model.pojo.PageData;
-import com.onlyedu.ordermigratedbtool.model.vo.StudentOrderVO;
 import com.onlyedu.ordermigratedbtool.model.vo.UserInfoVO;
 import com.onlyedu.ordermigratedbtool.service.UserInfoService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -26,6 +27,8 @@ public class UserInfoController {
     @Autowired
     private UserInfoService userInfoService;
 
+    @Autowired
+    ObjectMapper mapper;
 
     @GetMapping("/getUserWithOrderPage")
     public MessageResult<PageData<UserInfoVO>> getUserWithOrderPage(UserInfoDto userInfoDto) {
@@ -33,15 +36,45 @@ public class UserInfoController {
         return message;
     }
 
-    @GetMapping("/getOrderByStudentGuid")
-    public MessageResult<List<StudentOrderVO>> getOrderByStudentGuid(String studentGuid) {
-        MessageResult<List<StudentOrderVO>> message = userInfoService.getOrderByStudentGuid(studentGuid);
-        return message;
+    @PostMapping("/updateRelative")
+    public MessageResult<Integer> updateRelative(@RequestBody UserInfo userInfo) {
+        MessageResult<Integer> messageResult = userInfoService.updateRelative(userInfo);
+        return messageResult;
     }
 
+    @PostMapping("/postTest")
+    public MessageResult<Integer> postTest(@RequestParam Integer id,
+                                           @RequestParam String eosorder,
+                                           @RequestParam BigDecimal eosbalance,
+                                           @RequestParam Boolean relativestate) {
+        UserInfo userInfo=new UserInfo();
+        MessageResult<Integer> messageResult = userInfoService.updateRelative(userInfo);
+        return messageResult;
+    }
 
     @PostMapping("/subbmit")
     public void subbmit(String name) {
-
+        ObjectMapper mapper = new ObjectMapper();
     }
+
+    @GetMapping("/getJackSon")
+    public String getJackSon() {
+        String jsonStr = "";
+        try {
+
+            UserInfoDto userInfo = new UserInfoDto();
+            userInfo.setRegTime(LocalDateTime.now());
+            userInfo.setRelativeState(true);
+            userInfo.setUserId("fancky");
+            //序列化
+            jsonStr = mapper.writeValueAsString(userInfo);
+            //反序列化
+            UserInfoDto pojo = mapper.readValue(jsonStr, UserInfoDto.class);
+            int m = 0;
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return jsonStr;
+    }
+
 }

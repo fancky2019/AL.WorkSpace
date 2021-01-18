@@ -1,13 +1,10 @@
 package com.onlyedu.ordermigratedbtool.controller;
 
 import com.onlyedu.ordermigratedbtool.model.pojo.MessageResult;
-import com.onlyedu.ordermigratedbtool.service.UserInfoService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
@@ -21,7 +18,7 @@ import java.util.List;
 @RequestMapping("/fileupload")
 public class FileUpLoadController {
 
-    private final static Logger logger = LogManager.getLogger(UserInfoController.class);
+    private final static Logger logger = LogManager.getLogger(FileUpLoadController.class);
 
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
