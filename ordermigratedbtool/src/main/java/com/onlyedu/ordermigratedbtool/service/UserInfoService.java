@@ -40,7 +40,7 @@ public class UserInfoService {
             List<UserInfoDto> userInfoDtoList = userInfoMapper.getUserWithOrder(userInfoDto);
             PageData<UserInfoVO> pageData = new PageData<>();
             pageData.setCount(count);
-            message.setSuccess(true);
+            message.setCode(0);
             List<UserInfoVO> userInfoVOList = new ArrayList<>();
             userInfoDtoList.forEach(p ->
             {
@@ -53,7 +53,7 @@ public class UserInfoService {
             pageData.setData(userInfoVOList);
             message.setData(pageData);
         } catch (Exception ex) {
-            message.setSuccess(false);
+            message.setCode(500);
             message.setMessage(ex.getMessage());
             logger.error(ex.toString());
         }
@@ -66,10 +66,10 @@ public class UserInfoService {
         MessageResult<Integer> messageResult = new MessageResult<>();
         try {
             Integer result = userInfoMapper.updateRelative(userInfo);
-            messageResult.setSuccess(result > 0);
+            messageResult.setCode(0);
         } catch (Exception e) {
             logger.error(e.toString());
-            messageResult.setSuccess(false);
+            messageResult.setCode(500);
             messageResult.setMessage(e.getMessage());
         }
         return messageResult;
@@ -81,10 +81,10 @@ public class UserInfoService {
         try {
             UserInfoStatisticsDto result = userInfoMapper.getUserInfoStatistics();
             messageResult.setData(result);
-            messageResult.setSuccess(true);
+            messageResult.setCode(0);
         } catch (Exception e) {
             logger.error(e.toString());
-            messageResult.setSuccess(false);
+            messageResult.setCode(500);
             messageResult.setMessage(e.getMessage());
         }
         return messageResult;
@@ -95,10 +95,10 @@ public class UserInfoService {
         try {
             List<Integer> result = userInfoMapper.getGrade();
             messageResult.setData(result);
-            messageResult.setSuccess(true);
+            messageResult.setCode(0);
         } catch (Exception e) {
             logger.error(e.toString());
-            messageResult.setSuccess(false);
+            messageResult.setCode(500);
             messageResult.setMessage(e.getMessage());
         }
         return messageResult;
@@ -109,10 +109,10 @@ public class UserInfoService {
         try {
             List<RelativeStateDto> result = userInfoMapper.getRelativeState();
             messageResult.setData(result);
-            messageResult.setSuccess(true);
+            messageResult.setCode(0);
         } catch (Exception e) {
             logger.error(e.toString());
-            messageResult.setSuccess(false);
+            messageResult.setCode(500);
             messageResult.setMessage(e.getMessage());
         }
         return messageResult;

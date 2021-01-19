@@ -42,9 +42,9 @@ public class ReadExcelDataController {
         MessageResult<Void> messageResult = new MessageResult<>();
         try {
             getExcelData(fileFullNamePath);
-            messageResult.setSuccess(true);
+            messageResult.setCode(0);
         } catch (Exception ex) {
-            messageResult.setSuccess(false);
+            messageResult.setCode(500);
             logger.error(ex.toString());
         }
         return messageResult;
