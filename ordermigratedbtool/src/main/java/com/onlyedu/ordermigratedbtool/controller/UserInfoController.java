@@ -2,7 +2,9 @@ package com.onlyedu.ordermigratedbtool.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.onlyedu.ordermigratedbtool.model.dto.RelativeStateDto;
 import com.onlyedu.ordermigratedbtool.model.dto.UserInfoDto;
+import com.onlyedu.ordermigratedbtool.model.dto.UserInfoStatisticsDto;
 import com.onlyedu.ordermigratedbtool.model.entity.UserInfo;
 import com.onlyedu.ordermigratedbtool.model.pojo.MessageResult;
 import com.onlyedu.ordermigratedbtool.model.pojo.PageData;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RestController
 @RequestMapping("/userinfo")
@@ -37,6 +40,21 @@ public class UserInfoController {
     public MessageResult<Integer> updateRelative(@RequestBody UserInfo userInfo) {
         MessageResult<Integer> messageResult = userInfoService.updateRelative(userInfo);
         return messageResult;
+    }
+
+    @GetMapping("/getUserInfoStatistics")
+    public MessageResult<UserInfoStatisticsDto> getUserInfoStatistics() {
+        return userInfoService.getUserInfoStatistics();
+    }
+
+    @GetMapping("/getGrade")
+    public MessageResult<List<Integer>> getGrade() {
+        return userInfoService.getGrade();
+    }
+
+    @GetMapping("/getRelativeState")
+    public MessageResult<List<RelativeStateDto>> getRelativeState() {
+        return userInfoService.getRelativeState();
     }
 
     @PostMapping("/postTest")

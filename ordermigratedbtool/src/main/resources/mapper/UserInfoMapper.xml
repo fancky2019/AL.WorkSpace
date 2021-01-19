@@ -13,6 +13,9 @@
         <if test="userId != null and userId !='' ">
             and ui.UserId LIKE '%'+#{userId,jdbcType=NVARCHAR}+'%'
         </if>
+        <if test="studentNo != null and studentNo !='' ">
+            and ui.studentno LIKE '%'+#{studentNo,jdbcType=NVARCHAR}+'%'
+        </if>
         <if test="mobilePhone != null">
             and ui.MobilePhone LIKE '%'+#{mobilePhone,jdbcType=NVARCHAR}+'%'
         </if>
@@ -30,31 +33,7 @@
         </if>
     </sql>
 
-  <select id="getUserWithOrder" parameterType="com.onlyedu.ordermigratedbtool.model.dto.UserInfoDto" resultType="com.onlyedu.ordermigratedbtool.model.dto.UserInfoDto">
-    select * from (
-                      select ROW_NUMBER() over(order by (select 0) ) as RowNum,*
-                      from
-                          (
-                              select   ui.Id,  ui.UserId,ui.StudentId,ui.UserName ,ui.Grade ,ui.MobilePhone,ui.Tel,s.School,ui.RegTime,
-                              ui.[RelativeState],ui.[EOSUserInfo]
-                              from [NewClassesAdmin].[dbo].UserInfo ui
-                              left join School s on s.Guid=ui.SchoolId
-                              where 1=1
-                              and ui.IsDelete=0 and ISNULL(ui.Status,0)=1 and ISNULL(ui.UserType,0)=1 and ISNULL(ui.UserId,'')  <![CDATA[ <> ]]>''
-                              and EXISTS (
-                              select StudentId from [NewClassesAdmin].[dbo].OrderHead oh
-                              where 1=1
-                              and oh.IsDelete=0 and oh.OrderType between 1 and 2 and oh.OrderStateId=6
-                              and ui.StudentId=oh.StudentId
-                              )
-                              <include refid="dynamicWhere"></include>
-                          ) t1
-                  )t2
-    where t2.RowNum BETWEEN  (#{pageIndex,jdbcType=INTEGER}-1)*#{pageSize,jdbcType=INTEGER} and #{pageIndex,jdbcType=INTEGER}*#{pageSize,jdbcType=INTEGER}
-  </select>
-
-    <select id="getUserWithOrderCount" parameterType="com.onlyedu.ordermigratedbtool.model.dto.UserInfoDto" resultType="java.lang.Integer">
-        select count(ui.Id) [count]
+    <sql id="basicTable">
         from [NewClassesAdmin].[dbo].UserInfo ui
         left join School s on s.Guid=ui.SchoolId
         where 1=1
@@ -64,8 +43,62 @@
         where 1=1
         and oh.IsDelete=0 and oh.OrderType between 1 and 2 and oh.OrderStateId=6
         and ui.StudentId=oh.StudentId
-        )<include refid="dynamicWhere"></include>
+        )
+    </sql>
+    <select id="getUserWithOrder" parameterType="com.onlyedu.ordermigratedbtool.model.dto.UserInfoDto" resultType="com.onlyedu.ordermigratedbtool.model.dto.UserInfoDto">
+        select * from (
+        select ROW_NUMBER() over(order by (select 0) ) as RowNum,*
+        from
+        (
+        select   ui.Id,  ui.UserId,ui.StudentId, ui.studentno studentNo,ui.UserName ,ui.Grade ,ui.MobilePhone,ui.Tel,s.School,ui.RegTime,
+        ui.[RelativeState],ui.[EOSUserInfo]
+        <include refid="basicTable"></include>
+        <include refid="dynamicWhere"></include>
+        ) t1
+        )t2
+        where t2.RowNum BETWEEN  (#{pageIndex,jdbcType=INTEGER}-1)*#{pageSize,jdbcType=INTEGER} and #{pageIndex,jdbcType=INTEGER}*#{pageSize,jdbcType=INTEGER}
+    </select>
+
+    <select id="getUserWithOrderCount" parameterType="com.onlyedu.ordermigratedbtool.model.dto.UserInfoDto" resultType="java.lang.Integer">
+        select count(ui.Id) [count]
+        <include refid="basicTable"></include>
+        <include refid="dynamicWhere"></include>
     </select>
 
 
+    <select id="getUserInfoStatistics"  resultType="com.onlyedu.ordermigratedbtool.model.dto.UserInfoStatisticsDto">
+        declare @totalCount int  ;
+        declare @relativeStateCount int  ;
+        declare @unRelativeStateCount int  ;
+        set @totalCount= (
+        select  count( ui.Id) totalCount
+        <include refid="basicTable"></include>
+        )
+        set @relativeStateCount= (
+        select  count( ui.Id) totalCount
+        <include refid="basicTable"></include>
+        and isnull(ui.RelativeState,0)=1
+        )
+        set @unRelativeStateCount= (
+        select  count( ui.Id) totalCount
+        <include refid="basicTable"></include>
+        and isnull(ui.RelativeState,0)=0
+        )
+
+        select @totalCount totalCount,@relativeStateCount relativeStateCount,@unRelativeStateCount unRelativeStateCount;
+
+    </select>
+
+    <select id="getGrade" resultType="java.lang.Integer">
+        select distinct ISNULL( ui.Grade ,0) Grade
+        <include refid="basicTable"></include>
+    </select>
+
+    <select id="getRelativeState" resultType="com.onlyedu.ordermigratedbtool.model.dto.RelativeStateDto">
+        select distinct ISNULL( ui.RelativeState ,0) RelativeStateVal,
+        case  ISNULL( ui.RelativeState ,0)  when 0 then '未关联'
+        when 1 then '已关联'
+        end RelativeState
+        <include refid="basicTable"></include>
+    </select>
 </mapper>
