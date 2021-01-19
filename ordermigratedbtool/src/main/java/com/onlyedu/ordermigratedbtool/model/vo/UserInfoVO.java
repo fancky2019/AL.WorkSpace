@@ -8,6 +8,7 @@ public class UserInfoVO {
     private Integer id;
     private String userId;
     private String studentId;
+    private String studentNo;
     private String userName;
     private String grade;
     private String mobilePhone ;

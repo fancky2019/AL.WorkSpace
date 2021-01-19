@@ -21,10 +21,10 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
-@Configuration
+//@Configuration
 public class JackSonLocalDateTimeFormat {
 
-    @Bean
+//    @Bean
     public ObjectMapper ObjectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
         // 日期和时间格式化

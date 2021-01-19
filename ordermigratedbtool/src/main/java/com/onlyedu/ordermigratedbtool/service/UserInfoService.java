@@ -1,7 +1,9 @@
 package com.onlyedu.ordermigratedbtool.service;
 
 import com.onlyedu.ordermigratedbtool.dao.UserInfoMapper;
+import com.onlyedu.ordermigratedbtool.model.dto.RelativeStateDto;
 import com.onlyedu.ordermigratedbtool.model.dto.UserInfoDto;
+import com.onlyedu.ordermigratedbtool.model.dto.UserInfoStatisticsDto;
 import com.onlyedu.ordermigratedbtool.model.entity.UserInfo;
 import com.onlyedu.ordermigratedbtool.model.pojo.MessageResult;
 import com.onlyedu.ordermigratedbtool.model.pojo.PageData;
@@ -72,6 +74,47 @@ public class UserInfoService {
         }
         return messageResult;
     }
-   //endregion
+    //endregion
 
+    public MessageResult<UserInfoStatisticsDto> getUserInfoStatistics() {
+        MessageResult<UserInfoStatisticsDto> messageResult = new MessageResult<>();
+        try {
+            UserInfoStatisticsDto result = userInfoMapper.getUserInfoStatistics();
+            messageResult.setData(result);
+            messageResult.setSuccess(true);
+        } catch (Exception e) {
+            logger.error(e.toString());
+            messageResult.setSuccess(false);
+            messageResult.setMessage(e.getMessage());
+        }
+        return messageResult;
+    }
+
+    public MessageResult<List<Integer>> getGrade() {
+        MessageResult<List<Integer>> messageResult = new MessageResult<>();
+        try {
+            List<Integer> result = userInfoMapper.getGrade();
+            messageResult.setData(result);
+            messageResult.setSuccess(true);
+        } catch (Exception e) {
+            logger.error(e.toString());
+            messageResult.setSuccess(false);
+            messageResult.setMessage(e.getMessage());
+        }
+        return messageResult;
+    }
+
+    public MessageResult<List<RelativeStateDto>> getRelativeState() {
+        MessageResult<List<RelativeStateDto>> messageResult = new MessageResult<>();
+        try {
+            List<RelativeStateDto> result = userInfoMapper.getRelativeState();
+            messageResult.setData(result);
+            messageResult.setSuccess(true);
+        } catch (Exception e) {
+            logger.error(e.toString());
+            messageResult.setSuccess(false);
+            messageResult.setMessage(e.getMessage());
+        }
+        return messageResult;
+    }
 }
