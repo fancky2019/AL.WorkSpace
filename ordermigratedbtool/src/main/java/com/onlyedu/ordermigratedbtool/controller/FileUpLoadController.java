@@ -44,11 +44,11 @@ public class FileUpLoadController {
             String fileFullName = directory + sourceFileName;
             file.transferTo(new File(fileFullName));
 
-            messageResult.setSuccess(true);
+            messageResult.setCode(0);
             messageResult.setMessage(fileFullName);
 
         } catch (Exception e) {
-            messageResult.setSuccess(false);
+            messageResult.setCode(500);
             messageResult.setMessage(e.getMessage());
             logger.error(e.toString());
         }
@@ -92,10 +92,10 @@ public class FileUpLoadController {
             String fileNames = String.join(";", fileNameList);
 
 
-            messageResult.setSuccess(true);
+            messageResult.setCode(0);
         } catch (Exception e) {
             e.printStackTrace();
-            messageResult.setSuccess(false);
+            messageResult.setCode(500);
             messageResult.setMessage(e.getMessage());
             logger.error(e.toString());
         }
@@ -120,14 +120,14 @@ public class FileUpLoadController {
         if (file.exists()) {
             if (file.delete()) {
                 returnMsg = "删除成功!";
-                message.setSuccess(true);
+                message.setCode(0);
             } else {
                 returnMsg = "删除失败!";
-                message.setSuccess(false);
+                message.setCode(500);
             }
         } else {
             returnMsg = "文件不存在!";
-            message.setSuccess(false);
+            message.setCode(500);
         }
 
 

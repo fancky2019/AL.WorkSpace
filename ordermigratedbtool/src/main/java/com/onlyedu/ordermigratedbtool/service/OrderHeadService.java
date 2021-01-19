@@ -44,10 +44,10 @@ public class OrderHeadService {
                 studentOrderVO.setRelativeState(p.getRelativeState() != null ? p.getRelativeState() ? "已关联" : "未关联" : "未关联");
                 studentOrderVOList.add(studentOrderVO);
             });
-            message.setSuccess(true);
+            message.setCode(0);
             message.setData(studentOrderVOList);
         } catch (Exception ex) {
-            message.setSuccess(false);
+            message.setCode(500);
             message.setMessage(ex.getMessage());
             logger.error(ex.toString());
         }
@@ -60,10 +60,10 @@ public class OrderHeadService {
         MessageResult<Integer> messageResult = new MessageResult<>();
         try {
             Integer result = orderHeadMapper.updateRelative(orderHead);
-            messageResult.setSuccess(result > 0);
+            messageResult.setCode( 0);
         } catch (Exception e) {
             logger.error(e.toString());
-            messageResult.setSuccess(false);
+            messageResult.setCode(500);
             messageResult.setMessage(e.getMessage());
         }
         return messageResult;
