@@ -6,203 +6,203 @@ import java.time.LocalDateTime;
 public class OrderHead {
     private Integer id;
 
-    private String orderno;
+    private String orderNo;
 
-    private String userorderno;
+    private String userOrderNo;
 
-    private String bankno;
+    private String bankNo;
 
-    private String receiptno;
+    private String receiptNo;
 
-    private String invoiceno;
+    private String invoiceNo;
 
-    private String contractno;
+    private String contractNo;
 
-    private String draftno;
+    private String draftNo;
 
-    private String registrationno;
+    private String registrationNo;
 
-    private Integer ordertype;
+    private Integer orderType;
 
-    private String studentid;
+    private String studentId;
 
-    private Integer orderstateid;
+    private Integer orderStateId;
 
-    private String forremarks;
+    private String forRemarks;
 
-    private String errorstateremarks;
+    private String errorStateRemarks;
 
-    private String backremarks;
+    private String backRemarks;
 
     private String remark;
 
-    private BigDecimal returnpay;
+    private BigDecimal returnPay;
 
-    private Short activeid;
+    private Short activeId;
 
     private Short continued;
 
     private Short continuous;
 
-    private LocalDateTime backpaytime;
+    private LocalDateTime backPayTime;
 
-    private LocalDateTime approvedtime;
+    private LocalDateTime approvedTime;
 
-    private String turnreceiptno;
+    private String turnReceiptNo;
 
-    private String huanreceiptno;
+    private String huanReceiptNo;
 
-    private String tempreceiptno;
+    private String tempReceiptNo;
 
-    private String shareuserid;
+    private String shareUserId;
 
-    private String shareuserid2;
+    private String shareUserId2;
 
     private Short percents;
 
-    private String addby;
+    private String addBy;
 
-    private LocalDateTime addedtime;
+    private LocalDateTime addedTime;
 
-    private Boolean ismend;
+    private Boolean isMend;
 
     private String creator;
 
-    private Boolean isdelete;
+    private Boolean isDelete;
 
-    private String deleteby;
+    private String deleteBy;
 
-    private LocalDateTime deletetime;
+    private LocalDateTime deleteTime;
 
-    private Boolean ismodify;
+    private Boolean isModify;
 
-    private String modifyby;
+    private String modifyBy;
 
-    private LocalDateTime modifytime;
+    private LocalDateTime modifyTime;
 
-    private Integer ischange;
+    private Integer isChange;
 
-    private String zeroreason;
+    private String zeroReason;
 
-    private Integer isexpired;
+    private Integer isExpired;
 
-    private LocalDateTime changetime;
+    private LocalDateTime changeTime;
 
-    private LocalDateTime returntime;
+    private LocalDateTime returnTime;
 
-    private LocalDateTime bjtime;
+    private LocalDateTime BJtime;
 
-    private String returnreason;
+    private String returnReason;
 
-    private LocalDateTime expiredtime;
+    private LocalDateTime expiredTime;
 
-    private BigDecimal eosbalance;
+    private BigDecimal eOSBalance;
 
-    private Boolean relativestate;
+    private Boolean relativeState;
 
-    private String eosorder;
+    private String eOSOrder;
 
-    public OrderHead(Integer id, String orderno, String userorderno, String bankno, String receiptno, String invoiceno, String contractno, String draftno, String registrationno, Integer ordertype, String studentid, Integer orderstateid, String forremarks, String errorstateremarks, String backremarks, String remark, BigDecimal returnpay, Short activeid, Short continued, Short continuous, LocalDateTime backpaytime, LocalDateTime approvedtime, String turnreceiptno, String huanreceiptno, String tempreceiptno, String shareuserid, String shareuserid2, Short percents, String addby, LocalDateTime addedtime, Boolean ismend, String creator, Boolean isdelete, String deleteby, LocalDateTime deletetime, Boolean ismodify, String modifyby, LocalDateTime modifytime, Integer ischange, String zeroreason, Integer isexpired, LocalDateTime changetime, LocalDateTime returntime, LocalDateTime bjtime, String returnreason, LocalDateTime expiredtime, BigDecimal eosbalance, Boolean relativestate) {
+    public OrderHead(Integer id, String orderNo, String userOrderNo, String bankNo, String receiptNo, String invoiceNo, String contractNo, String draftNo, String registrationNo, Integer orderType, String studentId, Integer orderStateId, String forRemarks, String errorStateRemarks, String backRemarks, String remark, BigDecimal returnPay, Short activeId, Short continued, Short continuous, LocalDateTime backPayTime, LocalDateTime approvedTime, String turnReceiptNo, String huanReceiptNo, String tempReceiptNo, String shareUserId, String shareUserId2, Short percents, String addBy, LocalDateTime addedTime, Boolean isMend, String creator, Boolean isDelete, String deleteBy, LocalDateTime deleteTime, Boolean isModify, String modifyBy, LocalDateTime modifyTime, Integer isChange, String zeroReason, Integer isExpired, LocalDateTime changeTime, LocalDateTime returnTime, LocalDateTime BJtime, String returnReason, LocalDateTime expiredTime, BigDecimal eOSBalance, Boolean relativeState) {
         this.id = id;
-        this.orderno = orderno;
-        this.userorderno = userorderno;
-        this.bankno = bankno;
-        this.receiptno = receiptno;
-        this.invoiceno = invoiceno;
-        this.contractno = contractno;
-        this.draftno = draftno;
-        this.registrationno = registrationno;
-        this.ordertype = ordertype;
-        this.studentid = studentid;
-        this.orderstateid = orderstateid;
-        this.forremarks = forremarks;
-        this.errorstateremarks = errorstateremarks;
-        this.backremarks = backremarks;
+        this.orderNo = orderNo;
+        this.userOrderNo = userOrderNo;
+        this.bankNo = bankNo;
+        this.receiptNo = receiptNo;
+        this.invoiceNo = invoiceNo;
+        this.contractNo = contractNo;
+        this.draftNo = draftNo;
+        this.registrationNo = registrationNo;
+        this.orderType = orderType;
+        this.studentId = studentId;
+        this.orderStateId = orderStateId;
+        this.forRemarks = forRemarks;
+        this.errorStateRemarks = errorStateRemarks;
+        this.backRemarks = backRemarks;
         this.remark = remark;
-        this.returnpay = returnpay;
-        this.activeid = activeid;
+        this.returnPay = returnPay;
+        this.activeId = activeId;
         this.continued = continued;
         this.continuous = continuous;
-        this.backpaytime = backpaytime;
-        this.approvedtime = approvedtime;
-        this.turnreceiptno = turnreceiptno;
-        this.huanreceiptno = huanreceiptno;
-        this.tempreceiptno = tempreceiptno;
-        this.shareuserid = shareuserid;
-        this.shareuserid2 = shareuserid2;
+        this.backPayTime = backPayTime;
+        this.approvedTime = approvedTime;
+        this.turnReceiptNo = turnReceiptNo;
+        this.huanReceiptNo = huanReceiptNo;
+        this.tempReceiptNo = tempReceiptNo;
+        this.shareUserId = shareUserId;
+        this.shareUserId2 = shareUserId2;
         this.percents = percents;
-        this.addby = addby;
-        this.addedtime = addedtime;
-        this.ismend = ismend;
+        this.addBy = addBy;
+        this.addedTime = addedTime;
+        this.isMend = isMend;
         this.creator = creator;
-        this.isdelete = isdelete;
-        this.deleteby = deleteby;
-        this.deletetime = deletetime;
-        this.ismodify = ismodify;
-        this.modifyby = modifyby;
-        this.modifytime = modifytime;
-        this.ischange = ischange;
-        this.zeroreason = zeroreason;
-        this.isexpired = isexpired;
-        this.changetime = changetime;
-        this.returntime = returntime;
-        this.bjtime = bjtime;
-        this.returnreason = returnreason;
-        this.expiredtime = expiredtime;
-        this.eosbalance = eosbalance;
-        this.relativestate = relativestate;
+        this.isDelete = isDelete;
+        this.deleteBy = deleteBy;
+        this.deleteTime = deleteTime;
+        this.isModify = isModify;
+        this.modifyBy = modifyBy;
+        this.modifyTime = modifyTime;
+        this.isChange = isChange;
+        this.zeroReason = zeroReason;
+        this.isExpired = isExpired;
+        this.changeTime = changeTime;
+        this.returnTime = returnTime;
+        this.BJtime = BJtime;
+        this.returnReason = returnReason;
+        this.expiredTime = expiredTime;
+        this.eOSBalance = eOSBalance;
+        this.relativeState = relativeState;
     }
 
-    public OrderHead(Integer id, String orderno, String userorderno, String bankno, String receiptno, String invoiceno, String contractno, String draftno, String registrationno, Integer ordertype, String studentid, Integer orderstateid, String forremarks, String errorstateremarks, String backremarks, String remark, BigDecimal returnpay, Short activeid, Short continued, Short continuous, LocalDateTime backpaytime, LocalDateTime approvedtime, String turnreceiptno, String huanreceiptno, String tempreceiptno, String shareuserid, String shareuserid2, Short percents, String addby, LocalDateTime addedtime, Boolean ismend, String creator, Boolean isdelete, String deleteby, LocalDateTime deletetime, Boolean ismodify, String modifyby, LocalDateTime modifytime, Integer ischange, String zeroreason, Integer isexpired, LocalDateTime changetime, LocalDateTime returntime, LocalDateTime bjtime, String returnreason, LocalDateTime expiredtime, BigDecimal eosbalance, Boolean relativestate, String eosorder) {
+    public OrderHead(Integer id, String orderNo, String userOrderNo, String bankNo, String receiptNo, String invoiceNo, String contractNo, String draftNo, String registrationNo, Integer orderType, String studentId, Integer orderStateId, String forRemarks, String errorStateRemarks, String backRemarks, String remark, BigDecimal returnPay, Short activeId, Short continued, Short continuous, LocalDateTime backPayTime, LocalDateTime approvedTime, String turnReceiptNo, String huanReceiptNo, String tempReceiptNo, String shareUserId, String shareUserId2, Short percents, String addBy, LocalDateTime addedTime, Boolean isMend, String creator, Boolean isDelete, String deleteBy, LocalDateTime deleteTime, Boolean isModify, String modifyBy, LocalDateTime modifyTime, Integer isChange, String zeroReason, Integer isExpired, LocalDateTime changeTime, LocalDateTime returnTime, LocalDateTime BJtime, String returnReason, LocalDateTime expiredTime, BigDecimal eOSBalance, Boolean relativeState, String eOSOrder) {
         this.id = id;
-        this.orderno = orderno;
-        this.userorderno = userorderno;
-        this.bankno = bankno;
-        this.receiptno = receiptno;
-        this.invoiceno = invoiceno;
-        this.contractno = contractno;
-        this.draftno = draftno;
-        this.registrationno = registrationno;
-        this.ordertype = ordertype;
-        this.studentid = studentid;
-        this.orderstateid = orderstateid;
-        this.forremarks = forremarks;
-        this.errorstateremarks = errorstateremarks;
-        this.backremarks = backremarks;
+        this.orderNo = orderNo;
+        this.userOrderNo = userOrderNo;
+        this.bankNo = bankNo;
+        this.receiptNo = receiptNo;
+        this.invoiceNo = invoiceNo;
+        this.contractNo = contractNo;
+        this.draftNo = draftNo;
+        this.registrationNo = registrationNo;
+        this.orderType = orderType;
+        this.studentId = studentId;
+        this.orderStateId = orderStateId;
+        this.forRemarks = forRemarks;
+        this.errorStateRemarks = errorStateRemarks;
+        this.backRemarks = backRemarks;
         this.remark = remark;
-        this.returnpay = returnpay;
-        this.activeid = activeid;
+        this.returnPay = returnPay;
+        this.activeId = activeId;
         this.continued = continued;
         this.continuous = continuous;
-        this.backpaytime = backpaytime;
-        this.approvedtime = approvedtime;
-        this.turnreceiptno = turnreceiptno;
-        this.huanreceiptno = huanreceiptno;
-        this.tempreceiptno = tempreceiptno;
-        this.shareuserid = shareuserid;
-        this.shareuserid2 = shareuserid2;
+        this.backPayTime = backPayTime;
+        this.approvedTime = approvedTime;
+        this.turnReceiptNo = turnReceiptNo;
+        this.huanReceiptNo = huanReceiptNo;
+        this.tempReceiptNo = tempReceiptNo;
+        this.shareUserId = shareUserId;
+        this.shareUserId2 = shareUserId2;
         this.percents = percents;
-        this.addby = addby;
-        this.addedtime = addedtime;
-        this.ismend = ismend;
+        this.addBy = addBy;
+        this.addedTime = addedTime;
+        this.isMend = isMend;
         this.creator = creator;
-        this.isdelete = isdelete;
-        this.deleteby = deleteby;
-        this.deletetime = deletetime;
-        this.ismodify = ismodify;
-        this.modifyby = modifyby;
-        this.modifytime = modifytime;
-        this.ischange = ischange;
-        this.zeroreason = zeroreason;
-        this.isexpired = isexpired;
-        this.changetime = changetime;
-        this.returntime = returntime;
-        this.bjtime = bjtime;
-        this.returnreason = returnreason;
-        this.expiredtime = expiredtime;
-        this.eosbalance = eosbalance;
-        this.relativestate = relativestate;
-        this.eosorder = eosorder;
+        this.isDelete = isDelete;
+        this.deleteBy = deleteBy;
+        this.deleteTime = deleteTime;
+        this.isModify = isModify;
+        this.modifyBy = modifyBy;
+        this.modifyTime = modifyTime;
+        this.isChange = isChange;
+        this.zeroReason = zeroReason;
+        this.isExpired = isExpired;
+        this.changeTime = changeTime;
+        this.returnTime = returnTime;
+        this.BJtime = BJtime;
+        this.returnReason = returnReason;
+        this.expiredTime = expiredTime;
+        this.eOSBalance = eOSBalance;
+        this.relativeState = relativeState;
+        this.eOSOrder = eOSOrder;
     }
 
     public OrderHead() {
@@ -217,116 +217,116 @@ public class OrderHead {
         this.id = id;
     }
 
-    public String getOrderno() {
-        return orderno;
+    public String getOrderNo() {
+        return orderNo;
     }
 
-    public void setOrderno(String orderno) {
-        this.orderno = orderno == null ? null : orderno.trim();
+    public void setOrderNo(String orderNo) {
+        this.orderNo = orderNo == null ? null : orderNo.trim();
     }
 
-    public String getUserorderno() {
-        return userorderno;
+    public String getUserOrderNo() {
+        return userOrderNo;
     }
 
-    public void setUserorderno(String userorderno) {
-        this.userorderno = userorderno == null ? null : userorderno.trim();
+    public void setUserOrderNo(String userOrderNo) {
+        this.userOrderNo = userOrderNo == null ? null : userOrderNo.trim();
     }
 
-    public String getBankno() {
-        return bankno;
+    public String getBankNo() {
+        return bankNo;
     }
 
-    public void setBankno(String bankno) {
-        this.bankno = bankno == null ? null : bankno.trim();
+    public void setBankNo(String bankNo) {
+        this.bankNo = bankNo == null ? null : bankNo.trim();
     }
 
-    public String getReceiptno() {
-        return receiptno;
+    public String getReceiptNo() {
+        return receiptNo;
     }
 
-    public void setReceiptno(String receiptno) {
-        this.receiptno = receiptno == null ? null : receiptno.trim();
+    public void setReceiptNo(String receiptNo) {
+        this.receiptNo = receiptNo == null ? null : receiptNo.trim();
     }
 
-    public String getInvoiceno() {
-        return invoiceno;
+    public String getInvoiceNo() {
+        return invoiceNo;
     }
 
-    public void setInvoiceno(String invoiceno) {
-        this.invoiceno = invoiceno == null ? null : invoiceno.trim();
+    public void setInvoiceNo(String invoiceNo) {
+        this.invoiceNo = invoiceNo == null ? null : invoiceNo.trim();
     }
 
-    public String getContractno() {
-        return contractno;
+    public String getContractNo() {
+        return contractNo;
     }
 
-    public void setContractno(String contractno) {
-        this.contractno = contractno == null ? null : contractno.trim();
+    public void setContractNo(String contractNo) {
+        this.contractNo = contractNo == null ? null : contractNo.trim();
     }
 
-    public String getDraftno() {
-        return draftno;
+    public String getDraftNo() {
+        return draftNo;
     }
 
-    public void setDraftno(String draftno) {
-        this.draftno = draftno == null ? null : draftno.trim();
+    public void setDraftNo(String draftNo) {
+        this.draftNo = draftNo == null ? null : draftNo.trim();
     }
 
-    public String getRegistrationno() {
-        return registrationno;
+    public String getRegistrationNo() {
+        return registrationNo;
     }
 
-    public void setRegistrationno(String registrationno) {
-        this.registrationno = registrationno == null ? null : registrationno.trim();
+    public void setRegistrationNo(String registrationNo) {
+        this.registrationNo = registrationNo == null ? null : registrationNo.trim();
     }
 
-    public Integer getOrdertype() {
-        return ordertype;
+    public Integer getOrderType() {
+        return orderType;
     }
 
-    public void setOrdertype(Integer ordertype) {
-        this.ordertype = ordertype;
+    public void setOrderType(Integer orderType) {
+        this.orderType = orderType;
     }
 
-    public String getStudentid() {
-        return studentid;
+    public String getStudentId() {
+        return studentId;
     }
 
-    public void setStudentid(String studentid) {
-        this.studentid = studentid == null ? null : studentid.trim();
+    public void setStudentId(String studentId) {
+        this.studentId = studentId == null ? null : studentId.trim();
     }
 
-    public Integer getOrderstateid() {
-        return orderstateid;
+    public Integer getOrderStateId() {
+        return orderStateId;
     }
 
-    public void setOrderstateid(Integer orderstateid) {
-        this.orderstateid = orderstateid;
+    public void setOrderStateId(Integer orderStateId) {
+        this.orderStateId = orderStateId;
     }
 
-    public String getForremarks() {
-        return forremarks;
+    public String getForRemarks() {
+        return forRemarks;
     }
 
-    public void setForremarks(String forremarks) {
-        this.forremarks = forremarks == null ? null : forremarks.trim();
+    public void setForRemarks(String forRemarks) {
+        this.forRemarks = forRemarks == null ? null : forRemarks.trim();
     }
 
-    public String getErrorstateremarks() {
-        return errorstateremarks;
+    public String getErrorStateRemarks() {
+        return errorStateRemarks;
     }
 
-    public void setErrorstateremarks(String errorstateremarks) {
-        this.errorstateremarks = errorstateremarks == null ? null : errorstateremarks.trim();
+    public void setErrorStateRemarks(String errorStateRemarks) {
+        this.errorStateRemarks = errorStateRemarks == null ? null : errorStateRemarks.trim();
     }
 
-    public String getBackremarks() {
-        return backremarks;
+    public String getBackRemarks() {
+        return backRemarks;
     }
 
-    public void setBackremarks(String backremarks) {
-        this.backremarks = backremarks == null ? null : backremarks.trim();
+    public void setBackRemarks(String backRemarks) {
+        this.backRemarks = backRemarks == null ? null : backRemarks.trim();
     }
 
     public String getRemark() {
@@ -337,20 +337,20 @@ public class OrderHead {
         this.remark = remark == null ? null : remark.trim();
     }
 
-    public BigDecimal getReturnpay() {
-        return returnpay;
+    public BigDecimal getReturnPay() {
+        return returnPay;
     }
 
-    public void setReturnpay(BigDecimal returnpay) {
-        this.returnpay = returnpay;
+    public void setReturnPay(BigDecimal returnPay) {
+        this.returnPay = returnPay;
     }
 
-    public Short getActiveid() {
-        return activeid;
+    public Short getActiveId() {
+        return activeId;
     }
 
-    public void setActiveid(Short activeid) {
-        this.activeid = activeid;
+    public void setActiveId(Short activeId) {
+        this.activeId = activeId;
     }
 
     public Short getContinued() {
@@ -369,60 +369,60 @@ public class OrderHead {
         this.continuous = continuous;
     }
 
-    public LocalDateTime getBackpaytime() {
-        return backpaytime;
+    public LocalDateTime getBackPayTime() {
+        return backPayTime;
     }
 
-    public void setBackpaytime(LocalDateTime backpaytime) {
-        this.backpaytime = backpaytime;
+    public void setBackPayTime(LocalDateTime backPayTime) {
+        this.backPayTime = backPayTime;
     }
 
-    public LocalDateTime getApprovedtime() {
-        return approvedtime;
+    public LocalDateTime getApprovedTime() {
+        return approvedTime;
     }
 
-    public void setApprovedtime(LocalDateTime approvedtime) {
-        this.approvedtime = approvedtime;
+    public void setApprovedTime(LocalDateTime approvedTime) {
+        this.approvedTime = approvedTime;
     }
 
-    public String getTurnreceiptno() {
-        return turnreceiptno;
+    public String getTurnReceiptNo() {
+        return turnReceiptNo;
     }
 
-    public void setTurnreceiptno(String turnreceiptno) {
-        this.turnreceiptno = turnreceiptno == null ? null : turnreceiptno.trim();
+    public void setTurnReceiptNo(String turnReceiptNo) {
+        this.turnReceiptNo = turnReceiptNo == null ? null : turnReceiptNo.trim();
     }
 
-    public String getHuanreceiptno() {
-        return huanreceiptno;
+    public String getHuanReceiptNo() {
+        return huanReceiptNo;
     }
 
-    public void setHuanreceiptno(String huanreceiptno) {
-        this.huanreceiptno = huanreceiptno == null ? null : huanreceiptno.trim();
+    public void setHuanReceiptNo(String huanReceiptNo) {
+        this.huanReceiptNo = huanReceiptNo == null ? null : huanReceiptNo.trim();
     }
 
-    public String getTempreceiptno() {
-        return tempreceiptno;
+    public String getTempReceiptNo() {
+        return tempReceiptNo;
     }
 
-    public void setTempreceiptno(String tempreceiptno) {
-        this.tempreceiptno = tempreceiptno == null ? null : tempreceiptno.trim();
+    public void setTempReceiptNo(String tempReceiptNo) {
+        this.tempReceiptNo = tempReceiptNo == null ? null : tempReceiptNo.trim();
     }
 
-    public String getShareuserid() {
-        return shareuserid;
+    public String getShareUserId() {
+        return shareUserId;
     }
 
-    public void setShareuserid(String shareuserid) {
-        this.shareuserid = shareuserid == null ? null : shareuserid.trim();
+    public void setShareUserId(String shareUserId) {
+        this.shareUserId = shareUserId == null ? null : shareUserId.trim();
     }
 
-    public String getShareuserid2() {
-        return shareuserid2;
+    public String getShareUserId2() {
+        return shareUserId2;
     }
 
-    public void setShareuserid2(String shareuserid2) {
-        this.shareuserid2 = shareuserid2 == null ? null : shareuserid2.trim();
+    public void setShareUserId2(String shareUserId2) {
+        this.shareUserId2 = shareUserId2 == null ? null : shareUserId2.trim();
     }
 
     public Short getPercents() {
@@ -433,28 +433,28 @@ public class OrderHead {
         this.percents = percents;
     }
 
-    public String getAddby() {
-        return addby;
+    public String getAddBy() {
+        return addBy;
     }
 
-    public void setAddby(String addby) {
-        this.addby = addby == null ? null : addby.trim();
+    public void setAddBy(String addBy) {
+        this.addBy = addBy == null ? null : addBy.trim();
     }
 
-    public LocalDateTime getAddedtime() {
-        return addedtime;
+    public LocalDateTime getAddedTime() {
+        return addedTime;
     }
 
-    public void setAddedtime(LocalDateTime addedtime) {
-        this.addedtime = addedtime;
+    public void setAddedTime(LocalDateTime addedTime) {
+        this.addedTime = addedTime;
     }
 
-    public Boolean getIsmend() {
-        return ismend;
+    public Boolean getIsMend() {
+        return isMend;
     }
 
-    public void setIsmend(Boolean ismend) {
-        this.ismend = ismend;
+    public void setIsMend(Boolean isMend) {
+        this.isMend = isMend;
     }
 
     public String getCreator() {
@@ -465,139 +465,139 @@ public class OrderHead {
         this.creator = creator == null ? null : creator.trim();
     }
 
-    public Boolean getIsdelete() {
-        return isdelete;
+    public Boolean getIsDelete() {
+        return isDelete;
     }
 
-    public void setIsdelete(Boolean isdelete) {
-        this.isdelete = isdelete;
+    public void setIsDelete(Boolean isDelete) {
+        this.isDelete = isDelete;
     }
 
-    public String getDeleteby() {
-        return deleteby;
+    public String getDeleteBy() {
+        return deleteBy;
     }
 
-    public void setDeleteby(String deleteby) {
-        this.deleteby = deleteby == null ? null : deleteby.trim();
+    public void setDeleteBy(String deleteBy) {
+        this.deleteBy = deleteBy == null ? null : deleteBy.trim();
     }
 
-    public LocalDateTime getDeletetime() {
-        return deletetime;
+    public LocalDateTime getDeleteTime() {
+        return deleteTime;
     }
 
-    public void setDeletetime(LocalDateTime deletetime) {
-        this.deletetime = deletetime;
+    public void setDeleteTime(LocalDateTime deleteTime) {
+        this.deleteTime = deleteTime;
     }
 
-    public Boolean getIsmodify() {
-        return ismodify;
+    public Boolean getIsModify() {
+        return isModify;
     }
 
-    public void setIsmodify(Boolean ismodify) {
-        this.ismodify = ismodify;
+    public void setIsModify(Boolean isModify) {
+        this.isModify = isModify;
     }
 
-    public String getModifyby() {
-        return modifyby;
+    public String getModifyBy() {
+        return modifyBy;
     }
 
-    public void setModifyby(String modifyby) {
-        this.modifyby = modifyby == null ? null : modifyby.trim();
+    public void setModifyBy(String modifyBy) {
+        this.modifyBy = modifyBy == null ? null : modifyBy.trim();
     }
 
-    public LocalDateTime getModifytime() {
-        return modifytime;
+    public LocalDateTime getModifyTime() {
+        return modifyTime;
     }
 
-    public void setModifytime(LocalDateTime modifytime) {
-        this.modifytime = modifytime;
+    public void setModifyTime(LocalDateTime modifyTime) {
+        this.modifyTime = modifyTime;
     }
 
-    public Integer getIschange() {
-        return ischange;
+    public Integer getIsChange() {
+        return isChange;
     }
 
-    public void setIschange(Integer ischange) {
-        this.ischange = ischange;
+    public void setIsChange(Integer isChange) {
+        this.isChange = isChange;
     }
 
-    public String getZeroreason() {
-        return zeroreason;
+    public String getZeroReason() {
+        return zeroReason;
     }
 
-    public void setZeroreason(String zeroreason) {
-        this.zeroreason = zeroreason == null ? null : zeroreason.trim();
+    public void setZeroReason(String zeroReason) {
+        this.zeroReason = zeroReason == null ? null : zeroReason.trim();
     }
 
-    public Integer getIsexpired() {
-        return isexpired;
+    public Integer getIsExpired() {
+        return isExpired;
     }
 
-    public void setIsexpired(Integer isexpired) {
-        this.isexpired = isexpired;
+    public void setIsExpired(Integer isExpired) {
+        this.isExpired = isExpired;
     }
 
-    public LocalDateTime getChangetime() {
-        return changetime;
+    public LocalDateTime getChangeTime() {
+        return changeTime;
     }
 
-    public void setChangetime(LocalDateTime changetime) {
-        this.changetime = changetime;
+    public void setChangeTime(LocalDateTime changeTime) {
+        this.changeTime = changeTime;
     }
 
-    public LocalDateTime getReturntime() {
-        return returntime;
+    public LocalDateTime getReturnTime() {
+        return returnTime;
     }
 
-    public void setReturntime(LocalDateTime returntime) {
-        this.returntime = returntime;
+    public void setReturnTime(LocalDateTime returnTime) {
+        this.returnTime = returnTime;
     }
 
-    public LocalDateTime getBjtime() {
-        return bjtime;
+    public LocalDateTime getBJtime() {
+        return BJtime;
     }
 
-    public void setBjtime(LocalDateTime bjtime) {
-        this.bjtime = bjtime;
+    public void setBJtime(LocalDateTime BJtime) {
+        this.BJtime = BJtime;
     }
 
-    public String getReturnreason() {
-        return returnreason;
+    public String getReturnReason() {
+        return returnReason;
     }
 
-    public void setReturnreason(String returnreason) {
-        this.returnreason = returnreason == null ? null : returnreason.trim();
+    public void setReturnReason(String returnReason) {
+        this.returnReason = returnReason == null ? null : returnReason.trim();
     }
 
-    public LocalDateTime getExpiredtime() {
-        return expiredtime;
+    public LocalDateTime getExpiredTime() {
+        return expiredTime;
     }
 
-    public void setExpiredtime(LocalDateTime expiredtime) {
-        this.expiredtime = expiredtime;
+    public void setExpiredTime(LocalDateTime expiredTime) {
+        this.expiredTime = expiredTime;
     }
 
-    public BigDecimal getEosbalance() {
-        return eosbalance;
+    public BigDecimal geteOSBalance() {
+        return eOSBalance;
     }
 
-    public void setEosbalance(BigDecimal eosbalance) {
-        this.eosbalance = eosbalance;
+    public void seteOSBalance(BigDecimal eOSBalance) {
+        this.eOSBalance = eOSBalance;
     }
 
-    public Boolean getRelativestate() {
-        return relativestate;
+    public Boolean getRelativeState() {
+        return relativeState;
     }
 
-    public void setRelativestate(Boolean relativestate) {
-        this.relativestate = relativestate;
+    public void setRelativeState(Boolean relativeState) {
+        this.relativeState = relativeState;
     }
 
-    public String getEosorder() {
-        return eosorder;
+    public String geteOSOrder() {
+        return eOSOrder;
     }
 
-    public void setEosorder(String eosorder) {
-        this.eosorder = eosorder == null ? null : eosorder.trim();
+    public void seteOSOrder(String eOSOrder) {
+        this.eOSOrder = eOSOrder == null ? null : eOSOrder.trim();
     }
 }

@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -26,8 +27,21 @@ public class OrderController {
         return message;
     }
 
+//    @PostMapping("/updateRelative")
+//    public MessageResult<Integer> updateRelative(@RequestBody OrderHead orderHead) {
+//        return orderHeadService.updateRelative(orderHead);
+//    }
+
     @PostMapping("/updateRelative")
-    public MessageResult<Integer> updateRelative(@RequestBody OrderHead orderHead) {
+    public MessageResult<Integer> updateRelative(@RequestParam Integer id,
+                                                 @RequestParam String eOSOrder,
+                                                 @RequestParam BigDecimal eOSBalance,
+                                                 @RequestParam Boolean relativeState) {
+        OrderHead orderHead = new OrderHead();
+        orderHead.setId(id);
+        orderHead.seteOSOrder(eOSOrder);
+        orderHead.seteOSBalance(eOSBalance);
+        orderHead.setRelativeState(relativeState);
         return orderHeadService.updateRelative(orderHead);
     }
 }

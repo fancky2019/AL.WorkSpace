@@ -1,7 +1,6 @@
 package com.onlyedu.ordermigratedbtool.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.onlyedu.ordermigratedbtool.model.dto.UserInfoDto;
 import com.onlyedu.ordermigratedbtool.model.entity.UserInfo;
@@ -12,12 +11,10 @@ import com.onlyedu.ordermigratedbtool.service.UserInfoService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @RestController
 @RequestMapping("/userinfo")
@@ -44,10 +41,10 @@ public class UserInfoController {
 
     @PostMapping("/postTest")
     public MessageResult<Integer> postTest(@RequestParam Integer id,
-                                           @RequestParam String eosorder,
-                                           @RequestParam BigDecimal eosbalance,
-                                           @RequestParam Boolean relativestate) {
-        UserInfo userInfo=new UserInfo();
+                                           @RequestParam String EOSOrder,
+                                           @RequestParam BigDecimal EOSBalance,
+                                           @RequestParam Boolean relativeState) {
+        UserInfo userInfo = new UserInfo();
         MessageResult<Integer> messageResult = userInfoService.updateRelative(userInfo);
         return messageResult;
     }

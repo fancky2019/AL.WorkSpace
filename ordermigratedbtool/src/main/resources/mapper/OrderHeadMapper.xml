@@ -4,9 +4,9 @@
   <update id="updateRelative" parameterType="com.onlyedu.ordermigratedbtool.model.entity.OrderHead">
     update OrderHead
     set
-      EOSOrder = #{eosorder,jdbcType=LONGVARCHAR},
-      EOSBalance = #{eosbalance,jdbcType=DECIMAL},
-      RelativeState = #{relativestate,jdbcType=BIT}
+      EOSOrder = #{eOSOrder,jdbcType=LONGVARCHAR},
+      EOSBalance = #{eOSBalance,jdbcType=DECIMAL},
+      RelativeState = #{relativeState,jdbcType=BIT}
     where Id = #{id,jdbcType=INTEGER}
   </update>
 

@@ -1,27 +1,21 @@
 package com.onlyedu.ordermigratedbtool.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.onlyedu.ordermigratedbtool.utility.Jackson.JacksonLocalDateTimeDeserializer;
-import com.onlyedu.ordermigratedbtool.utility.Jackson.JacksonLocalDateTimeSerializer;
-
 import java.time.LocalDateTime;
 
 public class UserInfo {
-    private String studentid;
+    private String studentId;
 
     private Integer id;
 
     private String studentno;
 
-    private String userid;
+    private String userId;
 
-    private String password;
+    private String passWord;
 
     private String pwd;
 
-    private String username;
+    private String userName;
 
     private String sex;
 
@@ -29,249 +23,249 @@ public class UserInfo {
 
     private String avatar;
 
-    private String provinceid;
+    private String provinceId;
 
-    private String districtid;
+    private String districtId;
 
-    private String schoolid;
+    private String schoolId;
 
     private String grade;
 
-    private String educationlevel;
+    private String educationLevel;
 
     private String tel;
 
-    private String mobilephone;
+    private String mobilePhone;
 
     private String address;
 
-    private String postcode;
+    private String postCode;
 
     private String email;
 
-    private String msn;
+    private String MSN;
 
-    private String qq;
+    private String QQ;
 
-    private LocalDateTime lastlogintime;
+    private LocalDateTime lastLoginTime;
 
-    private String lastloginip;
+    private String lastLoginIp;
 
-    private LocalDateTime regtime;
+    private LocalDateTime regTime;
 
-    private String regip;
+    private String regIP;
 
     private Integer status;
 
-    private String usertype;
+    private String userType;
 
-    private String usersourceid;
+    private String userSourceId;
 
-    private Boolean erroraddress;
+    private Boolean errorAddress;
 
-    private String othercourse;
+    private String otherCourse;
 
-    private String isjoinrecruitment;
+    private String isJoinRecruitment;
 
-    private String nowadmin;
+    private String nowAdmin;
 
-    private LocalDateTime addadmintime;
+    private LocalDateTime addAdminTime;
 
-    private Integer isonline;
+    private Integer isOnLine;
 
-    private Integer locktype;
+    private Integer lockType;
 
-    private String regsourceid;
+    private String regSourceID;
 
-    private String regsourcein;
+    private String regSourceIn;
 
-    private String regsourcepage;
+    private String regSourcePage;
 
-    private Boolean islistforcf;
+    private Boolean isListForCF;
 
-    private String othertel;
+    private String otherTel;
 
-    private Integer isranking;
+    private Integer isRanking;
 
-    private Boolean isclear;
+    private Boolean isClear;
 
-    private Integer bmlevel;
+    private Integer BMlevel;
 
-    private String userclassguid;
+    private String userClassGuid;
 
     private String remark;
 
-    private String addby;
+    private String addBy;
 
-    private LocalDateTime addedtime;
+    private LocalDateTime addedTime;
 
-    private Boolean isdelete;
+    private Boolean isDelete;
 
-    private String deleteby;
+    private String deleteBy;
 
-    private LocalDateTime deletetime;
+    private LocalDateTime deleteTime;
 
-    private Boolean ismodify;
+    private Boolean isModify;
 
-    private String modifyby;
+    private String modifyBy;
 
-    private LocalDateTime modifytime;
+    private LocalDateTime modifyTime;
 
-    private Boolean isexamine;
+    private Boolean isExamine;
 
-    private Integer studenttype;
+    private Integer studentType;
 
-    private LocalDateTime studenttypetime;
+    private LocalDateTime studentTypeTime;
 
-    private Integer validtype;
+    private Integer validType;
 
-    private Integer smallvalidtype;
+    private Integer smallvalidType;
 
-    private String boxid;
+    private String boxId;
 
-    private Boolean relativestate;
+    private Boolean relativeState;
 
-    private String eosuserinfo;
+    private String eOSUserInfo;
 
-    public UserInfo(String studentid, Integer id, String studentno, String userid, String password, String pwd, String username, String sex, String birthday, String avatar, String provinceid, String districtid, String schoolid, String grade, String educationlevel, String tel, String mobilephone, String address, String postcode, String email, String msn, String qq, LocalDateTime lastlogintime, String lastloginip, LocalDateTime regtime, String regip, Integer status, String usertype, String usersourceid, Boolean erroraddress, String othercourse, String isjoinrecruitment, String nowadmin, LocalDateTime addadmintime, Integer isonline, Integer locktype, String regsourceid, String regsourcein, String regsourcepage, Boolean islistforcf, String othertel, Integer isranking, Boolean isclear, Integer bmlevel, String userclassguid, String remark, String addby, LocalDateTime addedtime, Boolean isdelete, String deleteby, LocalDateTime deletetime, Boolean ismodify, String modifyby, LocalDateTime modifytime, Boolean isexamine, Integer studenttype, LocalDateTime studenttypetime, Integer validtype, Integer smallvalidtype, String boxid, Boolean relativestate) {
-        this.studentid = studentid;
+    public UserInfo(String studentId, Integer id, String studentno, String userId, String passWord, String pwd, String userName, String sex, String birthday, String avatar, String provinceId, String districtId, String schoolId, String grade, String educationLevel, String tel, String mobilePhone, String address, String postCode, String email, String MSN, String QQ, LocalDateTime lastLoginTime, String lastLoginIp, LocalDateTime regTime, String regIP, Integer status, String userType, String userSourceId, Boolean errorAddress, String otherCourse, String isJoinRecruitment, String nowAdmin, LocalDateTime addAdminTime, Integer isOnLine, Integer lockType, String regSourceID, String regSourceIn, String regSourcePage, Boolean isListForCF, String otherTel, Integer isRanking, Boolean isClear, Integer BMlevel, String userClassGuid, String remark, String addBy, LocalDateTime addedTime, Boolean isDelete, String deleteBy, LocalDateTime deleteTime, Boolean isModify, String modifyBy, LocalDateTime modifyTime, Boolean isExamine, Integer studentType, LocalDateTime studentTypeTime, Integer validType, Integer smallvalidType, String boxId, Boolean relativeState) {
+        this.studentId = studentId;
         this.id = id;
         this.studentno = studentno;
-        this.userid = userid;
-        this.password = password;
+        this.userId = userId;
+        this.passWord = passWord;
         this.pwd = pwd;
-        this.username = username;
+        this.userName = userName;
         this.sex = sex;
         this.birthday = birthday;
         this.avatar = avatar;
-        this.provinceid = provinceid;
-        this.districtid = districtid;
-        this.schoolid = schoolid;
+        this.provinceId = provinceId;
+        this.districtId = districtId;
+        this.schoolId = schoolId;
         this.grade = grade;
-        this.educationlevel = educationlevel;
+        this.educationLevel = educationLevel;
         this.tel = tel;
-        this.mobilephone = mobilephone;
+        this.mobilePhone = mobilePhone;
         this.address = address;
-        this.postcode = postcode;
+        this.postCode = postCode;
         this.email = email;
-        this.msn = msn;
-        this.qq = qq;
-        this.lastlogintime = lastlogintime;
-        this.lastloginip = lastloginip;
-        this.regtime = regtime;
-        this.regip = regip;
+        this.MSN = MSN;
+        this.QQ = QQ;
+        this.lastLoginTime = lastLoginTime;
+        this.lastLoginIp = lastLoginIp;
+        this.regTime = regTime;
+        this.regIP = regIP;
         this.status = status;
-        this.usertype = usertype;
-        this.usersourceid = usersourceid;
-        this.erroraddress = erroraddress;
-        this.othercourse = othercourse;
-        this.isjoinrecruitment = isjoinrecruitment;
-        this.nowadmin = nowadmin;
-        this.addadmintime = addadmintime;
-        this.isonline = isonline;
-        this.locktype = locktype;
-        this.regsourceid = regsourceid;
-        this.regsourcein = regsourcein;
-        this.regsourcepage = regsourcepage;
-        this.islistforcf = islistforcf;
-        this.othertel = othertel;
-        this.isranking = isranking;
-        this.isclear = isclear;
-        this.bmlevel = bmlevel;
-        this.userclassguid = userclassguid;
+        this.userType = userType;
+        this.userSourceId = userSourceId;
+        this.errorAddress = errorAddress;
+        this.otherCourse = otherCourse;
+        this.isJoinRecruitment = isJoinRecruitment;
+        this.nowAdmin = nowAdmin;
+        this.addAdminTime = addAdminTime;
+        this.isOnLine = isOnLine;
+        this.lockType = lockType;
+        this.regSourceID = regSourceID;
+        this.regSourceIn = regSourceIn;
+        this.regSourcePage = regSourcePage;
+        this.isListForCF = isListForCF;
+        this.otherTel = otherTel;
+        this.isRanking = isRanking;
+        this.isClear = isClear;
+        this.BMlevel = BMlevel;
+        this.userClassGuid = userClassGuid;
         this.remark = remark;
-        this.addby = addby;
-        this.addedtime = addedtime;
-        this.isdelete = isdelete;
-        this.deleteby = deleteby;
-        this.deletetime = deletetime;
-        this.ismodify = ismodify;
-        this.modifyby = modifyby;
-        this.modifytime = modifytime;
-        this.isexamine = isexamine;
-        this.studenttype = studenttype;
-        this.studenttypetime = studenttypetime;
-        this.validtype = validtype;
-        this.smallvalidtype = smallvalidtype;
-        this.boxid = boxid;
-        this.relativestate = relativestate;
+        this.addBy = addBy;
+        this.addedTime = addedTime;
+        this.isDelete = isDelete;
+        this.deleteBy = deleteBy;
+        this.deleteTime = deleteTime;
+        this.isModify = isModify;
+        this.modifyBy = modifyBy;
+        this.modifyTime = modifyTime;
+        this.isExamine = isExamine;
+        this.studentType = studentType;
+        this.studentTypeTime = studentTypeTime;
+        this.validType = validType;
+        this.smallvalidType = smallvalidType;
+        this.boxId = boxId;
+        this.relativeState = relativeState;
     }
 
-    public UserInfo(String studentid, Integer id, String studentno, String userid, String password, String pwd, String username, String sex, String birthday, String avatar, String provinceid, String districtid, String schoolid, String grade, String educationlevel, String tel, String mobilephone, String address, String postcode, String email, String msn, String qq, LocalDateTime lastlogintime, String lastloginip, LocalDateTime regtime, String regip, Integer status, String usertype, String usersourceid, Boolean erroraddress, String othercourse, String isjoinrecruitment, String nowadmin, LocalDateTime addadmintime, Integer isonline, Integer locktype, String regsourceid, String regsourcein, String regsourcepage, Boolean islistforcf, String othertel, Integer isranking, Boolean isclear, Integer bmlevel, String userclassguid, String remark, String addby, LocalDateTime addedtime, Boolean isdelete, String deleteby, LocalDateTime deletetime, Boolean ismodify, String modifyby, LocalDateTime modifytime, Boolean isexamine, Integer studenttype, LocalDateTime studenttypetime, Integer validtype, Integer smallvalidtype, String boxid, Boolean relativestate, String eosuserinfo) {
-        this.studentid = studentid;
+    public UserInfo(String studentId, Integer id, String studentno, String userId, String passWord, String pwd, String userName, String sex, String birthday, String avatar, String provinceId, String districtId, String schoolId, String grade, String educationLevel, String tel, String mobilePhone, String address, String postCode, String email, String MSN, String QQ, LocalDateTime lastLoginTime, String lastLoginIp, LocalDateTime regTime, String regIP, Integer status, String userType, String userSourceId, Boolean errorAddress, String otherCourse, String isJoinRecruitment, String nowAdmin, LocalDateTime addAdminTime, Integer isOnLine, Integer lockType, String regSourceID, String regSourceIn, String regSourcePage, Boolean isListForCF, String otherTel, Integer isRanking, Boolean isClear, Integer BMlevel, String userClassGuid, String remark, String addBy, LocalDateTime addedTime, Boolean isDelete, String deleteBy, LocalDateTime deleteTime, Boolean isModify, String modifyBy, LocalDateTime modifyTime, Boolean isExamine, Integer studentType, LocalDateTime studentTypeTime, Integer validType, Integer smallvalidType, String boxId, Boolean relativeState, String EOSUserInfo) {
+        this.studentId = studentId;
         this.id = id;
         this.studentno = studentno;
-        this.userid = userid;
-        this.password = password;
+        this.userId = userId;
+        this.passWord = passWord;
         this.pwd = pwd;
-        this.username = username;
+        this.userName = userName;
         this.sex = sex;
         this.birthday = birthday;
         this.avatar = avatar;
-        this.provinceid = provinceid;
-        this.districtid = districtid;
-        this.schoolid = schoolid;
+        this.provinceId = provinceId;
+        this.districtId = districtId;
+        this.schoolId = schoolId;
         this.grade = grade;
-        this.educationlevel = educationlevel;
+        this.educationLevel = educationLevel;
         this.tel = tel;
-        this.mobilephone = mobilephone;
+        this.mobilePhone = mobilePhone;
         this.address = address;
-        this.postcode = postcode;
+        this.postCode = postCode;
         this.email = email;
-        this.msn = msn;
-        this.qq = qq;
-        this.lastlogintime = lastlogintime;
-        this.lastloginip = lastloginip;
-        this.regtime = regtime;
-        this.regip = regip;
+        this.MSN = MSN;
+        this.QQ = QQ;
+        this.lastLoginTime = lastLoginTime;
+        this.lastLoginIp = lastLoginIp;
+        this.regTime = regTime;
+        this.regIP = regIP;
         this.status = status;
-        this.usertype = usertype;
-        this.usersourceid = usersourceid;
-        this.erroraddress = erroraddress;
-        this.othercourse = othercourse;
-        this.isjoinrecruitment = isjoinrecruitment;
-        this.nowadmin = nowadmin;
-        this.addadmintime = addadmintime;
-        this.isonline = isonline;
-        this.locktype = locktype;
-        this.regsourceid = regsourceid;
-        this.regsourcein = regsourcein;
-        this.regsourcepage = regsourcepage;
-        this.islistforcf = islistforcf;
-        this.othertel = othertel;
-        this.isranking = isranking;
-        this.isclear = isclear;
-        this.bmlevel = bmlevel;
-        this.userclassguid = userclassguid;
+        this.userType = userType;
+        this.userSourceId = userSourceId;
+        this.errorAddress = errorAddress;
+        this.otherCourse = otherCourse;
+        this.isJoinRecruitment = isJoinRecruitment;
+        this.nowAdmin = nowAdmin;
+        this.addAdminTime = addAdminTime;
+        this.isOnLine = isOnLine;
+        this.lockType = lockType;
+        this.regSourceID = regSourceID;
+        this.regSourceIn = regSourceIn;
+        this.regSourcePage = regSourcePage;
+        this.isListForCF = isListForCF;
+        this.otherTel = otherTel;
+        this.isRanking = isRanking;
+        this.isClear = isClear;
+        this.BMlevel = BMlevel;
+        this.userClassGuid = userClassGuid;
         this.remark = remark;
-        this.addby = addby;
-        this.addedtime = addedtime;
-        this.isdelete = isdelete;
-        this.deleteby = deleteby;
-        this.deletetime = deletetime;
-        this.ismodify = ismodify;
-        this.modifyby = modifyby;
-        this.modifytime = modifytime;
-        this.isexamine = isexamine;
-        this.studenttype = studenttype;
-        this.studenttypetime = studenttypetime;
-        this.validtype = validtype;
-        this.smallvalidtype = smallvalidtype;
-        this.boxid = boxid;
-        this.relativestate = relativestate;
-        this.eosuserinfo = eosuserinfo;
+        this.addBy = addBy;
+        this.addedTime = addedTime;
+        this.isDelete = isDelete;
+        this.deleteBy = deleteBy;
+        this.deleteTime = deleteTime;
+        this.isModify = isModify;
+        this.modifyBy = modifyBy;
+        this.modifyTime = modifyTime;
+        this.isExamine = isExamine;
+        this.studentType = studentType;
+        this.studentTypeTime = studentTypeTime;
+        this.validType = validType;
+        this.smallvalidType = smallvalidType;
+        this.boxId = boxId;
+        this.relativeState = relativeState;
+        this.eOSUserInfo = EOSUserInfo;
     }
 
     public UserInfo() {
         super();
     }
 
-    public String getStudentid() {
-        return studentid;
+    public String getStudentId() {
+        return studentId;
     }
 
-    public void setStudentid(String studentid) {
-        this.studentid = studentid == null ? null : studentid.trim();
+    public void setStudentId(String studentId) {
+        this.studentId = studentId == null ? null : studentId.trim();
     }
 
     public Integer getId() {
@@ -290,20 +284,20 @@ public class UserInfo {
         this.studentno = studentno == null ? null : studentno.trim();
     }
 
-    public String getUserid() {
-        return userid;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setUserid(String userid) {
-        this.userid = userid == null ? null : userid.trim();
+    public void setUserId(String userId) {
+        this.userId = userId == null ? null : userId.trim();
     }
 
-    public String getPassword() {
-        return password;
+    public String getPassWord() {
+        return passWord;
     }
 
-    public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
+    public void setPassWord(String passWord) {
+        this.passWord = passWord == null ? null : passWord.trim();
     }
 
     public String getPwd() {
@@ -314,12 +308,12 @@ public class UserInfo {
         this.pwd = pwd == null ? null : pwd.trim();
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username == null ? null : username.trim();
+    public void setUserName(String userName) {
+        this.userName = userName == null ? null : userName.trim();
     }
 
     public String getSex() {
@@ -346,28 +340,28 @@ public class UserInfo {
         this.avatar = avatar == null ? null : avatar.trim();
     }
 
-    public String getProvinceid() {
-        return provinceid;
+    public String getProvinceId() {
+        return provinceId;
     }
 
-    public void setProvinceid(String provinceid) {
-        this.provinceid = provinceid == null ? null : provinceid.trim();
+    public void setProvinceId(String provinceId) {
+        this.provinceId = provinceId == null ? null : provinceId.trim();
     }
 
-    public String getDistrictid() {
-        return districtid;
+    public String getDistrictId() {
+        return districtId;
     }
 
-    public void setDistrictid(String districtid) {
-        this.districtid = districtid == null ? null : districtid.trim();
+    public void setDistrictId(String districtId) {
+        this.districtId = districtId == null ? null : districtId.trim();
     }
 
-    public String getSchoolid() {
-        return schoolid;
+    public String getSchoolId() {
+        return schoolId;
     }
 
-    public void setSchoolid(String schoolid) {
-        this.schoolid = schoolid == null ? null : schoolid.trim();
+    public void setSchoolId(String schoolId) {
+        this.schoolId = schoolId == null ? null : schoolId.trim();
     }
 
     public String getGrade() {
@@ -378,12 +372,12 @@ public class UserInfo {
         this.grade = grade == null ? null : grade.trim();
     }
 
-    public String getEducationlevel() {
-        return educationlevel;
+    public String getEducationLevel() {
+        return educationLevel;
     }
 
-    public void setEducationlevel(String educationlevel) {
-        this.educationlevel = educationlevel == null ? null : educationlevel.trim();
+    public void setEducationLevel(String educationLevel) {
+        this.educationLevel = educationLevel == null ? null : educationLevel.trim();
     }
 
     public String getTel() {
@@ -394,12 +388,12 @@ public class UserInfo {
         this.tel = tel == null ? null : tel.trim();
     }
 
-    public String getMobilephone() {
-        return mobilephone;
+    public String getMobilePhone() {
+        return mobilePhone;
     }
 
-    public void setMobilephone(String mobilephone) {
-        this.mobilephone = mobilephone == null ? null : mobilephone.trim();
+    public void setMobilePhone(String mobilePhone) {
+        this.mobilePhone = mobilePhone == null ? null : mobilePhone.trim();
     }
 
     public String getAddress() {
@@ -410,12 +404,12 @@ public class UserInfo {
         this.address = address == null ? null : address.trim();
     }
 
-    public String getPostcode() {
-        return postcode;
+    public String getPostCode() {
+        return postCode;
     }
 
-    public void setPostcode(String postcode) {
-        this.postcode = postcode == null ? null : postcode.trim();
+    public void setPostCode(String postCode) {
+        this.postCode = postCode == null ? null : postCode.trim();
     }
 
     public String getEmail() {
@@ -426,52 +420,52 @@ public class UserInfo {
         this.email = email == null ? null : email.trim();
     }
 
-    public String getMsn() {
-        return msn;
+    public String getMSN() {
+        return MSN;
     }
 
-    public void setMsn(String msn) {
-        this.msn = msn == null ? null : msn.trim();
+    public void setMSN(String MSN) {
+        this.MSN = MSN == null ? null : MSN.trim();
     }
 
-    public String getQq() {
-        return qq;
+    public String getQQ() {
+        return QQ;
     }
 
-    public void setQq(String qq) {
-        this.qq = qq == null ? null : qq.trim();
+    public void setQQ(String QQ) {
+        this.QQ = QQ == null ? null : QQ.trim();
     }
 
-    public LocalDateTime getLastlogintime() {
-        return lastlogintime;
+    public LocalDateTime getLastLoginTime() {
+        return lastLoginTime;
     }
 
-    public void setLastlogintime(LocalDateTime lastlogintime) {
-        this.lastlogintime = lastlogintime;
+    public void setLastLoginTime(LocalDateTime lastLoginTime) {
+        this.lastLoginTime = lastLoginTime;
     }
 
-    public String getLastloginip() {
-        return lastloginip;
+    public String getLastLoginIp() {
+        return lastLoginIp;
     }
 
-    public void setLastloginip(String lastloginip) {
-        this.lastloginip = lastloginip == null ? null : lastloginip.trim();
+    public void setLastLoginIp(String lastLoginIp) {
+        this.lastLoginIp = lastLoginIp == null ? null : lastLoginIp.trim();
     }
 
-    public LocalDateTime getRegtime() {
-        return regtime;
+    public LocalDateTime getRegTime() {
+        return regTime;
     }
 
-    public void setRegtime(LocalDateTime regtime) {
-        this.regtime = regtime;
+    public void setRegTime(LocalDateTime regTime) {
+        this.regTime = regTime;
     }
 
-    public String getRegip() {
-        return regip;
+    public String getRegIP() {
+        return regIP;
     }
 
-    public void setRegip(String regip) {
-        this.regip = regip == null ? null : regip.trim();
+    public void setRegIP(String regIP) {
+        this.regIP = regIP == null ? null : regIP.trim();
     }
 
     public Integer getStatus() {
@@ -482,148 +476,148 @@ public class UserInfo {
         this.status = status;
     }
 
-    public String getUsertype() {
-        return usertype;
+    public String getUserType() {
+        return userType;
     }
 
-    public void setUsertype(String usertype) {
-        this.usertype = usertype == null ? null : usertype.trim();
+    public void setUserType(String userType) {
+        this.userType = userType == null ? null : userType.trim();
     }
 
-    public String getUsersourceid() {
-        return usersourceid;
+    public String getUserSourceId() {
+        return userSourceId;
     }
 
-    public void setUsersourceid(String usersourceid) {
-        this.usersourceid = usersourceid == null ? null : usersourceid.trim();
+    public void setUserSourceId(String userSourceId) {
+        this.userSourceId = userSourceId == null ? null : userSourceId.trim();
     }
 
-    public Boolean getErroraddress() {
-        return erroraddress;
+    public Boolean getErrorAddress() {
+        return errorAddress;
     }
 
-    public void setErroraddress(Boolean erroraddress) {
-        this.erroraddress = erroraddress;
+    public void setErrorAddress(Boolean errorAddress) {
+        this.errorAddress = errorAddress;
     }
 
-    public String getOthercourse() {
-        return othercourse;
+    public String getOtherCourse() {
+        return otherCourse;
     }
 
-    public void setOthercourse(String othercourse) {
-        this.othercourse = othercourse == null ? null : othercourse.trim();
+    public void setOtherCourse(String otherCourse) {
+        this.otherCourse = otherCourse == null ? null : otherCourse.trim();
     }
 
-    public String getIsjoinrecruitment() {
-        return isjoinrecruitment;
+    public String getIsJoinRecruitment() {
+        return isJoinRecruitment;
     }
 
-    public void setIsjoinrecruitment(String isjoinrecruitment) {
-        this.isjoinrecruitment = isjoinrecruitment == null ? null : isjoinrecruitment.trim();
+    public void setIsJoinRecruitment(String isJoinRecruitment) {
+        this.isJoinRecruitment = isJoinRecruitment == null ? null : isJoinRecruitment.trim();
     }
 
-    public String getNowadmin() {
-        return nowadmin;
+    public String getNowAdmin() {
+        return nowAdmin;
     }
 
-    public void setNowadmin(String nowadmin) {
-        this.nowadmin = nowadmin == null ? null : nowadmin.trim();
+    public void setNowAdmin(String nowAdmin) {
+        this.nowAdmin = nowAdmin == null ? null : nowAdmin.trim();
     }
 
-    public LocalDateTime getAddadmintime() {
-        return addadmintime;
+    public LocalDateTime getAddAdminTime() {
+        return addAdminTime;
     }
 
-    public void setAddadmintime(LocalDateTime addadmintime) {
-        this.addadmintime = addadmintime;
+    public void setAddAdminTime(LocalDateTime addAdminTime) {
+        this.addAdminTime = addAdminTime;
     }
 
-    public Integer getIsonline() {
-        return isonline;
+    public Integer getIsOnLine() {
+        return isOnLine;
     }
 
-    public void setIsonline(Integer isonline) {
-        this.isonline = isonline;
+    public void setIsOnLine(Integer isOnLine) {
+        this.isOnLine = isOnLine;
     }
 
-    public Integer getLocktype() {
-        return locktype;
+    public Integer getLockType() {
+        return lockType;
     }
 
-    public void setLocktype(Integer locktype) {
-        this.locktype = locktype;
+    public void setLockType(Integer lockType) {
+        this.lockType = lockType;
     }
 
-    public String getRegsourceid() {
-        return regsourceid;
+    public String getRegSourceID() {
+        return regSourceID;
     }
 
-    public void setRegsourceid(String regsourceid) {
-        this.regsourceid = regsourceid == null ? null : regsourceid.trim();
+    public void setRegSourceID(String regSourceID) {
+        this.regSourceID = regSourceID == null ? null : regSourceID.trim();
     }
 
-    public String getRegsourcein() {
-        return regsourcein;
+    public String getRegSourceIn() {
+        return regSourceIn;
     }
 
-    public void setRegsourcein(String regsourcein) {
-        this.regsourcein = regsourcein == null ? null : regsourcein.trim();
+    public void setRegSourceIn(String regSourceIn) {
+        this.regSourceIn = regSourceIn == null ? null : regSourceIn.trim();
     }
 
-    public String getRegsourcepage() {
-        return regsourcepage;
+    public String getRegSourcePage() {
+        return regSourcePage;
     }
 
-    public void setRegsourcepage(String regsourcepage) {
-        this.regsourcepage = regsourcepage == null ? null : regsourcepage.trim();
+    public void setRegSourcePage(String regSourcePage) {
+        this.regSourcePage = regSourcePage == null ? null : regSourcePage.trim();
     }
 
-    public Boolean getIslistforcf() {
-        return islistforcf;
+    public Boolean getIsListForCF() {
+        return isListForCF;
     }
 
-    public void setIslistforcf(Boolean islistforcf) {
-        this.islistforcf = islistforcf;
+    public void setIsListForCF(Boolean isListForCF) {
+        this.isListForCF = isListForCF;
     }
 
-    public String getOthertel() {
-        return othertel;
+    public String getOtherTel() {
+        return otherTel;
     }
 
-    public void setOthertel(String othertel) {
-        this.othertel = othertel == null ? null : othertel.trim();
+    public void setOtherTel(String otherTel) {
+        this.otherTel = otherTel == null ? null : otherTel.trim();
     }
 
-    public Integer getIsranking() {
-        return isranking;
+    public Integer getIsRanking() {
+        return isRanking;
     }
 
-    public void setIsranking(Integer isranking) {
-        this.isranking = isranking;
+    public void setIsRanking(Integer isRanking) {
+        this.isRanking = isRanking;
     }
 
-    public Boolean getIsclear() {
-        return isclear;
+    public Boolean getIsClear() {
+        return isClear;
     }
 
-    public void setIsclear(Boolean isclear) {
-        this.isclear = isclear;
+    public void setIsClear(Boolean isClear) {
+        this.isClear = isClear;
     }
 
-    public Integer getBmlevel() {
-        return bmlevel;
+    public Integer getBMlevel() {
+        return BMlevel;
     }
 
-    public void setBmlevel(Integer bmlevel) {
-        this.bmlevel = bmlevel;
+    public void setBMlevel(Integer BMlevel) {
+        this.BMlevel = BMlevel;
     }
 
-    public String getUserclassguid() {
-        return userclassguid;
+    public String getUserClassGuid() {
+        return userClassGuid;
     }
 
-    public void setUserclassguid(String userclassguid) {
-        this.userclassguid = userclassguid == null ? null : userclassguid.trim();
+    public void setUserClassGuid(String userClassGuid) {
+        this.userClassGuid = userClassGuid == null ? null : userClassGuid.trim();
     }
 
     public String getRemark() {
@@ -634,131 +628,131 @@ public class UserInfo {
         this.remark = remark == null ? null : remark.trim();
     }
 
-    public String getAddby() {
-        return addby;
+    public String getAddBy() {
+        return addBy;
     }
 
-    public void setAddby(String addby) {
-        this.addby = addby == null ? null : addby.trim();
+    public void setAddBy(String addBy) {
+        this.addBy = addBy == null ? null : addBy.trim();
     }
 
-    public LocalDateTime getAddedtime() {
-        return addedtime;
+    public LocalDateTime getAddedTime() {
+        return addedTime;
     }
 
-    public void setAddedtime(LocalDateTime addedtime) {
-        this.addedtime = addedtime;
+    public void setAddedTime(LocalDateTime addedTime) {
+        this.addedTime = addedTime;
     }
 
-    public Boolean getIsdelete() {
-        return isdelete;
+    public Boolean getIsDelete() {
+        return isDelete;
     }
 
-    public void setIsdelete(Boolean isdelete) {
-        this.isdelete = isdelete;
+    public void setIsDelete(Boolean isDelete) {
+        this.isDelete = isDelete;
     }
 
-    public String getDeleteby() {
-        return deleteby;
+    public String getDeleteBy() {
+        return deleteBy;
     }
 
-    public void setDeleteby(String deleteby) {
-        this.deleteby = deleteby == null ? null : deleteby.trim();
+    public void setDeleteBy(String deleteBy) {
+        this.deleteBy = deleteBy == null ? null : deleteBy.trim();
     }
 
-    public LocalDateTime getDeletetime() {
-        return deletetime;
+    public LocalDateTime getDeleteTime() {
+        return deleteTime;
     }
 
-    public void setDeletetime(LocalDateTime deletetime) {
-        this.deletetime = deletetime;
+    public void setDeleteTime(LocalDateTime deleteTime) {
+        this.deleteTime = deleteTime;
     }
 
-    public Boolean getIsmodify() {
-        return ismodify;
+    public Boolean getIsModify() {
+        return isModify;
     }
 
-    public void setIsmodify(Boolean ismodify) {
-        this.ismodify = ismodify;
+    public void setIsModify(Boolean isModify) {
+        this.isModify = isModify;
     }
 
-    public String getModifyby() {
-        return modifyby;
+    public String getModifyBy() {
+        return modifyBy;
     }
 
-    public void setModifyby(String modifyby) {
-        this.modifyby = modifyby == null ? null : modifyby.trim();
+    public void setModifyBy(String modifyBy) {
+        this.modifyBy = modifyBy == null ? null : modifyBy.trim();
     }
 
-    public LocalDateTime getModifytime() {
-        return modifytime;
+    public LocalDateTime getModifyTime() {
+        return modifyTime;
     }
 
-    public void setModifytime(LocalDateTime modifytime) {
-        this.modifytime = modifytime;
+    public void setModifyTime(LocalDateTime modifyTime) {
+        this.modifyTime = modifyTime;
     }
 
-    public Boolean getIsexamine() {
-        return isexamine;
+    public Boolean getIsExamine() {
+        return isExamine;
     }
 
-    public void setIsexamine(Boolean isexamine) {
-        this.isexamine = isexamine;
+    public void setIsExamine(Boolean isExamine) {
+        this.isExamine = isExamine;
     }
 
-    public Integer getStudenttype() {
-        return studenttype;
+    public Integer getStudentType() {
+        return studentType;
     }
 
-    public void setStudenttype(Integer studenttype) {
-        this.studenttype = studenttype;
+    public void setStudentType(Integer studentType) {
+        this.studentType = studentType;
     }
 
-    public LocalDateTime getStudenttypetime() {
-        return studenttypetime;
+    public LocalDateTime getStudentTypeTime() {
+        return studentTypeTime;
     }
 
-    public void setStudenttypetime(LocalDateTime studenttypetime) {
-        this.studenttypetime = studenttypetime;
+    public void setStudentTypeTime(LocalDateTime studentTypeTime) {
+        this.studentTypeTime = studentTypeTime;
     }
 
-    public Integer getValidtype() {
-        return validtype;
+    public Integer getValidType() {
+        return validType;
     }
 
-    public void setValidtype(Integer validtype) {
-        this.validtype = validtype;
+    public void setValidType(Integer validType) {
+        this.validType = validType;
     }
 
-    public Integer getSmallvalidtype() {
-        return smallvalidtype;
+    public Integer getSmallvalidType() {
+        return smallvalidType;
     }
 
-    public void setSmallvalidtype(Integer smallvalidtype) {
-        this.smallvalidtype = smallvalidtype;
+    public void setSmallvalidType(Integer smallvalidType) {
+        this.smallvalidType = smallvalidType;
     }
 
-    public String getBoxid() {
-        return boxid;
+    public String getBoxId() {
+        return boxId;
     }
 
-    public void setBoxid(String boxid) {
-        this.boxid = boxid == null ? null : boxid.trim();
+    public void setBoxId(String boxId) {
+        this.boxId = boxId == null ? null : boxId.trim();
     }
 
-    public Boolean getRelativestate() {
-        return relativestate;
+    public Boolean getRelativeState() {
+        return relativeState;
     }
 
-    public void setRelativestate(Boolean relativestate) {
-        this.relativestate = relativestate;
+    public void setRelativeState(Boolean relativeState) {
+        this.relativeState = relativeState;
     }
 
-    public String getEosuserinfo() {
-        return eosuserinfo;
+    public String geteOSUserInfo() {
+        return eOSUserInfo;
     }
 
-    public void setEosuserinfo(String eosuserinfo) {
-        this.eosuserinfo = eosuserinfo == null ? null : eosuserinfo.trim();
+    public void seteOSUserInfo(String eOSUserInfo) {
+        this.eOSUserInfo = eOSUserInfo == null ? null : eOSUserInfo.trim();
     }
 }
