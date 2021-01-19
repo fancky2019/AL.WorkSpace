@@ -6,11 +6,27 @@
         WHERE Id=#{id,jdbcType=INTEGER}
     </update>
 
-
-
     <sql id="dynamicWhere">
-        <if test="userId != null">
-            and UserId LIKE CONCAT('%',#{UserId},'%')
+        <if test="userName != null and userName !='' ">
+            and ui.UserName LIKE '%'+#{userName,jdbcType=NVARCHAR}+'%'
+        </if>
+        <if test="userId != null and userId !='' ">
+            and ui.UserId LIKE '%'+#{userId,jdbcType=NVARCHAR}+'%'
+        </if>
+        <if test="mobilePhone != null">
+            and ui.MobilePhone LIKE '%'+#{mobilePhone,jdbcType=NVARCHAR}+'%'
+        </if>
+        <if test="tel != null">
+            and ui.Tel LIKE '%'+#{tel,jdbcType=NVARCHAR}+'%'
+        </if>
+        <if test="grade != null">
+            and ui.Grade = #{grade,jdbcType=VARCHAR}
+        </if>
+        <if test="relativeState != null">
+            and ui.RelativeState = #{relativeState,jdbcType=VARCHAR}
+        </if>
+        <if test="regTime != null">
+            and ui.regTime <![CDATA[ >= ]]> #{regTime,jdbcType=DATE}
         </if>
     </sql>
 
@@ -19,14 +35,18 @@
                       select ROW_NUMBER() over(order by (select 0) ) as RowNum,*
                       from
                           (
-                              select ui.Id,  ui.UserId,ui.StudentId,ui.UserName ,ui.Grade ,ui.MobilePhone,ui.Tel,s.School,ui.RegTime,
+                              select   ui.Id,  ui.UserId,ui.StudentId,ui.UserName ,ui.Grade ,ui.MobilePhone,ui.Tel,s.School,ui.RegTime,
                               ui.[RelativeState],ui.[EOSUserInfo]
-                              from [NewClassesAdmin].[dbo].OrderHead  oh
-                              join [NewClassesAdmin].[dbo].UserInfo ui  on ui.StudentId=oh.StudentId
+                              from [NewClassesAdmin].[dbo].UserInfo ui
                               left join School s on s.Guid=ui.SchoolId
                               where 1=1
+                              and ui.IsDelete=0 and ISNULL(ui.Status,0)=1 and ISNULL(ui.UserType,0)=1 and ISNULL(ui.UserId,'')  <![CDATA[ <> ]]>''
+                              and EXISTS (
+                              select StudentId from [NewClassesAdmin].[dbo].OrderHead oh
+                              where 1=1
                               and oh.IsDelete=0 and oh.OrderType between 1 and 2 and oh.OrderStateId=6
-                              and ui.IsDelete=0 and ISNULL(ui.Status,0)=1 and ISNULL(ui.UserType,0)=1 and ISNULL(ui.UserId,'')<![CDATA[ <> ]]>''
+                              and ui.StudentId=oh.StudentId
+                              )
                               <include refid="dynamicWhere"></include>
                           ) t1
                   )t2
@@ -35,13 +55,16 @@
 
     <select id="getUserWithOrderCount" parameterType="com.onlyedu.ordermigratedbtool.model.dto.UserInfoDto" resultType="java.lang.Integer">
         select count(ui.Id) [count]
-        from [NewClassesAdmin].[dbo].OrderHead  oh
-        join [NewClassesAdmin].[dbo].UserInfo ui  on ui.StudentId=oh.StudentId
+        from [NewClassesAdmin].[dbo].UserInfo ui
         left join School s on s.Guid=ui.SchoolId
         where 1=1
+        and ui.IsDelete=0 and ISNULL(ui.Status,0)=1 and ISNULL(ui.UserType,0)=1 and ISNULL(ui.UserId,'')  <![CDATA[ <> ]]>''
+        and EXISTS (
+        select StudentId from [NewClassesAdmin].[dbo].OrderHead oh
+        where 1=1
         and oh.IsDelete=0 and oh.OrderType between 1 and 2 and oh.OrderStateId=6
-        and ui.IsDelete=0 and ISNULL(ui.Status,0)=1 and ISNULL(ui.UserType,0)=1 and ISNULL(ui.UserId,'')<![CDATA[ <> ]]>''
-        <include refid="dynamicWhere"></include>
+        and ui.StudentId=oh.StudentId
+        )<include refid="dynamicWhere"></include>
     </select>
 
 
