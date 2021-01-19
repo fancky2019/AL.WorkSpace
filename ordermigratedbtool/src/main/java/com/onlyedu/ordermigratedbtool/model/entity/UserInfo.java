@@ -43,9 +43,9 @@ public class UserInfo {
 
     private String email;
 
-    private String MSN;
+    private String mSN;
 
-    private String QQ;
+    private String qQ;
 
     private LocalDateTime lastLoginTime;
 
@@ -89,7 +89,7 @@ public class UserInfo {
 
     private Boolean isClear;
 
-    private Integer BMlevel;
+    private Integer bMlevel;
 
     private String userClassGuid;
 
@@ -127,7 +127,7 @@ public class UserInfo {
 
     private String eOSUserInfo;
 
-    public UserInfo(String studentId, Integer id, String studentno, String userId, String passWord, String pwd, String userName, String sex, String birthday, String avatar, String provinceId, String districtId, String schoolId, String grade, String educationLevel, String tel, String mobilePhone, String address, String postCode, String email, String MSN, String QQ, LocalDateTime lastLoginTime, String lastLoginIp, LocalDateTime regTime, String regIP, Integer status, String userType, String userSourceId, Boolean errorAddress, String otherCourse, String isJoinRecruitment, String nowAdmin, LocalDateTime addAdminTime, Integer isOnLine, Integer lockType, String regSourceID, String regSourceIn, String regSourcePage, Boolean isListForCF, String otherTel, Integer isRanking, Boolean isClear, Integer BMlevel, String userClassGuid, String remark, String addBy, LocalDateTime addedTime, Boolean isDelete, String deleteBy, LocalDateTime deleteTime, Boolean isModify, String modifyBy, LocalDateTime modifyTime, Boolean isExamine, Integer studentType, LocalDateTime studentTypeTime, Integer validType, Integer smallvalidType, String boxId, Boolean relativeState) {
+    public UserInfo(String studentId, Integer id, String studentno, String userId, String passWord, String pwd, String userName, String sex, String birthday, String avatar, String provinceId, String districtId, String schoolId, String grade, String educationLevel, String tel, String mobilePhone, String address, String postCode, String email, String mSN, String qQ, LocalDateTime lastLoginTime, String lastLoginIp, LocalDateTime regTime, String regIP, Integer status, String userType, String userSourceId, Boolean errorAddress, String otherCourse, String isJoinRecruitment, String nowAdmin, LocalDateTime addAdminTime, Integer isOnLine, Integer lockType, String regSourceID, String regSourceIn, String regSourcePage, Boolean isListForCF, String otherTel, Integer isRanking, Boolean isClear, Integer bMlevel, String userClassGuid, String remark, String addBy, LocalDateTime addedTime, Boolean isDelete, String deleteBy, LocalDateTime deleteTime, Boolean isModify, String modifyBy, LocalDateTime modifyTime, Boolean isExamine, Integer studentType, LocalDateTime studentTypeTime, Integer validType, Integer smallvalidType, String boxId, Boolean relativeState) {
         this.studentId = studentId;
         this.id = id;
         this.studentno = studentno;
@@ -148,8 +148,8 @@ public class UserInfo {
         this.address = address;
         this.postCode = postCode;
         this.email = email;
-        this.MSN = MSN;
-        this.QQ = QQ;
+        this.mSN = mSN;
+        this.qQ = qQ;
         this.lastLoginTime = lastLoginTime;
         this.lastLoginIp = lastLoginIp;
         this.regTime = regTime;
@@ -171,7 +171,7 @@ public class UserInfo {
         this.otherTel = otherTel;
         this.isRanking = isRanking;
         this.isClear = isClear;
-        this.BMlevel = BMlevel;
+        this.bMlevel = bMlevel;
         this.userClassGuid = userClassGuid;
         this.remark = remark;
         this.addBy = addBy;
@@ -191,7 +191,7 @@ public class UserInfo {
         this.relativeState = relativeState;
     }
 
-    public UserInfo(String studentId, Integer id, String studentno, String userId, String passWord, String pwd, String userName, String sex, String birthday, String avatar, String provinceId, String districtId, String schoolId, String grade, String educationLevel, String tel, String mobilePhone, String address, String postCode, String email, String MSN, String QQ, LocalDateTime lastLoginTime, String lastLoginIp, LocalDateTime regTime, String regIP, Integer status, String userType, String userSourceId, Boolean errorAddress, String otherCourse, String isJoinRecruitment, String nowAdmin, LocalDateTime addAdminTime, Integer isOnLine, Integer lockType, String regSourceID, String regSourceIn, String regSourcePage, Boolean isListForCF, String otherTel, Integer isRanking, Boolean isClear, Integer BMlevel, String userClassGuid, String remark, String addBy, LocalDateTime addedTime, Boolean isDelete, String deleteBy, LocalDateTime deleteTime, Boolean isModify, String modifyBy, LocalDateTime modifyTime, Boolean isExamine, Integer studentType, LocalDateTime studentTypeTime, Integer validType, Integer smallvalidType, String boxId, Boolean relativeState, String EOSUserInfo) {
+    public UserInfo(String studentId, Integer id, String studentno, String userId, String passWord, String pwd, String userName, String sex, String birthday, String avatar, String provinceId, String districtId, String schoolId, String grade, String educationLevel, String tel, String mobilePhone, String address, String postCode, String email, String mSN, String qQ, LocalDateTime lastLoginTime, String lastLoginIp, LocalDateTime regTime, String regIP, Integer status, String userType, String userSourceId, Boolean errorAddress, String otherCourse, String isJoinRecruitment, String nowAdmin, LocalDateTime addAdminTime, Integer isOnLine, Integer lockType, String regSourceID, String regSourceIn, String regSourcePage, Boolean isListForCF, String otherTel, Integer isRanking, Boolean isClear, Integer bMlevel, String userClassGuid, String remark, String addBy, LocalDateTime addedTime, Boolean isDelete, String deleteBy, LocalDateTime deleteTime, Boolean isModify, String modifyBy, LocalDateTime modifyTime, Boolean isExamine, Integer studentType, LocalDateTime studentTypeTime, Integer validType, Integer smallvalidType, String boxId, Boolean relativeState, String EOSUserInfo) {
         this.studentId = studentId;
         this.id = id;
         this.studentno = studentno;
@@ -212,8 +212,8 @@ public class UserInfo {
         this.address = address;
         this.postCode = postCode;
         this.email = email;
-        this.MSN = MSN;
-        this.QQ = QQ;
+        this.mSN = mSN;
+        this.qQ = qQ;
         this.lastLoginTime = lastLoginTime;
         this.lastLoginIp = lastLoginIp;
         this.regTime = regTime;
@@ -235,7 +235,7 @@ public class UserInfo {
         this.otherTel = otherTel;
         this.isRanking = isRanking;
         this.isClear = isClear;
-        this.BMlevel = BMlevel;
+        this.bMlevel = bMlevel;
         this.userClassGuid = userClassGuid;
         this.remark = remark;
         this.addBy = addBy;
@@ -420,20 +420,20 @@ public class UserInfo {
         this.email = email == null ? null : email.trim();
     }
 
-    public String getMSN() {
-        return MSN;
+    public String getmSN() {
+        return mSN;
     }
 
-    public void setMSN(String MSN) {
-        this.MSN = MSN == null ? null : MSN.trim();
+    public void setmSN(String mSN) {
+        this.mSN = mSN == null ? null : mSN.trim();
     }
 
-    public String getQQ() {
-        return QQ;
+    public String getqQ() {
+        return qQ;
     }
 
-    public void setQQ(String QQ) {
-        this.QQ = QQ == null ? null : QQ.trim();
+    public void setqQ(String qQ) {
+        this.qQ = qQ == null ? null : qQ.trim();
     }
 
     public LocalDateTime getLastLoginTime() {
@@ -604,12 +604,12 @@ public class UserInfo {
         this.isClear = isClear;
     }
 
-    public Integer getBMlevel() {
-        return BMlevel;
+    public Integer getbMlevel() {
+        return bMlevel;
     }
 
-    public void setBMlevel(Integer BMlevel) {
-        this.BMlevel = BMlevel;
+    public void setbMlevel(Integer bMlevel) {
+        this.bMlevel = bMlevel;
     }
 
     public String getUserClassGuid() {
