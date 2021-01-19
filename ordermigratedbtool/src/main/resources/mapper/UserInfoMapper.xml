@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.onlyedu.ordermigratedbtool.dao.UserInfoMapper">
     <update id="updateRelative" parameterType="com.onlyedu.ordermigratedbtool.model.entity.UserInfo">
-        UPDATE [dbo].[UserInfo] SET  [EOSUserInfo] = #{eosuserinfo,jdbcType=VARCHAR} ,[RelativeState] = #{relativestate,jdbcType=BIT}
+        UPDATE [dbo].[UserInfo] SET  [EOSUserInfo] = #{eOSUserInfo,jdbcType=VARCHAR} ,[RelativeState] = #{relativeState,jdbcType=BIT}
         WHERE Id=#{id,jdbcType=INTEGER}
     </update>
 
