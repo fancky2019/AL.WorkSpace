@@ -39,8 +39,8 @@ public class OrderController {
                                                  @RequestParam Boolean relativeState) {
         OrderHead orderHead = new OrderHead();
         orderHead.setId(id);
-        orderHead.seteOSOrder(eOSOrder);
-        orderHead.seteOSBalance(eOSBalance);
+        orderHead.setEosOrderID(eOSOrder);
+        orderHead.setEosRemainBalance(eOSBalance);
         orderHead.setRelativeState(relativeState);
         return orderHeadService.updateRelative(orderHead);
     }
