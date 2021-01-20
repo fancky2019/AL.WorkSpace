@@ -1,9 +1,11 @@
 package com.onlyedu.ordermigratedbtool.model.entity;
 
+import org.springframework.util.StringUtils;
+
 import java.time.LocalDateTime;
 
 public class EosStudent {
-    private Integer ID;
+    private Integer id;
 
     private Integer eosStudentID;
 
@@ -23,8 +25,8 @@ public class EosStudent {
 
     private Boolean isDelete;
 
-    public EosStudent(Integer ID, Integer eosStudentID, String studentName, String grade, String phone, String schoolName, Boolean relativeState, String relativeID, LocalDateTime createTime, Boolean isDelete) {
-        this.ID = ID;
+    public EosStudent(Integer id, Integer eosStudentID, String studentName, String grade, String phone, String schoolName, Boolean relativeState, String relativeID, LocalDateTime createTime, Boolean isDelete) {
+        this.id = id;
         this.eosStudentID = eosStudentID;
         this.studentName = studentName;
         this.grade = grade;
@@ -40,12 +42,12 @@ public class EosStudent {
         super();
     }
 
-    public Integer getID() {
-        return ID;
+    public Integer getId() {
+        return id;
     }
 
-    public void setID(Integer ID) {
-        this.ID = ID;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Integer getEosStudentID() {
@@ -118,5 +120,38 @@ public class EosStudent {
 
     public void setIsDelete(Boolean isDelete) {
         this.isDelete = isDelete;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;//地址相等
+        }
+
+        if (obj == null) {
+            return false;//非空性：对于任意非空引用x，x.equals(null)应该返回false。
+        }
+
+        if (obj instanceof EosStudent) {
+            EosStudent other = (EosStudent) obj;
+            if (other.getStudentName().equals(this.getStudentName()) &&
+                    other.getPhone().equals(this.getPhone()) &&
+                    other.getEosStudentID().equals(this.getEosStudentID()) &&
+                    other.getGrade().equals(this.getGrade())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean equalsStr(String str1, String str2) {
+        if (StringUtils.isEmpty(str1) && StringUtils.isEmpty(str2)) {
+            return true;
+        }
+        if (!StringUtils.isEmpty(str1) && str1.equals(str2)) {
+            return true;
+        }
+        return false;
     }
 }

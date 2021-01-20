@@ -125,7 +125,7 @@ public class UserInfo {
 
     private Boolean relativeState;
 
-    private String eOSUserInfo;
+    private String eosStudentID;
 
     public UserInfo(String studentId, Integer id, String studentno, String userId, String passWord, String pwd, String userName, String sex, String birthday, String avatar, String provinceId, String districtId, String schoolId, String grade, String educationLevel, String tel, String mobilePhone, String address, String postCode, String email, String mSN, String qQ, LocalDateTime lastLoginTime, String lastLoginIp, LocalDateTime regTime, String regIP, Integer status, String userType, String userSourceId, Boolean errorAddress, String otherCourse, String isJoinRecruitment, String nowAdmin, LocalDateTime addAdminTime, Integer isOnLine, Integer lockType, String regSourceID, String regSourceIn, String regSourcePage, Boolean isListForCF, String otherTel, Integer isRanking, Boolean isClear, Integer bMlevel, String userClassGuid, String remark, String addBy, LocalDateTime addedTime, Boolean isDelete, String deleteBy, LocalDateTime deleteTime, Boolean isModify, String modifyBy, LocalDateTime modifyTime, Boolean isExamine, Integer studentType, LocalDateTime studentTypeTime, Integer validType, Integer smallvalidType, String boxId, Boolean relativeState) {
         this.studentId = studentId;
@@ -253,7 +253,7 @@ public class UserInfo {
         this.smallvalidType = smallvalidType;
         this.boxId = boxId;
         this.relativeState = relativeState;
-        this.eOSUserInfo = EOSUserInfo;
+        this.eosStudentID = EOSUserInfo;
     }
 
     public UserInfo() {
@@ -748,11 +748,11 @@ public class UserInfo {
         this.relativeState = relativeState;
     }
 
-    public String geteOSUserInfo() {
-        return eOSUserInfo;
+    public String getEosStudentID() {
+        return eosStudentID;
     }
 
-    public void seteOSUserInfo(String eOSUserInfo) {
-        this.eOSUserInfo = eOSUserInfo == null ? null : eOSUserInfo.trim();
+    public void setEosStudentID(String eosStudentID) {
+        this.eosStudentID = eosStudentID == null ? null : eosStudentID.trim();
     }
 }

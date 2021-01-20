@@ -1,9 +1,15 @@
 package com.onlyedu.ordermigratedbtool.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.onlyedu.ordermigratedbtool.model.dto.EosStudentDto;
+import com.onlyedu.ordermigratedbtool.model.dto.RelativeStateDto;
 import com.onlyedu.ordermigratedbtool.model.dto.UserInfoDto;
+import com.onlyedu.ordermigratedbtool.model.dto.UserInfoStatisticsDto;
+import com.onlyedu.ordermigratedbtool.model.entity.EosStudent;
+import com.onlyedu.ordermigratedbtool.model.entity.UserInfo;
 import com.onlyedu.ordermigratedbtool.model.pojo.MessageResult;
 import com.onlyedu.ordermigratedbtool.model.pojo.PageData;
+import com.onlyedu.ordermigratedbtool.model.vo.EosStudentVO;
 import com.onlyedu.ordermigratedbtool.model.vo.UserInfoVO;
 import com.onlyedu.ordermigratedbtool.service.EosStudentService;
 import com.onlyedu.ordermigratedbtool.service.UserInfoService;
@@ -18,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @RestController
 @RequestMapping("/eosStudent")
@@ -67,14 +74,29 @@ public class EosStudentController {
         return messageResult;
     }
 
-    @GetMapping("/logTest")
-    public MessageResult<Void> logTest() {
-        MessageResult<Void> message = new MessageResult<>();
-        logger.info("info");
-        logger.debug("debug");
-        logger.error("error");
+    @GetMapping("/getEosStudentPage")
+    public MessageResult<PageData<EosStudentVO>> getEosStudentPage(EosStudentDto eosStudentDto) {
+        MessageResult<PageData<EosStudentVO>> message = eosStudentService.getEosStudentPage(eosStudentDto);
         return message;
     }
+
+    @PostMapping("/updateRelative")
+    public MessageResult<Integer> updateRelative(@RequestBody EosStudent eosStudent) {
+        MessageResult<Integer> messageResult = eosStudentService.updateRelative(eosStudent);
+        return messageResult;
+    }
+
+    @GetMapping("/getEosStudentStatistics")
+    public MessageResult<UserInfoStatisticsDto> getEosStudentStatistics() {
+        return eosStudentService.getEosStudentStatistics();
+    }
+
+    @GetMapping("/getGrade")
+    public MessageResult<List<String>> getGrade() {
+        return eosStudentService.getGrade();
+    }
+
+
 
 }
 
