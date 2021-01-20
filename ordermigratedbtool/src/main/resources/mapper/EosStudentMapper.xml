@@ -34,7 +34,7 @@
 <!--  &lt;/resultMap&gt;-->
 
   <update id="updateRelative" parameterType="com.onlyedu.ordermigratedbtool.model.entity.EosStudent">
-    UPDATE [NewClassesAdmin].[dbo].[EosStudent] SET  [RelativeID] = #{relativeID,jdbcType=NVARCHAR} ,[RelativeState] = #{relativeState,jdbcType=BIT}
+    UPDATE [NewClassesAdmin].[dbo].[EosStudent] SET  [UserInfoID] = #{userInfoID,jdbcType=NVARCHAR} ,[RelativeState] = #{relativeState,jdbcType=BIT}
     WHERE Id=#{id,jdbcType=INTEGER}
   </update>
 
@@ -74,7 +74,7 @@
     select  ID,[EosStudentID],[StudentName] ,[Grade] ,[Phone],
     case ISNULL( RelativeState ,0)  when 0 then '未关联'
     when 1 then '已关联'
-    end RelativeState,[RelativeID]
+    end RelativeState,[UserInfoID]
     from [NewClassesAdmin].[dbo].[EosStudent]
     where 1=1
     <include refid="dynamicWhere"></include>

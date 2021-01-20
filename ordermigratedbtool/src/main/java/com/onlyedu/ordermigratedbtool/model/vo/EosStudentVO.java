@@ -16,5 +16,5 @@ public class EosStudentVO {
 
     private String relativeState;
 
-    private String relativeID;
+    private String userInfoID;
 }

@@ -19,13 +19,13 @@ public class EosStudent {
 
     private Boolean relativeState;
 
-    private String relativeID;
+    private String userInfoID;
 
     private LocalDateTime createTime;
 
     private Boolean isDelete;
 
-    public EosStudent(Integer id, Integer eosStudentID, String studentName, String grade, String phone, String schoolName, Boolean relativeState, String relativeID, LocalDateTime createTime, Boolean isDelete) {
+    public EosStudent(Integer id, Integer eosStudentID, String studentName, String grade, String phone, String schoolName, Boolean relativeState, String userInfoID, LocalDateTime createTime, Boolean isDelete) {
         this.id = id;
         this.eosStudentID = eosStudentID;
         this.studentName = studentName;
@@ -33,7 +33,7 @@ public class EosStudent {
         this.phone = phone;
         this.schoolName = schoolName;
         this.relativeState = relativeState;
-        this.relativeID = relativeID;
+        this.userInfoID = userInfoID;
         this.createTime = createTime;
         this.isDelete = isDelete;
     }
@@ -98,12 +98,12 @@ public class EosStudent {
         this.relativeState = relativeState;
     }
 
-    public String getRelativeID() {
-        return relativeID;
+    public String getUserInfoID() {
+        return userInfoID;
     }
 
-    public void setRelativeID(String relativeID) {
-        this.relativeID = relativeID == null ? null : relativeID.trim();
+    public void setUserInfoID(String userInfoID) {
+        this.userInfoID = userInfoID == null ? null : userInfoID.trim();
     }
 
     public LocalDateTime getCreateTime() {
