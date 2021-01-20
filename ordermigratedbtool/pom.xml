@@ -55,13 +55,6 @@
         </dependency>
 
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-
         <!--        log4j2配置-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -14,7 +14,7 @@
             and ui.UserId LIKE '%'+#{userId,jdbcType=NVARCHAR}+'%'
         </if>
         <if test="studentNo != null and studentNo !='' ">
-            and ui.studentno LIKE '%'+#{studentNo,jdbcType=NVARCHAR}+'%'
+            and left(ui.StudentId ,8) LIKE '%'+#{studentNo,jdbcType=NVARCHAR}+'%'
         </if>
         <if test="mobilePhone != null">
             and ui.MobilePhone LIKE '%'+#{mobilePhone,jdbcType=NVARCHAR}+'%'
@@ -26,11 +26,13 @@
             and ui.Grade = #{grade,jdbcType=VARCHAR}
         </if>
         <if test="relativeState != null">
-            and ui.RelativeState = #{relativeState,jdbcType=VARCHAR}
+            and isnull(ui.RelativeState,0) = #{relativeState,jdbcType=VARCHAR}
         </if>
-        <if test="regTime != null">
-            and ui.regTime <![CDATA[ >= ]]> #{regTime,jdbcType=DATE}
-        </if>
+        <if test="regStartTime != null">
+            and ui.regTime <![CDATA[ >= ]]> #{regStartTime,jdbcType=DATE}
+        </if>   <if test="regEndTime != null">
+        and ui.regTime <![CDATA[ <= ]]> #{regEndTime,jdbcType=DATE}
+    </if>
     </sql>
 
     <sql id="basicTable">
@@ -50,13 +52,13 @@
         select ROW_NUMBER() over(order by (select 0) ) as RowNum,*
         from
         (
-        select   ui.Id,  ui.UserId,ui.StudentId, ui.studentno studentNo,ui.UserName ,ui.Grade ,ui.MobilePhone,ui.Tel,s.School,ui.RegTime,
+        select   ui.Id,  ui.UserId,ui.StudentId, left(ui.StudentId ,8)  studentNo,ui.UserName ,ui.Grade ,ui.MobilePhone,ui.Tel,s.School,ui.RegTime,
         ui.[RelativeState],ui.[EOSUserInfo]
         <include refid="basicTable"></include>
         <include refid="dynamicWhere"></include>
         ) t1
         )t2
-        where t2.RowNum BETWEEN  (#{pageIndex,jdbcType=INTEGER}-1)*#{pageSize,jdbcType=INTEGER} and #{pageIndex,jdbcType=INTEGER}*#{pageSize,jdbcType=INTEGER}
+        where t2.RowNum BETWEEN  (#{pageIndex,jdbcType=INTEGER}-1)*#{pageSize,jdbcType=INTEGER}+1 and #{pageIndex,jdbcType=INTEGER}*#{pageSize,jdbcType=INTEGER}
     </select>
 
     <select id="getUserWithOrderCount" parameterType="com.onlyedu.ordermigratedbtool.model.dto.UserInfoDto" resultType="java.lang.Integer">
