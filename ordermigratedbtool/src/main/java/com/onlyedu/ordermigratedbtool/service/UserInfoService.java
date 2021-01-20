@@ -50,7 +50,7 @@ public class UserInfoService {
                 userInfoVO.setRelativeState(p.getRelativeState() != null ? p.getRelativeState() ? "已关联" : "未关联" : "未关联");
                 userInfoVOList.add(userInfoVO);
             });
-            pageData.setData(userInfoVOList);
+            pageData.setRows(userInfoVOList);
             message.setData(pageData);
         } catch (Exception ex) {
             message.setCode(500);

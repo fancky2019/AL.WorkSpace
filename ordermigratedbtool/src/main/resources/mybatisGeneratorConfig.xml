@@ -73,30 +73,26 @@
         <!--tableName:指定了表名
             domainObjectName:指定了实体类的名称
         -->
-        <table tableName="OrderHead" domainObjectName="OrderHead"
+<!--        <table tableName="OrderHead" domainObjectName="OrderHead"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false">-->
+<!--            <property name="useActualColumnNames" value="true" />-->
+<!--        </table>-->
+
+<!--        <table tableName="UserInfo" domainObjectName="UserInfo"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false">-->
+<!--            <property name="useActualColumnNames" value="true" />-->
+<!--        </table>-->
+
+        <table tableName="EosStudent" domainObjectName="EosStudent"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
             <property name="useActualColumnNames" value="true" />
         </table>
-
-        <table tableName="UserInfo" domainObjectName="UserInfo"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
-            <property name="useActualColumnNames" value="true" />
-        </table>
-
-        <!--<table tableName="Order" domainObjectName="Order"-->
-        <!--enableCountByExample="false" enableUpdateByExample="false"-->
-        <!--enableDeleteByExample="false" enableSelectByExample="false"-->
-        <!--selectByExampleQueryId="false">-->
-        <!--</table>-->
-        <!--<table tableName="OrderDetail" domainObjectName="OrderDetail"-->
-        <!--enableCountByExample="false" enableUpdateByExample="false"-->
-        <!--enableDeleteByExample="false" enableSelectByExample="false"-->
-        <!--selectByExampleQueryId="false">-->
-        <!--</table>-->
         <!--如果生成n个表，那就将上面的那段table代码copy n份-->
     </context>
 

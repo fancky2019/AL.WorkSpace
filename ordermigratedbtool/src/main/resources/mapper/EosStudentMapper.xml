@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.onlyedu.ordermigratedbtool.dao.EosStudentMapper">
+<!--  <resultMap id="BaseResultMap" type="com.onlyedu.ordermigratedbtool.model.entity.EosStudent">-->
+<!--    <constructor>-->
+<!--      <idArg column="ID" javaType="java.lang.Integer" jdbcType="INTEGER" />-->
+<!--      <arg column="EosStudentID" javaType="java.lang.Integer" jdbcType="INTEGER" />-->
+<!--      <arg column="StudentName" javaType="java.lang.String" jdbcType="NVARCHAR" />-->
+<!--      <arg column="Grade" javaType="java.lang.String" jdbcType="NVARCHAR" />-->
+<!--      <arg column="Phone" javaType="java.lang.String" jdbcType="NVARCHAR" />-->
+<!--      <arg column="SchoolName" javaType="java.lang.String" jdbcType="NVARCHAR" />-->
+<!--      <arg column="RelativeState" javaType="java.lang.Boolean" jdbcType="BIT" />-->
+<!--      <arg column="RelativeID" javaType="java.lang.String" jdbcType="NVARCHAR" />-->
+<!--      <arg column="CreateTime" javaType="java.time.LocalDateTime" jdbcType="TIMESTAMP" />-->
+<!--      <arg column="IsDelete" javaType="java.lang.Boolean" jdbcType="BIT" />-->
+<!--    </constructor>-->
+<!--  </resultMap>-->
+
+
+
+<!--  &lt;resultMap id="BaseResultMap" type="com.onlyedu.ordermigratedbtool.model.entity.EosStudent"&gt;-->
+<!--    &lt;constructor&gt;-->
+<!--      &lt;idArg column="ID" javaType="java.lang.Integer" jdbcType="INTEGER" /&gt;-->
+<!--      &lt;arg column="EosStudentID" javaType="java.lang.Integer" jdbcType="INTEGER" /&gt;-->
+<!--      &lt;arg column="StudentName" javaType="java.lang.String" jdbcType="NVARCHAR" /&gt;-->
+<!--      &lt;arg column="Grade" javaType="java.lang.String" jdbcType="NVARCHAR" /&gt;-->
+<!--      &lt;arg column="Phone" javaType="java.lang.String" jdbcType="NVARCHAR" /&gt;-->
+<!--      &lt;arg column="SchoolName" javaType="java.lang.String" jdbcType="NVARCHAR" /&gt;-->
+<!--      &lt;arg column="RelativeState" javaType="java.lang.Boolean" jdbcType="BIT" /&gt;-->
+<!--      &lt;arg column="RelativeID" javaType="java.lang.String" jdbcType="NVARCHAR" /&gt;-->
+<!--      &lt;arg column="CreateTime" javaType="java.time.LocalDateTime" jdbcType="TIMESTAMP" /&gt;-->
+<!--      &lt;arg column="IsDelete" javaType="java.lang.Boolean" jdbcType="BIT" /&gt;-->
+<!--    &lt;/constructor&gt;-->
+<!--  &lt;/resultMap&gt;-->
+<select id="getAll" resultType="com.onlyedu.ordermigratedbtool.model.entity.EosStudent">
+  SELECT [EosStudentID] ,[StudentName],[Grade],[Phone]
+  FROM [NewClassesAdmin].[dbo].[EosStudent]
+</select>
+  <insert id="batchInsert" parameterType="com.onlyedu.ordermigratedbtool.model.entity.EosStudent">
+    insert into EosStudent (EosStudentID, StudentName,
+      Grade, Phone
+      )
+    values
+    <foreach collection="list" item="item" separator=",">
+    (#{item.eosStudentID,jdbcType=INTEGER}, #{item.studentName,jdbcType=NVARCHAR},
+      #{item.grade,jdbcType=NVARCHAR}, #{item.phone,jdbcType=NVARCHAR}
+      )
+    </foreach>
+  </insert>
+
+</mapper>
