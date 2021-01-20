@@ -4,8 +4,8 @@
   <update id="updateRelative" parameterType="com.onlyedu.ordermigratedbtool.model.entity.OrderHead">
     update OrderHead
     set
-      EOSOrder = #{eOSOrder,jdbcType=LONGVARCHAR},
-      EOSBalance = #{eOSBalance,jdbcType=DECIMAL},
+      EosOrderID = #{eosOrderID,jdbcType=LONGVARCHAR},
+      EosRemainBalance = #{eosRemainBalance,jdbcType=DECIMAL},
       RelativeState = #{relativeState,jdbcType=BIT}
     where Id = #{id,jdbcType=INTEGER}
   </update>
@@ -27,7 +27,7 @@
     when 0 then '全额'
     ELSE '其他'
     end PayType,
-    oh.[ShareUserId] , om.PayMoney,oh.[RelativeState],oh.[EOSOrder],oh.[EOSBalance]
+    oh.[ShareUserId] , om.PayMoney,oh.[RelativeState],oh.[EosOrderID],oh.[EosRemainBalance]
     from NewClassesAdmin.dbo.OrderHead oh
     join NewClassesAdmin.dbo.UserInfo ui on oh.StudentId=ui.StudentId
     left join [NewClassesAdmin].[dbo].School sch on ui.SchoolId=sch.[Guid]

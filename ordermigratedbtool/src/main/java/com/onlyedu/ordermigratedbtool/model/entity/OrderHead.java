@@ -96,13 +96,13 @@ public class OrderHead {
 
     private LocalDateTime expiredTime;
 
-    private BigDecimal eOSBalance;
+    private BigDecimal eosRemainBalance;
 
     private Boolean relativeState;
 
-    private String eOSOrder;
+    private String eosOrderID;
 
-    public OrderHead(Integer id, String orderNo, String userOrderNo, String bankNo, String receiptNo, String invoiceNo, String contractNo, String draftNo, String registrationNo, Integer orderType, String studentId, Integer orderStateId, String forRemarks, String errorStateRemarks, String backRemarks, String remark, BigDecimal returnPay, Short activeId, Short continued, Short continuous, LocalDateTime backPayTime, LocalDateTime approvedTime, String turnReceiptNo, String huanReceiptNo, String tempReceiptNo, String shareUserId, String shareUserId2, Short percents, String addBy, LocalDateTime addedTime, Boolean isMend, String creator, Boolean isDelete, String deleteBy, LocalDateTime deleteTime, Boolean isModify, String modifyBy, LocalDateTime modifyTime, Integer isChange, String zeroReason, Integer isExpired, LocalDateTime changeTime, LocalDateTime returnTime, LocalDateTime BJtime, String returnReason, LocalDateTime expiredTime, BigDecimal eOSBalance, Boolean relativeState) {
+    public OrderHead(Integer id, String orderNo, String userOrderNo, String bankNo, String receiptNo, String invoiceNo, String contractNo, String draftNo, String registrationNo, Integer orderType, String studentId, Integer orderStateId, String forRemarks, String errorStateRemarks, String backRemarks, String remark, BigDecimal returnPay, Short activeId, Short continued, Short continuous, LocalDateTime backPayTime, LocalDateTime approvedTime, String turnReceiptNo, String huanReceiptNo, String tempReceiptNo, String shareUserId, String shareUserId2, Short percents, String addBy, LocalDateTime addedTime, Boolean isMend, String creator, Boolean isDelete, String deleteBy, LocalDateTime deleteTime, Boolean isModify, String modifyBy, LocalDateTime modifyTime, Integer isChange, String zeroReason, Integer isExpired, LocalDateTime changeTime, LocalDateTime returnTime, LocalDateTime BJtime, String returnReason, LocalDateTime expiredTime, BigDecimal eosRemainBalance, Boolean relativeState) {
         this.id = id;
         this.orderNo = orderNo;
         this.userOrderNo = userOrderNo;
@@ -149,11 +149,11 @@ public class OrderHead {
         this.BJtime = BJtime;
         this.returnReason = returnReason;
         this.expiredTime = expiredTime;
-        this.eOSBalance = eOSBalance;
+        this.eosRemainBalance = eosRemainBalance;
         this.relativeState = relativeState;
     }
 
-    public OrderHead(Integer id, String orderNo, String userOrderNo, String bankNo, String receiptNo, String invoiceNo, String contractNo, String draftNo, String registrationNo, Integer orderType, String studentId, Integer orderStateId, String forRemarks, String errorStateRemarks, String backRemarks, String remark, BigDecimal returnPay, Short activeId, Short continued, Short continuous, LocalDateTime backPayTime, LocalDateTime approvedTime, String turnReceiptNo, String huanReceiptNo, String tempReceiptNo, String shareUserId, String shareUserId2, Short percents, String addBy, LocalDateTime addedTime, Boolean isMend, String creator, Boolean isDelete, String deleteBy, LocalDateTime deleteTime, Boolean isModify, String modifyBy, LocalDateTime modifyTime, Integer isChange, String zeroReason, Integer isExpired, LocalDateTime changeTime, LocalDateTime returnTime, LocalDateTime BJtime, String returnReason, LocalDateTime expiredTime, BigDecimal eOSBalance, Boolean relativeState, String eOSOrder) {
+    public OrderHead(Integer id, String orderNo, String userOrderNo, String bankNo, String receiptNo, String invoiceNo, String contractNo, String draftNo, String registrationNo, Integer orderType, String studentId, Integer orderStateId, String forRemarks, String errorStateRemarks, String backRemarks, String remark, BigDecimal returnPay, Short activeId, Short continued, Short continuous, LocalDateTime backPayTime, LocalDateTime approvedTime, String turnReceiptNo, String huanReceiptNo, String tempReceiptNo, String shareUserId, String shareUserId2, Short percents, String addBy, LocalDateTime addedTime, Boolean isMend, String creator, Boolean isDelete, String deleteBy, LocalDateTime deleteTime, Boolean isModify, String modifyBy, LocalDateTime modifyTime, Integer isChange, String zeroReason, Integer isExpired, LocalDateTime changeTime, LocalDateTime returnTime, LocalDateTime BJtime, String returnReason, LocalDateTime expiredTime, BigDecimal eosRemainBalance, Boolean relativeState, String eosOrderID) {
         this.id = id;
         this.orderNo = orderNo;
         this.userOrderNo = userOrderNo;
@@ -200,9 +200,9 @@ public class OrderHead {
         this.BJtime = BJtime;
         this.returnReason = returnReason;
         this.expiredTime = expiredTime;
-        this.eOSBalance = eOSBalance;
+        this.eosRemainBalance = eosRemainBalance;
         this.relativeState = relativeState;
-        this.eOSOrder = eOSOrder;
+        this.eosOrderID = eosOrderID;
     }
 
     public OrderHead() {
@@ -577,12 +577,12 @@ public class OrderHead {
         this.expiredTime = expiredTime;
     }
 
-    public BigDecimal geteOSBalance() {
-        return eOSBalance;
+    public BigDecimal getEosRemainBalance() {
+        return eosRemainBalance;
     }
 
-    public void seteOSBalance(BigDecimal eOSBalance) {
-        this.eOSBalance = eOSBalance;
+    public void setEosRemainBalance(BigDecimal eosRemainBalance) {
+        this.eosRemainBalance = eosRemainBalance;
     }
 
     public Boolean getRelativeState() {
@@ -593,11 +593,11 @@ public class OrderHead {
         this.relativeState = relativeState;
     }
 
-    public String geteOSOrder() {
-        return eOSOrder;
+    public String getEosOrderID() {
+        return eosOrderID;
     }
 
-    public void seteOSOrder(String eOSOrder) {
-        this.eOSOrder = eOSOrder == null ? null : eOSOrder.trim();
+    public void setEosOrderID(String eosOrderID) {
+        this.eosOrderID = eosOrderID == null ? null : eosOrderID.trim();
     }
 }

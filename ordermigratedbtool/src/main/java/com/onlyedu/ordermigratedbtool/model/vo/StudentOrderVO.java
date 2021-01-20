@@ -24,7 +24,7 @@ public class StudentOrderVO {
     private String shareUserId;
     private String payMoney;
     private String relativeState;
-    private String eOSOrder;
-    private String eOSBalance;
+    private String eosOrderID;
+    private String eosRemainBalance;
 
 }
