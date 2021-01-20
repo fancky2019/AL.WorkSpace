@@ -87,11 +87,18 @@
 <!--            <property name="useActualColumnNames" value="true" />-->
 <!--        </table>-->
 
-        <table tableName="EosStudent" domainObjectName="EosStudent"
+<!--        <table tableName="EosStudent" domainObjectName="EosStudent"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false">-->
+<!--            <property name="useActualColumnNames" value="true" />-->
+<!--        </table>-->
+
+        <table tableName="EosOrder" domainObjectName="EosOrder"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
-            <property name="useActualColumnNames" value="true" />
+            <property name="useActualColumnNames" value="true"/>
         </table>
         <!--如果生成n个表，那就将上面的那段table代码copy n份-->
     </context>
