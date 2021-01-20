@@ -1,4 +1,32 @@
 package com.onlyedu.ordermigratedbtool.model.dto;
 
-public class EosStudentDto {
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.onlyedu.ordermigratedbtool.model.pojo.Page;
+import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDateTime;
+@Data
+public class EosStudentDto extends Page {
+    private Integer id;
+
+    private Integer eosStudentID;
+
+    private String studentName;
+
+    private String grade;
+
+    private String phone;
+
+    private String schoolName;
+
+    private String relativeState;
+
+    private String relativeID;
+    //前端传给后端不能解析值
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private LocalDateTime createTime;
+
+
 }

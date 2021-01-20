@@ -3,6 +3,7 @@ package com.onlyedu.ordermigratedbtool.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.onlyedu.ordermigratedbtool.model.dto.RelativeStateDto;
+import com.onlyedu.ordermigratedbtool.model.dto.RelativeUserInfoEosStudentDto;
 import com.onlyedu.ordermigratedbtool.model.dto.UserInfoDto;
 import com.onlyedu.ordermigratedbtool.model.dto.UserInfoStatisticsDto;
 import com.onlyedu.ordermigratedbtool.model.entity.UserInfo;
@@ -37,8 +38,16 @@ public class UserInfoController {
     }
 
     @PostMapping("/updateRelative")
-    public MessageResult<Integer> updateRelative(@RequestBody UserInfo userInfo) {
-        MessageResult<Integer> messageResult = userInfoService.updateRelative(userInfo);
+    public MessageResult<Void> updateRelative(@RequestBody RelativeUserInfoEosStudentDto relativeUserInfoEosStudentDto)  {
+        MessageResult<Void> messageResult =  new MessageResult<>();;
+        try {
+            messageResult = userInfoService.updateRelative(relativeUserInfoEosStudentDto);
+            messageResult.setCode(0);
+        } catch (Exception e) {
+            messageResult.setCode(500);
+            messageResult.setMessage(e.getMessage());
+            logger.error(e.toString());
+        }
         return messageResult;
     }
 
@@ -63,8 +72,8 @@ public class UserInfoController {
                                            @RequestParam BigDecimal EOSBalance,
                                            @RequestParam Boolean relativeState) {
         UserInfo userInfo = new UserInfo();
-        MessageResult<Integer> messageResult = userInfoService.updateRelative(userInfo);
-        return messageResult;
+//        MessageResult<Integer> messageResult = userInfoService.updateRelative(userInfo);
+        return null;
     }
 
     @PostMapping("/subbmit")

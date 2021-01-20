@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.onlyedu.ordermigratedbtool.dao.UserInfoMapper">
     <update id="updateRelative" parameterType="com.onlyedu.ordermigratedbtool.model.entity.UserInfo">
-        UPDATE [dbo].[UserInfo] SET  [EOSUserInfo] = #{eOSUserInfo,jdbcType=VARCHAR} ,[RelativeState] = #{relativeState,jdbcType=BIT}
+        UPDATE [NewClassesAdmin].[dbo].[UserInfo] SET  [EosStudentID] = #{eosStudentID,jdbcType=NVARCHAR} ,[RelativeState] = #{relativeState,jdbcType=BIT}
         WHERE Id=#{id,jdbcType=INTEGER}
     </update>
 
@@ -53,7 +53,7 @@
         from
         (
         select   ui.Id,  ui.UserId,ui.StudentId, left(ui.StudentId ,8)  studentNo,ui.UserName ,ui.Grade ,ui.MobilePhone,ui.Tel,s.School,ui.RegTime,
-        ui.[RelativeState],ui.[EOSUserInfo]
+        ui.[RelativeState],ui.[EosStudentID]
         <include refid="basicTable"></include>
         <include refid="dynamicWhere"></include>
         ) t1

@@ -32,6 +32,57 @@
 <!--      &lt;arg column="IsDelete" javaType="java.lang.Boolean" jdbcType="BIT" /&gt;-->
 <!--    &lt;/constructor&gt;-->
 <!--  &lt;/resultMap&gt;-->
+
+  <update id="updateRelative" parameterType="com.onlyedu.ordermigratedbtool.model.entity.EosStudent">
+    UPDATE [NewClassesAdmin].[dbo].[EosStudent] SET  [RelativeID] = #{relativeID,jdbcType=NVARCHAR} ,[RelativeState] = #{relativeState,jdbcType=BIT}
+    WHERE Id=#{id,jdbcType=INTEGER}
+  </update>
+
+  <sql id="dynamicWhere">
+    <if test="eosStudentID != null and eosStudentID !='' ">
+      and EosStudentID = #{eosStudentID,jdbcType=NVARCHAR}
+    </if>
+
+    <if test="studentName != null and studentName !='' ">
+      and StudentName LIKE '%'+#{studentName,jdbcType=NVARCHAR}+'%'
+    </if>
+    <if test="phone != null and phone !='' ">
+      and Phone LIKE '%'+#{phone,jdbcType=NVARCHAR}+'%'
+    </if>
+
+    <if test="grade != null">
+      and Grade = #{grade,jdbcType=VARCHAR}
+    </if>
+
+    <if test="relativeState != null">
+      and isnull(RelativeState,0) = #{relativeState,jdbcType=VARCHAR}
+    </if>
+
+  </sql>
+  <select id="getEosStudentCount" parameterType="com.onlyedu.ordermigratedbtool.model.dto.EosStudentDto" resultType="java.lang.Integer">
+    select count(Id) [count]
+    FROM [NewClassesAdmin].[dbo].[EosStudent]
+    where 1=1
+    <include refid="dynamicWhere"></include>
+  </select>
+
+  <select id="getEosStudentPage" resultType="com.onlyedu.ordermigratedbtool.model.dto.EosStudentDto">
+    select * from (
+    select ROW_NUMBER() over(order by (select 0) ) as RowNum,*
+    from
+    (
+    select  ID,[EosStudentID],[StudentName] ,[Grade] ,[Phone],
+    case ISNULL( RelativeState ,0)  when 0 then '未关联'
+    when 1 then '已关联'
+    end RelativeState,[RelativeID]
+    from [NewClassesAdmin].[dbo].[EosStudent]
+    where 1=1
+    <include refid="dynamicWhere"></include>
+    ) t1
+    )t2
+    where t2.RowNum BETWEEN  (#{pageIndex,jdbcType=INTEGER}-1)*#{pageSize,jdbcType=INTEGER}+1 and #{pageIndex,jdbcType=INTEGER}*#{pageSize,jdbcType=INTEGER}
+  </select>
+
 <select id="getAll" resultType="com.onlyedu.ordermigratedbtool.model.entity.EosStudent">
   SELECT [EosStudentID] ,[StudentName],[Grade],[Phone]
   FROM [NewClassesAdmin].[dbo].[EosStudent]
@@ -47,5 +98,38 @@
       )
     </foreach>
   </insert>
+
+  <select id="getEosStudentStatistics"  resultType="com.onlyedu.ordermigratedbtool.model.dto.UserInfoStatisticsDto">
+
+
+    declare @totalCount int  ;
+    declare @relativeStateCount int  ;
+    declare @unRelativeStateCount int  ;
+    set @totalCount= (
+						select  count(ID) totalCount
+						       from [NewClassesAdmin].[dbo].[EosStudent]
+						 where [IsDelete]=0
+                     )
+    set @relativeStateCount= (
+							   select  count(ID) totalCount
+							           from [NewClassesAdmin].[dbo].[EosStudent]
+							   where [IsDelete]=0
+							         and isnull(RelativeState,0)=1
+							  )
+    set @unRelativeStateCount= (
+								 select  count( Id) totalCount
+								         from [NewClassesAdmin].[dbo].[EosStudent]
+								 where [IsDelete]=0
+								       and isnull(RelativeState,0)=0
+                               )
+
+    select @totalCount totalCount,@relativeStateCount relativeStateCount,@unRelativeStateCount unRelativeStateCount;
+  </select>
+
+  <select id="getGrade" resultType="java.lang.String">
+    select distinct isnull( [Grade],'') Grade from [NewClassesAdmin].[dbo].[EosStudent]
+  </select>
+
+
 
 </mapper>

@@ -1,9 +1,12 @@
 package com.onlyedu.ordermigratedbtool.service;
 
+import com.onlyedu.ordermigratedbtool.dao.EosStudentMapper;
 import com.onlyedu.ordermigratedbtool.dao.UserInfoMapper;
 import com.onlyedu.ordermigratedbtool.model.dto.RelativeStateDto;
+import com.onlyedu.ordermigratedbtool.model.dto.RelativeUserInfoEosStudentDto;
 import com.onlyedu.ordermigratedbtool.model.dto.UserInfoDto;
 import com.onlyedu.ordermigratedbtool.model.dto.UserInfoStatisticsDto;
+import com.onlyedu.ordermigratedbtool.model.entity.EosStudent;
 import com.onlyedu.ordermigratedbtool.model.entity.UserInfo;
 import com.onlyedu.ordermigratedbtool.model.pojo.MessageResult;
 import com.onlyedu.ordermigratedbtool.model.pojo.PageData;
@@ -13,6 +16,8 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -24,7 +29,8 @@ public class UserInfoService {
     private final static Logger logger = LogManager.getLogger(UserInfoService.class);
     @Autowired
     private UserInfoMapper userInfoMapper;
-
+    @Autowired
+    private EosStudentMapper eosStudentMapper;
     //region 获取有订单的学生列表
 
     /**
@@ -62,15 +68,40 @@ public class UserInfoService {
     //endregion
 
     //region 更新关联装填
-    public MessageResult<Integer> updateRelative(UserInfo userInfo) {
-        MessageResult<Integer> messageResult = new MessageResult<>();
+    @Transactional(rollbackFor = Exception.class)
+    public MessageResult<Void> updateRelative(RelativeUserInfoEosStudentDto relativeUserInfoEosStudentDto) throws Exception {
+        MessageResult<Void> messageResult = new MessageResult<>();
         try {
-            Integer result = userInfoMapper.updateRelative(userInfo);
+            for (UserInfo p : relativeUserInfoEosStudentDto.getUserInfoList()) {
+                Integer result = userInfoMapper.updateRelative(p);
+                if (result <= 0) {
+                    TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                    messageResult.setMessage("关联失败");
+                    messageResult.setCode(500);
+                    return messageResult;
+                }
+            }
+            ;
+            for (EosStudent p : relativeUserInfoEosStudentDto.getEosStudentList()) {
+                Integer result = eosStudentMapper.updateRelative(p);
+                if (result <= 0) {
+                    TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                    messageResult.setMessage("关联失败");
+                    messageResult.setCode(500);
+                    return messageResult;
+                }
+            }
+            ;
             messageResult.setCode(0);
         } catch (Exception e) {
+
             logger.error(e.toString());
             messageResult.setCode(500);
             messageResult.setMessage(e.getMessage());
+            // 手动回滚
+            //  TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            //如果不抛出异常，将不能自动回滚
+            throw e;
         }
         return messageResult;
     }
