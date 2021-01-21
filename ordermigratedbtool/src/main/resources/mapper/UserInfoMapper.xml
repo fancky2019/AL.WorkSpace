@@ -57,6 +57,7 @@
         and ui.StudentId=oh.StudentId
         )
     </sql>
+
     <select id="getUserWithOrder" parameterType="com.onlyedu.ordermigratedbtool.model.dto.UserInfoDto" resultType="com.onlyedu.ordermigratedbtool.model.dto.UserInfoDto">
         select * from (
         select ROW_NUMBER() over(order by (select 0) ) as RowNum,*

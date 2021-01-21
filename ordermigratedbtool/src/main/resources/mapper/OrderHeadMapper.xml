@@ -4,32 +4,12 @@
   <update id="updateRelative" parameterType="com.onlyedu.ordermigratedbtool.model.entity.OrderHead">
     update OrderHead
     set
-      EosOrderID = #{eosOrderID,jdbcType=LONGVARCHAR},
-      EosRemainBalance = #{eosRemainBalance,jdbcType=DECIMAL},
       RelativeState = #{relativeState,jdbcType=BIT}
     where Id = #{id,jdbcType=INTEGER}
   </update>
 
-  <select id="getOrderByStudentGuid" parameterType="java.lang.String" resultType="com.onlyedu.ordermigratedbtool.model.dto.StudentOrderDto">
-    select oh.Id, oh.OrderNo ,
-    case p.ProductType when 'N' then 'N_'+ N.[CourseWareTitle]
-    when 'X' then 'X_'+ X.OC_Name
-    when 'L' then 'L_'+ L.[Name]
-    ELSE '其他课程'
-    end as CourseWareName,
-    p.ProductName , oc.[CourseStime] CourseStartTime ,oc.[OverTime] CourseEndTime ,
-    case   when oh.OrderType= 1 then '正式'
-    when oh.OrderType= 2 then '试听'
-    else '其他'
-    end OrderType,
-    case  om.[PayType]  when 1 then '定金'
-    when 0 then '全额'
-    ELSE '其他'
-    end PayType,
-    oh.[ShareUserId] , om.PayMoney ,oh.AddedTime,
-    case ISNULL( oh.[RelativeState] ,0) when 0 then '未关联'
-    when 1 then '已关联'
-    end RelativeStateStr,ISNULL( oh.[RelativeState] ,0) RelativeState
+
+  <sql id="basicTable">
     from NewClassesAdmin.dbo.OrderHead oh
     join NewClassesAdmin.dbo.UserInfo ui on oh.StudentId=ui.StudentId
     left join [NewClassesAdmin].[dbo].School sch on ui.SchoolId=sch.[Guid]
@@ -67,9 +47,45 @@
     and oh.IsDelete=0 and oh.OrderType between 1 and 2 and oh.OrderStateId=6
     and p.IsDelete=0 and p.Isopen=1
     and pd.isDelete=0 and  pd.FKID=pd.ZID
-    <if test="studentGuid != null">
-      and ui.StudentId=  #{studentGuid,jdbcType=VARCHAR}
-    </if>
+    and ui.StudentId=  #{studentId,jdbcType=VARCHAR}
+  </sql>
+
+  <select id="getOrderByStudentGuid" parameterType="com.onlyedu.ordermigratedbtool.model.dto.StudentOrderDto" resultType="com.onlyedu.ordermigratedbtool.model.dto.StudentOrderDto">
+    select * from (
+    select ROW_NUMBER() over(order by (select 0) ) as RowNum,*
+    from
+    (
+    select oh.Id, oh.OrderNo ,
+    case p.ProductType when 'N' then 'N_'+ N.[CourseWareTitle]
+    when 'X' then 'X_'+ X.OC_Name
+    when 'L' then 'L_'+ L.[Name]
+    ELSE '其他课程'
+    end as CourseWareName,
+    p.ProductName , oc.[CourseStime] CourseStartTime ,oc.[OverTime] CourseEndTime ,
+    case   when oh.OrderType= 1 then '正式'
+    when oh.OrderType= 2 then '试听'
+    else '其他'
+    end OrderType,
+    case  om.[PayType]  when 1 then '定金'
+    when 0 then '全额'
+    ELSE '其他'
+    end PayType,
+    oh.[ShareUserId] , om.PayMoney ,oh.AddedTime,
+    case ISNULL( oh.[RelativeState] ,0) when 0 then '未关联'
+    when 1 then '已关联'
+    end RelativeStateStr,ISNULL( oh.[RelativeState] ,0) RelativeState
+    <include refid="basicTable"></include>
+    ) t1
+    )t2
+    where t2.RowNum BETWEEN  (#{pageIndex,jdbcType=INTEGER}-1)*#{pageSize,jdbcType=INTEGER}+1 and #{pageIndex,jdbcType=INTEGER}*#{pageSize,jdbcType=INTEGER}
+
   </select>
+
+  <select id="getOrderByStudentGuidCount" parameterType="com.onlyedu.ordermigratedbtool.model.dto.StudentOrderDto" resultType="java.lang.Integer">
+    select count(oh.Id) [count]
+    <include refid="basicTable"></include>
+  </select>
+
+
 
 </mapper>
