@@ -17,5 +17,5 @@ public class UserInfoVO {
     private String regTime;
     private Boolean relativeState;
     private String relativeStateStr;
-    private String eosStudentID;
+    private Integer relativeStudentID;
 }

@@ -37,6 +37,6 @@ public class UserInfoDto extends Page {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime regEndTime;
     private Boolean relativeState;
-    private String eosStudentID;
+    private Integer relativeStudentID;
     private List<String> names;
 }

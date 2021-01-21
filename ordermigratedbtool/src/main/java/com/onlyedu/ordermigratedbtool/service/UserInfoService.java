@@ -1,6 +1,7 @@
 package com.onlyedu.ordermigratedbtool.service;
 
 import com.onlyedu.ordermigratedbtool.dao.EosStudentMapper;
+import com.onlyedu.ordermigratedbtool.dao.RelativeStudentMapper;
 import com.onlyedu.ordermigratedbtool.dao.UserInfoMapper;
 import com.onlyedu.ordermigratedbtool.model.dto.*;
 import com.onlyedu.ordermigratedbtool.model.entity.EosStudent;
@@ -26,10 +27,15 @@ import java.util.stream.Collectors;
 public class UserInfoService {
 
     private final static Logger logger = LogManager.getLogger(UserInfoService.class);
+
     @Autowired
     private UserInfoMapper userInfoMapper;
+
     @Autowired
     private EosStudentMapper eosStudentMapper;
+
+    @Autowired
+    private  RelativeStudentMapper relativeStudentMapper;
     //region 获取有订单的学生列表
 
     /**
@@ -75,7 +81,7 @@ public class UserInfoService {
             for (Integer id : relativeUserInfoEosStudentDto.getUserInfoIds()) {
                 UserInfo userInfo = new UserInfo();
                 userInfo.setId(id);
-                userInfo.setEosStudentID(relativeUserInfoEosStudentDto.getEosStudentId().toString());
+                userInfo.setRelativeStudentID(relativeUserInfoEosStudentDto.getEosStudentId());
                 userInfo.setRelativeState(true);
                 Integer result = userInfoMapper.updateRelative(userInfo);
                 if (result <= 0) {
