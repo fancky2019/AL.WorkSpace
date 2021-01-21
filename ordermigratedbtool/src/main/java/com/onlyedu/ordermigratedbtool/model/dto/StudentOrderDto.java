@@ -9,8 +9,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDateTime;
 
 @Data
-public class StudentOrderDto {
-    private  Integer id;
+@EqualsAndHashCode(callSuper = true)
+public class StudentOrderDto extends Page {
+    private Integer id;
+    private String studentId;
     private String orderNo;
     private String courseWareName;
     private String productName;

@@ -9,7 +9,10 @@ import java.util.List;
 
 @Mapper
 public interface OrderHeadMapper {
-    List<StudentOrderDto> getOrderByStudentGuid(String studentGuid);
+
+    Integer getOrderByStudentGuidCount(StudentOrderDto studentOrderDto);
+
+    List<StudentOrderDto> getOrderByStudentGuid(StudentOrderDto studentOrderDto);
 
     Integer updateRelative(OrderHead record);
 }
