@@ -46,8 +46,10 @@
     <sql id="basicTable">
         from [NewClassesAdmin].[dbo].UserInfo ui
         left join School s on s.Guid=ui.SchoolId
+        left join NewClassesAdmin.dbo.RelativeStudent rs on ui.Id= rs.UserInfoId
+        left join NewClassesAdmin.dbo.EosStudent es on rs.EosStudentId=es.ID
         where 1=1
-        and ui.IsDelete=0 and ISNULL(ui.Status,0)=1 and ISNULL(ui.UserType,0)=1 and ISNULL(ui.UserId,'')  <![CDATA[ <> ]]>''
+        and ui.IsDelete=0 and ISNULL(ui.Status,0)=1 and ISNULL(ui.UserType,0)=1 and ISNULL(ui.UserId,'') <![CDATA[ <> ]]>''
         and EXISTS (
         select StudentId from [NewClassesAdmin].[dbo].OrderHead oh
         where 1=1
@@ -61,7 +63,7 @@
         from
         (
         select   ui.Id,  ui.UserId,ui.StudentId, left(ui.StudentId ,8)  studentNo,ui.UserName ,ui.Grade ,ui.MobilePhone,ui.Tel,s.School,ui.RegTime,
-        isnull(ui.[RelativeState],0) RelativeState,ui.[RelativeStudentID]
+        isnull(ui.[RelativeState],0) RelativeState,es.EosStudentID
         <include refid="basicTable"></include>
         <include refid="dynamicWhere"></include>
         ) t1

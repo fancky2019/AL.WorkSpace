@@ -81,7 +81,7 @@ public class UserInfoService {
             for (Integer id : relativeUserInfoEosStudentDto.getUserInfoIds()) {
                 UserInfo userInfo = new UserInfo();
                 userInfo.setId(id);
-                userInfo.setRelativeStudentID(relativeUserInfoEosStudentDto.getEosStudentId());
+
                 userInfo.setRelativeState(true);
                 Integer result = userInfoMapper.updateRelative(userInfo);
                 if (result <= 0) {
