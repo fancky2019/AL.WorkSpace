@@ -14,7 +14,9 @@ public class EosStudentVO {
 
     private String phone;
 
-    private String relativeState;
+    private String relativeStateStr;
+
+    private Boolean relativeState;
 
     private String userInfoID;
 }

@@ -6,6 +6,14 @@
         WHERE Id=#{id,jdbcType=INTEGER}
     </update>
 
+    <update id="updateUnRelativeBatch" parameterType="java.util.List">
+        UPDATE [NewClassesAdmin].[dbo].[UserInfo] SET  [EosStudentID] = #{eosStudentID,jdbcType=NVARCHAR} ,[RelativeState] = #{relativeState,jdbcType=BIT}
+        where Id in
+        <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+            #{item.id}
+        </foreach>
+    </update>
+
     <sql id="dynamicWhere">
         <if test="userName != null and userName !='' ">
             and ui.UserName LIKE '%'+#{userName,jdbcType=NVARCHAR}+'%'
@@ -53,7 +61,7 @@
         from
         (
         select   ui.Id,  ui.UserId,ui.StudentId, left(ui.StudentId ,8)  studentNo,ui.UserName ,ui.Grade ,ui.MobilePhone,ui.Tel,s.School,ui.RegTime,
-        ui.[RelativeState],ui.[EosStudentID]
+        isnull(ui.[RelativeState],0) RelativeState,ui.[EosStudentID]
         <include refid="basicTable"></include>
         <include refid="dynamicWhere"></include>
         ) t1
@@ -111,4 +119,22 @@
         end RelativeState
         <include refid="basicTable"></include>
     </select>
+
+    <select id="getRelativeEosStudentByUserInfoId" parameterType="java.lang.Integer" resultType="com.onlyedu.ordermigratedbtool.model.entity.EosStudent">
+        select  *  from NewClassesAdmin.dbo.EosStudent
+        where  IsDelete=0
+          and ID in(
+            select  EosStudentID  from NewClassesAdmin.dbo.UserInfo where  Id=#{id,jdbcType=INTEGER}
+        )
+    </select>
+
+<!--    <select id="getUserInfoById" parameterType="java.lang.Integer"-->
+<!--            resultType="com.onlyedu.ordermigratedbtool.model.entity.UserInfo">-->
+<!--        select *-->
+<!--        from [NewClassesAdmin].[dbo].[UserInfo]-->
+<!--        where Id=#{id,jdbcType=INTEGER}-->
+<!--    </select>-->
+
+
+
 </mapper>

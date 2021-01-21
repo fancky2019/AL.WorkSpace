@@ -10,6 +10,6 @@ public class RelativeUserInfoEosStudentDto {
     /**
      * UserInfo 多对EosStudent一
      */
-    private List<UserInfo>   userInfoList;
-    private EosStudent eosStudent;
+    private List<Integer>   userInfoIds;
+    private Integer eosStudentId;
 }
