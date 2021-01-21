@@ -1,5 +1,6 @@
 package com.onlyedu.ordermigratedbtool.controller;
 
+import com.onlyedu.ordermigratedbtool.model.dto.StudentOrderDto;
 import com.onlyedu.ordermigratedbtool.model.entity.OrderHead;
 import com.onlyedu.ordermigratedbtool.model.pojo.MessageResult;
 import com.onlyedu.ordermigratedbtool.model.vo.StudentOrderVO;
@@ -22,8 +23,8 @@ public class OrderController {
     private OrderHeadService orderHeadService;
 
     @GetMapping("/getOrderByStudentGuid")
-    public MessageResult<List<StudentOrderVO>> getOrderByStudentGuid(String studentGuid) {
-        MessageResult<List<StudentOrderVO>> message = orderHeadService.getOrderByStudentGuid(studentGuid);
+    public MessageResult<List<StudentOrderDto>> getOrderByStudentGuid(String studentGuid) {
+        MessageResult<List<StudentOrderDto>> message = orderHeadService.getOrderByStudentGuid(studentGuid);
         return message;
     }
 

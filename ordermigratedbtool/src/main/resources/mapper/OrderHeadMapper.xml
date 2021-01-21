@@ -11,14 +11,13 @@
   </update>
 
   <select id="getOrderByStudentGuid" parameterType="java.lang.String" resultType="com.onlyedu.ordermigratedbtool.model.dto.StudentOrderDto">
-    select ui.UserId ,ui.studentno studentNo , ui.UserName ,ui.Grade,
-    ui.MobilePhone ,ui.Tel ,sch.[School] , oh.OrderNo ,
+    select oh.Id, oh.OrderNo ,
     case p.ProductType when 'N' then 'N_'+ N.[CourseWareTitle]
     when 'X' then 'X_'+ X.OC_Name
     when 'L' then 'L_'+ L.[Name]
     ELSE '其他课程'
     end as CourseWareName,
-    p.ProductName ,oh.AddedTime , oc.[CourseStime] CourseStartTime ,oc.[OverTime] CourseEndTime ,
+    p.ProductName , oc.[CourseStime] CourseStartTime ,oc.[OverTime] CourseEndTime ,
     case   when oh.OrderType= 1 then '正式'
     when oh.OrderType= 2 then '试听'
     else '其他'
@@ -27,7 +26,10 @@
     when 0 then '全额'
     ELSE '其他'
     end PayType,
-    oh.[ShareUserId] , om.PayMoney,oh.[RelativeState],oh.[EosOrderID],oh.[EosRemainBalance]
+    oh.[ShareUserId] , om.PayMoney ,oh.AddedTime,
+    case ISNULL( oh.[RelativeState] ,0) when 0 then '未关联'
+    when 1 then '已关联'
+    end RelativeStateStr,ISNULL( oh.[RelativeState] ,0) RelativeState
     from NewClassesAdmin.dbo.OrderHead oh
     join NewClassesAdmin.dbo.UserInfo ui on oh.StudentId=ui.StudentId
     left join [NewClassesAdmin].[dbo].School sch on ui.SchoolId=sch.[Guid]
