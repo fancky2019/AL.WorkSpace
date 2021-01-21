@@ -85,6 +85,13 @@ public class EosStudentService {
         try {
             Integer count = eosStudentMapper.getEosStudentCount(eosStudentDto);
             List<EosStudentDto> eosStudentDtoList = eosStudentMapper.getEosStudentPage(eosStudentDto);
+            eosStudentDtoList.forEach(p ->
+            {
+                String userInfoId = p.getUserInfoId();
+                if (userInfoId != null) {
+                    p.setUserInfoId(userInfoId.substring(0, userInfoId.length() - 1));
+                }
+            });
             PageData<EosStudentVO> pageData = new PageData<>();
             pageData.setCount(count);
             message.setCode(0);

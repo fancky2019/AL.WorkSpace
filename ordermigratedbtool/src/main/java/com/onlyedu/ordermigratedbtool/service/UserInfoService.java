@@ -5,6 +5,7 @@ import com.onlyedu.ordermigratedbtool.dao.RelativeStudentMapper;
 import com.onlyedu.ordermigratedbtool.dao.UserInfoMapper;
 import com.onlyedu.ordermigratedbtool.model.dto.*;
 import com.onlyedu.ordermigratedbtool.model.entity.EosStudent;
+import com.onlyedu.ordermigratedbtool.model.entity.RelativeStudent;
 import com.onlyedu.ordermigratedbtool.model.entity.UserInfo;
 import com.onlyedu.ordermigratedbtool.model.pojo.MessageResult;
 import com.onlyedu.ordermigratedbtool.model.pojo.PageData;
@@ -35,7 +36,7 @@ public class UserInfoService {
     private EosStudentMapper eosStudentMapper;
 
     @Autowired
-    private  RelativeStudentMapper relativeStudentMapper;
+    private RelativeStudentMapper relativeStudentMapper;
     //region 获取有订单的学生列表
 
     /**
@@ -79,9 +80,21 @@ public class UserInfoService {
         try {
             String userInfoIds = "";
             for (Integer id : relativeUserInfoEosStudentDto.getUserInfoIds()) {
+
+                //插入RelativeStudent关联记录
+                RelativeStudent relativeStudent = new RelativeStudent();
+                relativeStudent.setUserInfoId(id);
+                relativeStudent.setEosStudentId(relativeUserInfoEosStudentDto.getEosStudentId());
+                Integer ress = relativeStudentMapper.insert(relativeStudent);
+                if (ress <= 0) {
+                    TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                    messageResult.setMessage("关联失败");
+                    messageResult.setCode(500);
+                    return messageResult;
+                }
+                //更新UserInfo关联状态
                 UserInfo userInfo = new UserInfo();
                 userInfo.setId(id);
-                userInfo.setRelativeStudentID(relativeUserInfoEosStudentDto.getEosStudentId());
                 userInfo.setRelativeState(true);
                 Integer result = userInfoMapper.updateRelative(userInfo);
                 if (result <= 0) {
@@ -90,19 +103,12 @@ public class UserInfoService {
                     messageResult.setCode(500);
                     return messageResult;
                 }
-                userInfoIds += id + ",";
+
             }
-            userInfoIds = userInfoIds.substring(0, userInfoIds.length() - 1);
+            //更新EosStudent关联状态
             EosStudent eosStudent = new EosStudent();
             eosStudent.setId(relativeUserInfoEosStudentDto.getEosStudentId());
             eosStudent.setRelativeState(true);
-//            eosStudent.setRelativeStudentID(userInfoIds);
-            //查询原有的Db信息
-            EosStudent eosStudentDb = eosStudentMapper.getEosStudentById(relativeUserInfoEosStudentDto.getEosStudentId());
-
-            //将新关联的信息追加到原关联
-//            String newUserInfoIds = eosStudentDb.getRelativeStudentID() == null ? userInfoIds : eosStudentDb.getRelativeStudentID() + "," + userInfoIds;
-//            eosStudent.setRelativeStudentID(newUserInfoIds);
             Integer result = eosStudentMapper.updateRelative(eosStudent);
             if (result <= 0) {
                 TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
@@ -136,7 +142,7 @@ public class UserInfoService {
                 EosStudent eosStudent = userInfoMapper.getRelativeEosStudentByUserInfoId(userInfoStudentUnRelativeDto.getId());
                 if (eosStudent != null) {
 
-                    String[] userInfoIds =null;// eosStudent.getRelativeStudentID().split(",");
+                    String[] userInfoIds = null;// eosStudent.getRelativeStudentID().split(",");
                     List<Integer> listIds = Arrays.stream(userInfoIds).map(p -> Integer.valueOf(p)).collect(Collectors.toList());
                     listIds.remove(userInfoStudentUnRelativeDto.getId());
                     List<String> newStringIds = listIds.stream().map(p -> p.toString()).collect(Collectors.toList());
@@ -144,8 +150,8 @@ public class UserInfoService {
                     String newUserInfoIds = String.join(",", newStringIds);
 
                     if (newUserInfoIds != null && !newUserInfoIds.equals("")) {
-                       // eosStudent.setRelativeStudentID(newUserInfoIds);
-                    }else {
+                        // eosStudent.setRelativeStudentID(newUserInfoIds);
+                    } else {
                         eosStudent.setRelativeStudentID(null);
                         eosStudent.setRelativeState(null);
                     }

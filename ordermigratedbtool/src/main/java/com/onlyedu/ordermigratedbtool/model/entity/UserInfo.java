@@ -125,75 +125,6 @@ public class UserInfo {
 
     private Boolean relativeState;
 
-    private Integer relativeStudentID;
-
-    public UserInfo(String studentId, Integer id, String studentno, String userId, String passWord, String pwd, String userName, String sex, String birthday, String avatar, String provinceId, String districtId, String schoolId, String grade, String educationLevel, String tel, String mobilePhone, String address, String postCode, String email, String mSN, String qQ, LocalDateTime lastLoginTime, String lastLoginIp, LocalDateTime regTime, String regIP, Integer status, String userType, String userSourceId, Boolean errorAddress, String otherCourse, String isJoinRecruitment, String nowAdmin, LocalDateTime addAdminTime, Integer isOnLine, Integer lockType, String regSourceID, String regSourceIn, String regSourcePage, Boolean isListForCF, String otherTel, Integer isRanking, Boolean isClear, Integer bMlevel, String userClassGuid, String remark, String addBy, LocalDateTime addedTime, Boolean isDelete, String deleteBy, LocalDateTime deleteTime, Boolean isModify, String modifyBy, LocalDateTime modifyTime, Boolean isExamine, Integer studentType, LocalDateTime studentTypeTime, Integer validType, Integer smallvalidType, String boxId, Boolean relativeState) {
-        this.studentId = studentId;
-        this.id = id;
-        this.studentno = studentno;
-        this.userId = userId;
-        this.passWord = passWord;
-        this.pwd = pwd;
-        this.userName = userName;
-        this.sex = sex;
-        this.birthday = birthday;
-        this.avatar = avatar;
-        this.provinceId = provinceId;
-        this.districtId = districtId;
-        this.schoolId = schoolId;
-        this.grade = grade;
-        this.educationLevel = educationLevel;
-        this.tel = tel;
-        this.mobilePhone = mobilePhone;
-        this.address = address;
-        this.postCode = postCode;
-        this.email = email;
-        this.mSN = mSN;
-        this.qQ = qQ;
-        this.lastLoginTime = lastLoginTime;
-        this.lastLoginIp = lastLoginIp;
-        this.regTime = regTime;
-        this.regIP = regIP;
-        this.status = status;
-        this.userType = userType;
-        this.userSourceId = userSourceId;
-        this.errorAddress = errorAddress;
-        this.otherCourse = otherCourse;
-        this.isJoinRecruitment = isJoinRecruitment;
-        this.nowAdmin = nowAdmin;
-        this.addAdminTime = addAdminTime;
-        this.isOnLine = isOnLine;
-        this.lockType = lockType;
-        this.regSourceID = regSourceID;
-        this.regSourceIn = regSourceIn;
-        this.regSourcePage = regSourcePage;
-        this.isListForCF = isListForCF;
-        this.otherTel = otherTel;
-        this.isRanking = isRanking;
-        this.isClear = isClear;
-        this.bMlevel = bMlevel;
-        this.userClassGuid = userClassGuid;
-        this.remark = remark;
-        this.addBy = addBy;
-        this.addedTime = addedTime;
-        this.isDelete = isDelete;
-        this.deleteBy = deleteBy;
-        this.deleteTime = deleteTime;
-        this.isModify = isModify;
-        this.modifyBy = modifyBy;
-        this.modifyTime = modifyTime;
-        this.isExamine = isExamine;
-        this.studentType = studentType;
-        this.studentTypeTime = studentTypeTime;
-        this.validType = validType;
-        this.smallvalidType = smallvalidType;
-        this.boxId = boxId;
-        this.relativeState = relativeState;
-    }
-
-    public UserInfo() {
-        super();
-    }
 
     public String getStudentId() {
         return studentId;
@@ -683,11 +614,4 @@ public class UserInfo {
         this.relativeState = relativeState;
     }
 
-    public Integer getRelativeStudentID() {
-        return relativeStudentID;
-    }
-
-    public void setRelativeStudentID(Integer relativeStudentID) {
-        this.relativeStudentID = relativeStudentID;
-    }
 }
