@@ -29,23 +29,23 @@ public class OrderHeadService {
      * @param studentGuid
      * @return
      */
-    public MessageResult<List<StudentOrderVO>> getOrderByStudentGuid(String studentGuid) {
-        MessageResult<List<StudentOrderVO>> message = new MessageResult<>();
+    public MessageResult<List<StudentOrderDto>> getOrderByStudentGuid(String studentGuid) {
+        MessageResult<List<StudentOrderDto>> message = new MessageResult<>();
         try {
             List<StudentOrderDto> studentOrderDtoList = orderHeadMapper.getOrderByStudentGuid(studentGuid);
-            List<StudentOrderVO> studentOrderVOList = new ArrayList<>();
-            studentOrderDtoList.forEach(p ->
-            {
-                StudentOrderVO studentOrderVO = new StudentOrderVO();
-                BeanUtils.copyProperties(p, studentOrderVO);
-                studentOrderVO.setAddedTime(p.getAddedTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")));
-                studentOrderVO.setCourseStartTime(p.getCourseStartTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")));
-                studentOrderVO.setCourseEndTime(p.getCourseEndTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")));
-                studentOrderVO.setRelativeState(p.getRelativeState() != null ? p.getRelativeState() ? "已关联" : "未关联" : "未关联");
-                studentOrderVOList.add(studentOrderVO);
-            });
+//            List<StudentOrderVO> studentOrderVOList = new ArrayList<>();
+//            studentOrderDtoList.forEach(p ->
+//            {
+//                StudentOrderVO studentOrderVO = new StudentOrderVO();
+//                BeanUtils.copyProperties(p, studentOrderVO);
+//                studentOrderVO.setAddedTime(p.getAddedTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")));
+//                studentOrderVO.setCourseStartTime(p.getCourseStartTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")));
+//                studentOrderVO.setCourseEndTime(p.getCourseEndTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")));
+//                studentOrderVO.setRelativeState(p.getRelativeState() != null ? p.getRelativeState() ? "已关联" : "未关联" : "未关联");
+//                studentOrderVOList.add(studentOrderVO);
+//            });
             message.setCode(0);
-            message.setData(studentOrderVOList);
+            message.setData(studentOrderDtoList);
         } catch (Exception ex) {
             message.setCode(500);
             message.setMessage(ex.getMessage());
