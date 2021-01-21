@@ -7,6 +7,9 @@ import lombok.Data;
 import java.util.List;
 @Data
 public class RelativeUserInfoEosStudentDto {
+    /**
+     * UserInfo 多对EosStudent一
+     */
     private List<UserInfo>   userInfoList;
-    private List<EosStudent> eosStudentList;
+    private EosStudent eosStudent;
 }

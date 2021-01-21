@@ -38,8 +38,24 @@ public class UserInfoController {
     }
 
     @PostMapping("/updateRelative")
-    public MessageResult<Void> updateRelative(@RequestBody RelativeUserInfoEosStudentDto relativeUserInfoEosStudentDto)  {
-        MessageResult<Void> messageResult =  new MessageResult<>();;
+    public MessageResult<Void> updateRelative(@RequestBody RelativeUserInfoEosStudentDto relativeUserInfoEosStudentDto) {
+        MessageResult<Void> messageResult = new MessageResult<>();
+        ;
+        try {
+            messageResult = userInfoService.updateRelative(relativeUserInfoEosStudentDto);
+            messageResult.setCode(0);
+        } catch (Exception e) {
+            messageResult.setCode(500);
+            messageResult.setMessage(e.getMessage());
+            logger.error(e.toString());
+        }
+        return messageResult;
+    }
+
+    @PostMapping("/unRelative")
+    public MessageResult<Void> unRelative(@RequestBody RelativeUserInfoEosStudentDto relativeUserInfoEosStudentDto) {
+        MessageResult<Void> messageResult = new MessageResult<>();
+        ;
         try {
             messageResult = userInfoService.updateRelative(relativeUserInfoEosStudentDto);
             messageResult.setCode(0);
@@ -100,5 +116,12 @@ public class UserInfoController {
         }
         return jsonStr;
     }
+
+    @GetMapping("/getUserInfoByGuid")
+    public MessageResult<UserInfoVO> getUserInfoByGuid(UserInfoDto userInfoDto) {
+        MessageResult<UserInfoVO> message = userInfoService.getUserInfoByGuid(userInfoDto);
+        return message;
+    }
+
 
 }
