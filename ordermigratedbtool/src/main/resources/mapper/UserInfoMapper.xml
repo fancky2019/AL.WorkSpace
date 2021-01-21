@@ -7,10 +7,10 @@
     </update>
 
     <update id="updateUnRelativeBatch" parameterType="java.util.List">
-        UPDATE [NewClassesAdmin].[dbo].[UserInfo] SET [RelativeState] = #{relativeState,jdbcType=BIT}
+        UPDATE [NewClassesAdmin].[dbo].[UserInfo] SET [RelativeState] = 0
         where Id in
         <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
-            #{item.id}
+            #{item}
         </foreach>
     </update>
 
@@ -130,12 +130,6 @@
         )
     </select>
 
-<!--    <select id="getUserInfoById" parameterType="java.lang.Integer"-->
-<!--            resultType="com.onlyedu.ordermigratedbtool.model.entity.UserInfo">-->
-<!--        select *-->
-<!--        from [NewClassesAdmin].[dbo].[UserInfo]-->
-<!--        where Id=#{id,jdbcType=INTEGER}-->
-<!--    </select>-->
 
 
 

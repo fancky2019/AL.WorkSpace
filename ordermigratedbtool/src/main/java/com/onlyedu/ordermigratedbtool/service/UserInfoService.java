@@ -138,64 +138,51 @@ public class UserInfoService {
         try {
             //UserInfo 解除关联
             if (userInfoStudentUnRelativeDto.getUnRelativeType() == 0) {
-                //先更新EosStudent后更新UserInfo
-                EosStudent eosStudent = userInfoMapper.getRelativeEosStudentByUserInfoId(userInfoStudentUnRelativeDto.getId());
-                if (eosStudent != null) {
 
-                    String[] userInfoIds = null;// eosStudent.getRelativeStudentID().split(",");
-                    List<Integer> listIds = Arrays.stream(userInfoIds).map(p -> Integer.valueOf(p)).collect(Collectors.toList());
-                    listIds.remove(userInfoStudentUnRelativeDto.getId());
-                    List<String> newStringIds = listIds.stream().map(p -> p.toString()).collect(Collectors.toList());
-
-                    String newUserInfoIds = String.join(",", newStringIds);
-
-                    if (newUserInfoIds != null && !newUserInfoIds.equals("")) {
-                        // eosStudent.setRelativeStudentID(newUserInfoIds);
-                    } else {
-                        eosStudent.setRelativeStudentID(null);
-                        eosStudent.setRelativeState(null);
-                    }
-                    Integer res = eosStudentMapper.updateRelative(eosStudent);
-                    if (res <= 0) {
-                        TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-                        messageResult.setMessage("解除关联失败");
-                        messageResult.setCode(500);
-                        return messageResult;
-                    }
-                } else {
-                    TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-                    messageResult.setMessage("解除关联失败");
-                    messageResult.setCode(500);
-                    return messageResult;
-                }
                 //更新UserInfo
                 UserInfo userInfo = new UserInfo();
                 userInfo.setId(userInfoStudentUnRelativeDto.getId());
                 Integer result = userInfoMapper.updateRelative(userInfo);
                 if (result <= 0) {
-                    TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-                    messageResult.setMessage("解除关联失败");
-                    messageResult.setCode(500);
-                    return messageResult;
+                    return setRollBackReturn(messageResult);
+                }
+                //获取EosStudent关联UserInfo的个数
+                List<RelativeStudent> relativeStudentList = relativeStudentMapper.getEosStudentRelative(userInfoStudentUnRelativeDto.getId());
+                //删除RelativeStudent关联记录
+                Integer delCount = relativeStudentMapper.deleteByUserInfoId(userInfoStudentUnRelativeDto.getId());
+                if (delCount <= 0) {
+                    return setRollBackReturn(messageResult);
+                }
+                if (relativeStudentList.size() == 1) {
+                    //EosStudent关联记录删除完了，更新EosStudent关联状态
+                    RelativeStudent relativeStudent = relativeStudentList.get(0);
+                    EosStudent eosStudent = new EosStudent();
+                    eosStudent.setId(relativeStudent.getEosStudentId());
+                    Integer res = eosStudentMapper.updateRelative(eosStudent);
+                    if (res <= 0) {
+                        return setRollBackReturn(messageResult);
+                    }
                 }
             } else {
                 //EosStudent解除关联
-                EosStudent eosStudent = eosStudentMapper.getEosStudentById(userInfoStudentUnRelativeDto.getId());
-                List<String> userinfoIds = null;//Arrays.asList(eosStudent.getRelativeStudentID().split(","));
-                List<Integer> ids = userinfoIds.stream().map(p -> Integer.valueOf(p)).collect(Collectors.toList());
-                Integer result = userInfoMapper.updateUnRelativeBatch(ids);
-                if (result <= 0) {
-                    TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-                    messageResult.setMessage("解除关联失败");
-                    messageResult.setCode(500);
-                    return messageResult;
-                }
+                EosStudent eosStudent = new EosStudent();
+                eosStudent.setId(userInfoStudentUnRelativeDto.getId());
                 Integer res = eosStudentMapper.updateRelative(eosStudent);
                 if (res <= 0) {
-                    TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-                    messageResult.setMessage("解除关联失败");
-                    messageResult.setCode(500);
-                    return messageResult;
+                    return setRollBackReturn(messageResult);
+                }
+                //获取EosStudent关联的UserInfo
+                List<RelativeStudent> relativeStudentList = relativeStudentMapper.getEosStudentRelativeUserInfo(userInfoStudentUnRelativeDto.getId());
+                List<Integer> userInfoIds = relativeStudentList.stream().map(p -> p.getUserInfoId()).collect(Collectors.toList());
+                //更新UserInfo未关联
+                Integer re = userInfoMapper.updateUnRelativeBatch(userInfoIds);
+                if (re <= 0) {
+                    return setRollBackReturn(messageResult);
+                }
+                //删除RelativeStudent关联记录
+                Integer delCount = relativeStudentMapper.deleteByEosStudentId(userInfoStudentUnRelativeDto.getId());
+                if (delCount <= 0) {
+                    return setRollBackReturn(messageResult);
                 }
             }
             messageResult.setCode(0);
@@ -207,8 +194,15 @@ public class UserInfoService {
             // 手动回滚
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             //如果不抛出异常，将不能自动回滚
-//            throw e;
+            // throw e;
         }
+        return messageResult;
+    }
+
+    private MessageResult<Void> setRollBackReturn(MessageResult<Void> messageResult) {
+        TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+        messageResult.setMessage("解除关联失败");
+        messageResult.setCode(500);
         return messageResult;
     }
     //endregion
