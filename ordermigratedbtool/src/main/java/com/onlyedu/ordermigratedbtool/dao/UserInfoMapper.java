@@ -31,6 +31,4 @@ public interface UserInfoMapper {
 
     EosStudent getRelativeEosStudentByUserInfoId(Integer id);
 
-//    UserInfo getUserInfoById(Integer id);
-
 }

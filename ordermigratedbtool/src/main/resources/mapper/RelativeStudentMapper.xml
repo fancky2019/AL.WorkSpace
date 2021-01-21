@@ -6,8 +6,27 @@
     delete from RelativeStudent
     where Id = #{id,jdbcType=INTEGER}
   </delete>
+  <delete id="deleteByUserInfoId" parameterType="java.lang.Integer">
+    delete from RelativeStudent
+    where UserInfoId = #{userInfoId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByEosStudentId" parameterType="java.lang.Integer">
+    delete from RelativeStudent
+    where EosStudentId = #{eosStudentId,jdbcType=INTEGER}
+  </delete>
   <insert id="insert" parameterType="com.onlyedu.ordermigratedbtool.model.entity.RelativeStudent" useGeneratedKeys="true" keyProperty="id">
     insert into RelativeStudent (UserInfoId, EosStudentId)
     values ( #{userInfoId,jdbcType=INTEGER}, #{eosStudentId,jdbcType=INTEGER})
   </insert>
+  <select id="getEosStudentRelative" parameterType="java.lang.Integer" resultType="com.onlyedu.ordermigratedbtool.model.entity.RelativeStudent">
+    select *  from NewClassesAdmin.dbo.RelativeStudent where EosStudentId in(
+      select  EosStudentId  from NewClassesAdmin.dbo.RelativeStudent where UserInfoId=#{userInfoId,jdbcType=INTEGER}
+    )
+  </select>
+  <select id="getEosStudentRelativeUserInfo" parameterType="java.lang.Integer" resultType="com.onlyedu.ordermigratedbtool.model.entity.RelativeStudent">
+    select *  from NewClassesAdmin.dbo.RelativeStudent where EosStudentId in(
+      select  EosStudentId  from NewClassesAdmin.dbo.RelativeStudent where EosStudentId=#{eosStudentId,jdbcType=INTEGER}
+    )
+  </select>
+
  </mapper>
