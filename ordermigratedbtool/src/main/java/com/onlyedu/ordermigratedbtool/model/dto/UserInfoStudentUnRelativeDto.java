@@ -11,6 +11,5 @@ public class UserInfoStudentUnRelativeDto {
     /**
      * UserInfo或EosStudent的id
      */
-    private String id;
-    private String relativeId;
+    private Integer id;
 }

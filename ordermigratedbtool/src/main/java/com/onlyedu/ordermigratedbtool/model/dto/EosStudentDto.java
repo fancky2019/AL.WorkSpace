@@ -20,7 +20,9 @@ public class EosStudentDto extends Page {
 
     private String schoolName;
 
-    private String relativeState;
+    private String relativeStateStr;
+
+    private Boolean relativeState;
 
     private String userInfoID;
     //前端传给后端不能解析值

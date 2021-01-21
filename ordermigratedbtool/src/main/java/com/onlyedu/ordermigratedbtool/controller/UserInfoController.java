@@ -2,10 +2,7 @@ package com.onlyedu.ordermigratedbtool.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.onlyedu.ordermigratedbtool.model.dto.RelativeStateDto;
-import com.onlyedu.ordermigratedbtool.model.dto.RelativeUserInfoEosStudentDto;
-import com.onlyedu.ordermigratedbtool.model.dto.UserInfoDto;
-import com.onlyedu.ordermigratedbtool.model.dto.UserInfoStatisticsDto;
+import com.onlyedu.ordermigratedbtool.model.dto.*;
 import com.onlyedu.ordermigratedbtool.model.entity.UserInfo;
 import com.onlyedu.ordermigratedbtool.model.pojo.MessageResult;
 import com.onlyedu.ordermigratedbtool.model.pojo.PageData;
@@ -53,11 +50,11 @@ public class UserInfoController {
     }
 
     @PostMapping("/unRelative")
-    public MessageResult<Void> unRelative(@RequestBody RelativeUserInfoEosStudentDto relativeUserInfoEosStudentDto) {
+    public MessageResult<Void> unRelative(@RequestBody UserInfoStudentUnRelativeDto userInfoStudentUnRelativeDto) {
         MessageResult<Void> messageResult = new MessageResult<>();
-        ;
+
         try {
-            messageResult = userInfoService.updateRelative(relativeUserInfoEosStudentDto);
+            messageResult = userInfoService.unRelative(userInfoStudentUnRelativeDto);
             messageResult.setCode(0);
         } catch (Exception e) {
             messageResult.setCode(500);

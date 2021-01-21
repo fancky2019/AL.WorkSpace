@@ -4,6 +4,7 @@ import com.onlyedu.ordermigratedbtool.model.dto.RelativeStateDto;
 import com.onlyedu.ordermigratedbtool.model.dto.StudentOrderDto;
 import com.onlyedu.ordermigratedbtool.model.dto.UserInfoDto;
 import com.onlyedu.ordermigratedbtool.model.dto.UserInfoStatisticsDto;
+import com.onlyedu.ordermigratedbtool.model.entity.EosStudent;
 import com.onlyedu.ordermigratedbtool.model.entity.UserInfo;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -18,6 +19,8 @@ public interface UserInfoMapper {
 
     Integer updateRelative(UserInfo userInfo);
 
+    Integer updateUnRelativeBatch(List<Integer> ids);
+
     UserInfoStatisticsDto getUserInfoStatistics();
 
     List<Integer> getGrade();
@@ -25,4 +28,9 @@ public interface UserInfoMapper {
     List<RelativeStateDto> getRelativeState();
 
     UserInfoDto getUserInfoByGuid(UserInfoDto userInfoDto);
+
+    EosStudent getRelativeEosStudentByUserInfoId(Integer id);
+
+//    UserInfo getUserInfoById(Integer id);
+
 }
