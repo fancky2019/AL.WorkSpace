@@ -23,4 +23,6 @@ public interface UserInfoMapper {
     List<Integer> getGrade();
 
     List<RelativeStateDto> getRelativeState();
+
+    UserInfoDto getUserInfoByGuid(UserInfoDto userInfoDto);
 }

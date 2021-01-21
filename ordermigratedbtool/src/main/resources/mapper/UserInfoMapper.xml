@@ -61,6 +61,14 @@
         where t2.RowNum BETWEEN  (#{pageIndex,jdbcType=INTEGER}-1)*#{pageSize,jdbcType=INTEGER}+1 and #{pageIndex,jdbcType=INTEGER}*#{pageSize,jdbcType=INTEGER}
     </select>
 
+    <select id="getUserInfoByGuid" parameterType="com.onlyedu.ordermigratedbtool.model.dto.UserInfoDto" resultType="com.onlyedu.ordermigratedbtool.model.dto.UserInfoDto">
+        select   ui.Id,  ui.UserId,ui.StudentId, left(ui.StudentId ,8)  studentNo,ui.UserName ,ui.Grade ,ui.MobilePhone,ui.Tel,s.School,ui.RegTime,
+        ui.[RelativeState],ui.[EosStudentID]
+        from [NewClassesAdmin].[dbo].UserInfo ui
+            left join School s on s.Guid=ui.SchoolId
+        where  ui.StudentId=#{studentId,jdbcType=NVARCHAR}
+     </select>
+
     <select id="getUserWithOrderCount" parameterType="com.onlyedu.ordermigratedbtool.model.dto.UserInfoDto" resultType="java.lang.Integer">
         select count(ui.Id) [count]
         <include refid="basicTable"></include>

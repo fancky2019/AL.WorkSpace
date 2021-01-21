@@ -73,6 +73,7 @@ public class UserInfoService {
         MessageResult<Void> messageResult = new MessageResult<>();
         try {
             for (UserInfo p : relativeUserInfoEosStudentDto.getUserInfoList()) {
+                p.setRelativeState(true);
                 Integer result = userInfoMapper.updateRelative(p);
                 if (result <= 0) {
                     TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
@@ -82,16 +83,17 @@ public class UserInfoService {
                 }
             }
             ;
-            for (EosStudent p : relativeUserInfoEosStudentDto.getEosStudentList()) {
-                Integer result = eosStudentMapper.updateRelative(p);
-                if (result <= 0) {
-                    TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-                    messageResult.setMessage("关联失败");
-                    messageResult.setCode(500);
-                    return messageResult;
-                }
+            EosStudent eosStudent = relativeUserInfoEosStudentDto.getEosStudent();
+            eosStudent.setRelativeState(true);
+            Integer result = eosStudentMapper.updateRelative(eosStudent);
+            if (result <= 0) {
+                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                messageResult.setMessage("关联失败");
+                messageResult.setCode(500);
+                return messageResult;
             }
-            ;
+
+
             messageResult.setCode(0);
         } catch (Exception e) {
 
@@ -140,6 +142,24 @@ public class UserInfoService {
         try {
             List<RelativeStateDto> result = userInfoMapper.getRelativeState();
             messageResult.setData(result);
+            messageResult.setCode(0);
+        } catch (Exception e) {
+            logger.error(e.toString());
+            messageResult.setCode(500);
+            messageResult.setMessage(e.getMessage());
+        }
+        return messageResult;
+    }
+
+    public MessageResult<UserInfoVO> getUserInfoByGuid(UserInfoDto userInfoDto) {
+        MessageResult<UserInfoVO> messageResult = new MessageResult<>();
+        try {
+            UserInfoDto dto = userInfoMapper.getUserInfoByGuid(userInfoDto);
+            UserInfoVO userInfoVO = new UserInfoVO();
+            BeanUtils.copyProperties(dto, userInfoVO);
+            userInfoVO.setRegTime(dto.getRegTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")));
+            userInfoVO.setRelativeState(dto.getRelativeState() != null ? dto.getRelativeState() ? "已关联" : "未关联" : "未关联");
+            messageResult.setData(userInfoVO);
             messageResult.setCode(0);
         } catch (Exception e) {
             logger.error(e.toString());
