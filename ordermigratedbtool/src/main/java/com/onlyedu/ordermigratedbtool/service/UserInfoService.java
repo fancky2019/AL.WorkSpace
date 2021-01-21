@@ -1,6 +1,7 @@
 package com.onlyedu.ordermigratedbtool.service;
 
 import com.onlyedu.ordermigratedbtool.dao.EosStudentMapper;
+import com.onlyedu.ordermigratedbtool.dao.RelativeStudentMapper;
 import com.onlyedu.ordermigratedbtool.dao.UserInfoMapper;
 import com.onlyedu.ordermigratedbtool.model.dto.*;
 import com.onlyedu.ordermigratedbtool.model.entity.EosStudent;
@@ -26,10 +27,15 @@ import java.util.stream.Collectors;
 public class UserInfoService {
 
     private final static Logger logger = LogManager.getLogger(UserInfoService.class);
+
     @Autowired
     private UserInfoMapper userInfoMapper;
+
     @Autowired
     private EosStudentMapper eosStudentMapper;
+
+    @Autowired
+    private  RelativeStudentMapper relativeStudentMapper;
     //region 获取有订单的学生列表
 
     /**
@@ -75,7 +81,7 @@ public class UserInfoService {
             for (Integer id : relativeUserInfoEosStudentDto.getUserInfoIds()) {
                 UserInfo userInfo = new UserInfo();
                 userInfo.setId(id);
-                userInfo.setEosStudentID(relativeUserInfoEosStudentDto.getEosStudentId().toString());
+                userInfo.setRelativeStudentID(relativeUserInfoEosStudentDto.getEosStudentId());
                 userInfo.setRelativeState(true);
                 Integer result = userInfoMapper.updateRelative(userInfo);
                 if (result <= 0) {
@@ -90,13 +96,13 @@ public class UserInfoService {
             EosStudent eosStudent = new EosStudent();
             eosStudent.setId(relativeUserInfoEosStudentDto.getEosStudentId());
             eosStudent.setRelativeState(true);
-            eosStudent.setUserInfoID(userInfoIds);
+//            eosStudent.setRelativeStudentID(userInfoIds);
             //查询原有的Db信息
             EosStudent eosStudentDb = eosStudentMapper.getEosStudentById(relativeUserInfoEosStudentDto.getEosStudentId());
 
             //将新关联的信息追加到原关联
-            String newUserInfoIds = eosStudentDb.getUserInfoID() == null ? userInfoIds : eosStudentDb.getUserInfoID() + "," + userInfoIds;
-            eosStudent.setUserInfoID(newUserInfoIds);
+//            String newUserInfoIds = eosStudentDb.getRelativeStudentID() == null ? userInfoIds : eosStudentDb.getRelativeStudentID() + "," + userInfoIds;
+//            eosStudent.setRelativeStudentID(newUserInfoIds);
             Integer result = eosStudentMapper.updateRelative(eosStudent);
             if (result <= 0) {
                 TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
@@ -130,7 +136,7 @@ public class UserInfoService {
                 EosStudent eosStudent = userInfoMapper.getRelativeEosStudentByUserInfoId(userInfoStudentUnRelativeDto.getId());
                 if (eosStudent != null) {
 
-                    String[] userInfoIds = eosStudent.getUserInfoID().split(",");
+                    String[] userInfoIds =null;// eosStudent.getRelativeStudentID().split(",");
                     List<Integer> listIds = Arrays.stream(userInfoIds).map(p -> Integer.valueOf(p)).collect(Collectors.toList());
                     listIds.remove(userInfoStudentUnRelativeDto.getId());
                     List<String> newStringIds = listIds.stream().map(p -> p.toString()).collect(Collectors.toList());
@@ -138,9 +144,9 @@ public class UserInfoService {
                     String newUserInfoIds = String.join(",", newStringIds);
 
                     if (newUserInfoIds != null && !newUserInfoIds.equals("")) {
-                        eosStudent.setUserInfoID(newUserInfoIds);
+                       // eosStudent.setRelativeStudentID(newUserInfoIds);
                     }else {
-                        eosStudent.setUserInfoID(null);
+                        eosStudent.setRelativeStudentID(null);
                         eosStudent.setRelativeState(null);
                     }
                     Integer res = eosStudentMapper.updateRelative(eosStudent);
@@ -169,7 +175,7 @@ public class UserInfoService {
             } else {
                 //EosStudent解除关联
                 EosStudent eosStudent = eosStudentMapper.getEosStudentById(userInfoStudentUnRelativeDto.getId());
-                List<String> userinfoIds = Arrays.asList(eosStudent.getUserInfoID().split(","));
+                List<String> userinfoIds = null;//Arrays.asList(eosStudent.getRelativeStudentID().split(","));
                 List<Integer> ids = userinfoIds.stream().map(p -> Integer.valueOf(p)).collect(Collectors.toList());
                 Integer result = userInfoMapper.updateUnRelativeBatch(ids);
                 if (result <= 0) {
