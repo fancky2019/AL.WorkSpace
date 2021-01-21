@@ -24,7 +24,7 @@ public class EosStudentDto extends Page {
 
     private Boolean relativeState;
 
-    private Integer relativeStudentID;
+    private String userInfoId;
     //前端传给后端不能解析值
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
