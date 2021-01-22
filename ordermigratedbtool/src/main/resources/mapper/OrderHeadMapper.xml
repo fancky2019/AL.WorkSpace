@@ -75,10 +75,12 @@
     when 1 then '已关联'
     end RelativeStateStr,ISNULL( oh.[RelativeState] ,0) RelativeState,
     (
-    select  cast(rs.EosOrderId as nvarchar)+',' from  NewClassesAdmin.dbo.RelativeOrder rs
+    select  eo.OrderNo +','
+    from  NewClassesAdmin.dbo.RelativeOrder rs
+    join NewClassesAdmin.dbo.EosOrder eo on rs.EosOrderId=eo.Id
     where rs.OrderHeadId=oh.Id
     FOR XML PATH('')
-    )EosOrderIds
+    )EosOrderNos
     <include refid="basicTable"></include>
     ) t1
     )t2
