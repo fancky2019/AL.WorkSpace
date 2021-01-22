@@ -1,155 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.onlyedu.ordermigratedbtool.dao.EosOrderMapper">
-  <resultMap id="BaseResultMap" type="com.onlyedu.ordermigratedbtool.model.entity.EosOrder">
-    <constructor>
-      <idArg column="Id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="OrderNo" javaType="java.lang.String" jdbcType="NVARCHAR" />
-      <arg column="EosStudentID" javaType="java.lang.String" jdbcType="NCHAR" />
-      <arg column="FeeContent" javaType="java.lang.String" jdbcType="NVARCHAR" />
-      <arg column="OrderTime" javaType="java.time.LocalDateTime" jdbcType="TIMESTAMP" />
-      <arg column="CourseProductName" javaType="java.lang.String" jdbcType="NVARCHAR" />
-      <arg column="OrderBalance" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
-      <arg column="RemainRemaining" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
-      <arg column="RelativeState" javaType="java.lang.Boolean" jdbcType="BIT" />
-      <arg column="OrderHeadID" javaType="java.lang.Integer" jdbcType="INTEGER" />
-    </constructor>
-  </resultMap>
-  <sql id="Base_Column_List">
-    Id, OrderNo, EosStudentID, FeeContent, OrderTime, CourseProductName, OrderBalance, 
-    RemainRemaining, RelativeState, OrderHeadID
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from EosOrder
-    where Id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from EosOrder
-    where Id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.onlyedu.ordermigratedbtool.model.entity.EosOrder">
-    insert into EosOrder (Id, OrderNo, EosStudentID, 
-      FeeContent, OrderTime, CourseProductName, 
-      OrderBalance, RemainRemaining, RelativeState, 
-      OrderHeadID)
-    values (#{id,jdbcType=INTEGER}, #{orderNo,jdbcType=NVARCHAR}, #{eosStudentID,jdbcType=NCHAR}, 
-      #{feeContent,jdbcType=NVARCHAR}, #{orderTime,jdbcType=TIMESTAMP}, #{courseProductName,jdbcType=NVARCHAR}, 
-      #{orderBalance,jdbcType=DECIMAL}, #{remainRemaining,jdbcType=DECIMAL}, #{relativeState,jdbcType=BIT}, 
-      #{orderHeadID,jdbcType=INTEGER})
-  </insert>
-  <insert id="insertSelective" parameterType="com.onlyedu.ordermigratedbtool.model.entity.EosOrder">
-    insert into EosOrder
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        Id,
-      </if>
-      <if test="orderNo != null">
-        OrderNo,
-      </if>
-      <if test="eosStudentID != null">
-        EosStudentID,
-      </if>
-      <if test="feeContent != null">
-        FeeContent,
-      </if>
-      <if test="orderTime != null">
-        OrderTime,
-      </if>
-      <if test="courseProductName != null">
-        CourseProductName,
-      </if>
-      <if test="orderBalance != null">
-        OrderBalance,
-      </if>
-      <if test="remainRemaining != null">
-        RemainRemaining,
-      </if>
-      <if test="relativeState != null">
-        RelativeState,
-      </if>
-      <if test="orderHeadID != null">
-        OrderHeadID,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="orderNo != null">
-        #{orderNo,jdbcType=NVARCHAR},
-      </if>
-      <if test="eosStudentID != null">
-        #{eosStudentID,jdbcType=NCHAR},
-      </if>
-      <if test="feeContent != null">
-        #{feeContent,jdbcType=NVARCHAR},
-      </if>
-      <if test="orderTime != null">
-        #{orderTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="courseProductName != null">
-        #{courseProductName,jdbcType=NVARCHAR},
-      </if>
-      <if test="orderBalance != null">
-        #{orderBalance,jdbcType=DECIMAL},
-      </if>
-      <if test="remainRemaining != null">
-        #{remainRemaining,jdbcType=DECIMAL},
-      </if>
-      <if test="relativeState != null">
-        #{relativeState,jdbcType=BIT},
-      </if>
-      <if test="orderHeadID != null">
-        #{orderHeadID,jdbcType=INTEGER},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.onlyedu.ordermigratedbtool.model.entity.EosOrder">
-    update EosOrder
-    <set>
-      <if test="orderNo != null">
-        OrderNo = #{orderNo,jdbcType=NVARCHAR},
-      </if>
-      <if test="eosStudentID != null">
-        EosStudentID = #{eosStudentID,jdbcType=NCHAR},
-      </if>
-      <if test="feeContent != null">
-        FeeContent = #{feeContent,jdbcType=NVARCHAR},
-      </if>
-      <if test="orderTime != null">
-        OrderTime = #{orderTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="courseProductName != null">
-        CourseProductName = #{courseProductName,jdbcType=NVARCHAR},
-      </if>
-      <if test="orderBalance != null">
-        OrderBalance = #{orderBalance,jdbcType=DECIMAL},
-      </if>
-      <if test="remainRemaining != null">
-        RemainRemaining = #{remainRemaining,jdbcType=DECIMAL},
-      </if>
-      <if test="relativeState != null">
-        RelativeState = #{relativeState,jdbcType=BIT},
-      </if>
-      <if test="orderHeadID != null">
-        OrderHeadID = #{orderHeadID,jdbcType=INTEGER},
-      </if>
-    </set>
-    where Id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.onlyedu.ordermigratedbtool.model.entity.EosOrder">
-    update EosOrder
-    set OrderNo = #{orderNo,jdbcType=NVARCHAR},
-      EosStudentID = #{eosStudentID,jdbcType=NCHAR},
-      FeeContent = #{feeContent,jdbcType=NVARCHAR},
-      OrderTime = #{orderTime,jdbcType=TIMESTAMP},
-      CourseProductName = #{courseProductName,jdbcType=NVARCHAR},
-      OrderBalance = #{orderBalance,jdbcType=DECIMAL},
-      RemainRemaining = #{remainRemaining,jdbcType=DECIMAL},
-      RelativeState = #{relativeState,jdbcType=BIT},
-      OrderHeadID = #{orderHeadID,jdbcType=INTEGER}
-    where Id = #{id,jdbcType=INTEGER}
-  </update>
+    <!--  <resultMap id="BaseResultMap" type="com.onlyedu.ordermigratedbtool.model.entity.EosOrder">-->
+    <!--    <constructor>-->
+    <!--      <idArg column="Id" javaType="java.lang.Integer" jdbcType="INTEGER" />-->
+    <!--      <arg column="OrderNo" javaType="java.lang.String" jdbcType="NVARCHAR" />-->
+    <!--      <arg column="EosStudentID" javaType="java.lang.String" jdbcType="NVARCHAR" />-->
+    <!--      <arg column="FeeContent" javaType="java.lang.String" jdbcType="NVARCHAR" />-->
+    <!--      <arg column="OrderTime" javaType="java.time.LocalDateTime" jdbcType="TIMESTAMP" />-->
+    <!--      <arg column="CourseProductName" javaType="java.lang.String" jdbcType="NVARCHAR" />-->
+    <!--      <arg column="OrderBalance" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />-->
+    <!--      <arg column="RemainRemaining" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />-->
+    <!--      <arg column="RelativeState" javaType="java.lang.Boolean" jdbcType="BIT" />-->
+    <!--      <arg column="OrderHeadID" javaType="java.lang.Integer" jdbcType="INTEGER" />-->
+    <!--    </constructor>-->
+    <!--  </resultMap>-->
+
+
+    <insert id="insert" parameterType="com.onlyedu.ordermigratedbtool.model.entity.EosOrder">
+        insert into EosOrder (Id, OrderNo, EosStudentID,
+                              FeeContent, OrderTime, CourseProductName,
+                              OrderBalance, RemainRemaining, RelativeState,
+                              OrderHeadID)
+        values (#{id,jdbcType=INTEGER}, #{orderNo,jdbcType=NVARCHAR}, #{eosStudentID,jdbcType=NVARCHAR},
+                #{feeContent,jdbcType=NVARCHAR}, #{orderTime,jdbcType=TIMESTAMP},
+                #{courseProductName,jdbcType=NVARCHAR},
+                #{orderBalance,jdbcType=DECIMAL}, #{remainRemaining,jdbcType=DECIMAL}, #{relativeState,jdbcType=BIT},
+                #{orderHeadID,jdbcType=INTEGER})
+    </insert>
+
+    <select id="getAll" resultType="com.onlyedu.ordermigratedbtool.model.entity.EosOrder">
+        SELECT OrderNo,
+               EosStudentID,
+               FeeContent,
+               OrderTime,
+               CourseProductName,
+               OrderBalance,
+               RemainRemaining
+        FROM [NewClassesAdmin].[dbo].[EosOrder]
+    </select>
+
+    <insert id="batchInsert" parameterType="com.onlyedu.ordermigratedbtool.model.entity.EosOrder">
+        insert into EosOrder (OrderNo, EosStudentID,
+        FeeContent, OrderTime, CourseProductName,
+        OrderBalance, RemainRemaining
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.orderNo,jdbcType=NVARCHAR}, #{item.eosStudentID,jdbcType=NVARCHAR},
+            #{item.feeContent,jdbcType=NVARCHAR}, #{item.orderTime,jdbcType=TIMESTAMP},
+            #{item.courseProductName,jdbcType=NVARCHAR},
+            cast(#{item.orderBalance,jdbcType=DECIMAL} as decimal(18,2)),
+            cast( #{item.remainRemaining,jdbcType=DECIMAL} as decimal(18,2))
+            )
+        </foreach>
+    </insert>
+
 </mapper>

@@ -74,9 +74,10 @@
 
     <select id="getUserInfoByGuid" parameterType="com.onlyedu.ordermigratedbtool.model.dto.UserInfoDto" resultType="com.onlyedu.ordermigratedbtool.model.dto.UserInfoDto">
         select   ui.Id,  ui.UserId,ui.StudentId, left(ui.StudentId ,8)  studentNo,ui.UserName ,ui.Grade ,ui.MobilePhone,ui.Tel,s.School,ui.RegTime,
-        ui.[RelativeState],ui.[RelativeStudentID]
+        ui.[RelativeState],rs.EosStudentId
         from [NewClassesAdmin].[dbo].UserInfo ui
             left join School s on s.Guid=ui.SchoolId
+            left join [NewClassesAdmin].[dbo].RelativeStudent rs on ui.Id=rs.UserInfoId
         where  ui.StudentId=#{studentId,jdbcType=NVARCHAR}
      </select>
 

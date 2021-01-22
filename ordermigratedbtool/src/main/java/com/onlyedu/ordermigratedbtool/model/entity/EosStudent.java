@@ -133,13 +133,13 @@ public class EosStudent {
         return false;
     }
 
-    private boolean equalsStr(String str1, String str2) {
-        if (StringUtils.isEmpty(str1) && StringUtils.isEmpty(str2)) {
-            return true;
-        }
-        if (!StringUtils.isEmpty(str1) && str1.equals(str2)) {
-            return true;
-        }
-        return false;
-    }
+//    private boolean equalsStr(String str1, String str2) {
+//        if (StringUtils.isEmpty(str1) && StringUtils.isEmpty(str2)) {
+//            return true;
+//        }
+//        if (!StringUtils.isEmpty(str1) && str1.equals(str2)) {
+//            return true;
+//        }
+//        return false;
+//    }
 }

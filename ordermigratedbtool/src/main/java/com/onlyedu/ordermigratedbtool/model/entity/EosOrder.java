@@ -1,8 +1,11 @@
 package com.onlyedu.ordermigratedbtool.model.entity;
 
+import lombok.Data;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+@Data
 public class EosOrder {
     private Integer id;
 
@@ -24,100 +27,29 @@ public class EosOrder {
 
     private Integer orderHeadID;
 
-    public EosOrder(Integer id, String orderNo, String eosStudentID, String feeContent, LocalDateTime orderTime, String courseProductName, BigDecimal orderBalance, BigDecimal remainRemaining, Boolean relativeState, Integer orderHeadID) {
-        this.id = id;
-        this.orderNo = orderNo;
-        this.eosStudentID = eosStudentID;
-        this.feeContent = feeContent;
-        this.orderTime = orderTime;
-        this.courseProductName = courseProductName;
-        this.orderBalance = orderBalance;
-        this.remainRemaining = remainRemaining;
-        this.relativeState = relativeState;
-        this.orderHeadID = orderHeadID;
-    }
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;//地址相等
+        }
 
-    public EosOrder() {
-        super();
-    }
+        if (obj == null) {
+            return false;//非空性：对于任意非空引用x，x.equals(null)应该返回false。
+        }
 
-    public Integer getId() {
-        return id;
-    }
+        if (obj instanceof EosOrder) {
+            EosOrder other = (EosOrder) obj;
+            if (other.getOrderNo().equals(this.getOrderNo()) &&
+                    other.getEosStudentID().equals(this.getEosStudentID()) &&
+                    other.getFeeContent().equals(this.getFeeContent()) &&
+                    other.getOrderTime().equals(this.getOrderTime()) &&
+                    other.getCourseProductName().equals(this.getCourseProductName()) &&
+                    other.getOrderBalance().equals(this.getOrderBalance()) &&
+                    other.getRemainRemaining().equals(this.getRemainRemaining())) {
+                return true;
+            }
+        }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getOrderNo() {
-        return orderNo;
-    }
-
-    public void setOrderNo(String orderNo) {
-        this.orderNo = orderNo == null ? null : orderNo.trim();
-    }
-
-    public String getEosStudentID() {
-        return eosStudentID;
-    }
-
-    public void setEosStudentID(String eosStudentID) {
-        this.eosStudentID = eosStudentID == null ? null : eosStudentID.trim();
-    }
-
-    public String getFeeContent() {
-        return feeContent;
-    }
-
-    public void setFeeContent(String feeContent) {
-        this.feeContent = feeContent == null ? null : feeContent.trim();
-    }
-
-    public LocalDateTime getOrderTime() {
-        return orderTime;
-    }
-
-    public void setOrderTime(LocalDateTime orderTime) {
-        this.orderTime = orderTime;
-    }
-
-    public String getCourseProductName() {
-        return courseProductName;
-    }
-
-    public void setCourseProductName(String courseProductName) {
-        this.courseProductName = courseProductName == null ? null : courseProductName.trim();
-    }
-
-    public BigDecimal getOrderBalance() {
-        return orderBalance;
-    }
-
-    public void setOrderBalance(BigDecimal orderBalance) {
-        this.orderBalance = orderBalance;
-    }
-
-    public BigDecimal getRemainRemaining() {
-        return remainRemaining;
-    }
-
-    public void setRemainRemaining(BigDecimal remainRemaining) {
-        this.remainRemaining = remainRemaining;
-    }
-
-    public Boolean getRelativeState() {
-        return relativeState;
-    }
-
-    public void setRelativeState(Boolean relativeState) {
-        this.relativeState = relativeState;
-    }
-
-    public Integer getOrderHeadID() {
-        return orderHeadID;
-    }
-
-    public void setOrderHeadID(Integer orderHeadID) {
-        this.orderHeadID = orderHeadID;
+        return false;
     }
 }
