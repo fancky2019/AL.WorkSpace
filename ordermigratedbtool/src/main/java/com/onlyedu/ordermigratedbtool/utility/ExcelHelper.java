@@ -82,7 +82,7 @@ public class ExcelHelper {
              */
             //索引从0开始
             eosStudent.setOrderNo(getCellFormatValue(row.getCell(9)).toString().trim());
-            eosStudent.setEosStudentID(getCellFormatValue(row.getCell(7)).toString().trim());
+            eosStudent.setEosStudentID(Integer.valueOf( getCellFormatValue(row.getCell(7)).toString().trim()));
             eosStudent.setFeeContent(getCellFormatValue(row.getCell(10)).toString().trim());
             String timeStr = getCellFormatValue(row.getCell(12)).toString().trim();
             LocalDateTime orderTime = LocalDateTime.parse(timeStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS"));
