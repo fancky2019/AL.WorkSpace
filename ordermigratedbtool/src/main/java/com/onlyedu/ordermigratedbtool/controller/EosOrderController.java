@@ -1,15 +1,18 @@
 package com.onlyedu.ordermigratedbtool.controller;
 
+import com.onlyedu.ordermigratedbtool.model.dto.EosOrderDto;
+import com.onlyedu.ordermigratedbtool.model.dto.StudentOrderDto;
+import com.onlyedu.ordermigratedbtool.model.dto.UserInfoStatisticsDto;
 import com.onlyedu.ordermigratedbtool.model.pojo.MessageResult;
+import com.onlyedu.ordermigratedbtool.model.pojo.PageData;
+import com.onlyedu.ordermigratedbtool.model.vo.EosOrderVo;
+import com.onlyedu.ordermigratedbtool.model.vo.StudentOrderVO;
 import com.onlyedu.ordermigratedbtool.service.EosOrderService;
 import com.onlyedu.ordermigratedbtool.service.OrderHeadService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -57,6 +60,28 @@ public class EosOrderController {
             messageResult.setCode(500);
             messageResult.setMessage(e.getMessage());
             logger.error(e.toString());
+        }
+        return messageResult;
+    }
+
+
+    @GetMapping("/getEosOrderByStudentIdPage")
+    public MessageResult<PageData<EosOrderVo>> getEosOrderByStudentIdPage(EosOrderDto eosOrderDto) {
+        MessageResult<PageData<EosOrderVo>> message = eosOrderService.getEosOrderByStudentIdPage(eosOrderDto);
+        return message;
+    }
+
+    @GetMapping("/getEosOrderStatistics")
+    public MessageResult<UserInfoStatisticsDto> getEosOrderStatistics(EosOrderDto eosOrderDto) {
+        MessageResult<UserInfoStatisticsDto> messageResult = new MessageResult<>();
+        try {
+            eosOrderDto.setPageSize(Integer.MAX_VALUE);
+            eosOrderDto.setPageIndex(1);
+            return eosOrderService.getEosOrderStatistics(eosOrderDto);
+        } catch (Exception e) {
+            logger.error(e.toString());
+            messageResult.setCode(500);
+            messageResult.setMessage(e.getMessage());
         }
         return messageResult;
     }

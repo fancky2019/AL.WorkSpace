@@ -11,7 +11,7 @@ public class EosOrder {
 
     private String orderNo;
 
-    private String eosStudentID;
+    private Integer eosStudentID;
 
     private String feeContent;
 
@@ -25,7 +25,6 @@ public class EosOrder {
 
     private Boolean relativeState;
 
-    private Integer orderHeadID;
 
     @Override
     public boolean equals(Object obj) {
