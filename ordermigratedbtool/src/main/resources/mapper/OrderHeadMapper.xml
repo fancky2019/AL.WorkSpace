@@ -73,7 +73,12 @@
     oh.[ShareUserId] , om.PayMoney ,oh.AddedTime,
     case ISNULL( oh.[RelativeState] ,0) when 0 then '未关联'
     when 1 then '已关联'
-    end RelativeStateStr,ISNULL( oh.[RelativeState] ,0) RelativeState
+    end RelativeStateStr,ISNULL( oh.[RelativeState] ,0) RelativeState,
+    (
+    select  cast(rs.EosOrderId as nvarchar)+',' from  NewClassesAdmin.dbo.RelativeOrder rs
+    where rs.OrderHeadId=oh.Id
+    FOR XML PATH('')
+    )EosOrderIds
     <include refid="basicTable"></include>
     ) t1
     )t2

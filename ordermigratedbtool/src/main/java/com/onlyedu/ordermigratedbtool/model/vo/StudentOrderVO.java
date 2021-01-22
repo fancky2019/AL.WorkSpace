@@ -26,5 +26,5 @@ public class StudentOrderVO {
     private String payMoney;
     private String relativeStateStr;
     private Boolean relativeState;
-
+    private String eosOrderIds;
 }

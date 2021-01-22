@@ -31,5 +31,7 @@ public class StudentOrderDto extends Page {
     private String payMoney;
     private String relativeStateStr;
     private Boolean relativeState;
+    private String eosOrderIds;
+
 
 }
