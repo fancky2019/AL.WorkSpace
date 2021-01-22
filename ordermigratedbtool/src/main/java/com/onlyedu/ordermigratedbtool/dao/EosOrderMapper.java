@@ -1,17 +1,22 @@
 package com.onlyedu.ordermigratedbtool.dao;
 
+import com.onlyedu.ordermigratedbtool.model.dto.StudentOrderDto;
 import com.onlyedu.ordermigratedbtool.model.entity.EosOrder;
+import com.onlyedu.ordermigratedbtool.model.entity.EosStudent;
+import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
+@Mapper
 public interface EosOrderMapper {
-    int deleteByPrimaryKey(Integer id);
+
+    int batchInsert(List<EosOrder> eosOrderList);
+
+    List<EosOrder> getAll();
 
     int insert(EosOrder record);
 
-    int insertSelective(EosOrder record);
+    List<EosOrder> getOrderByStudentId(EosOrder eosOrder);
 
-    EosOrder selectByPrimaryKey(Integer id);
 
-    int updateByPrimaryKeySelective(EosOrder record);
-
-    int updateByPrimaryKey(EosOrder record);
 }
