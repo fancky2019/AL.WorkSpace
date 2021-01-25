@@ -19,4 +19,6 @@ public class EosStudentVO {
     private Boolean relativeState;
 
     private String userInfoId;
+
+    private String userInfoStudentIds;
 }
