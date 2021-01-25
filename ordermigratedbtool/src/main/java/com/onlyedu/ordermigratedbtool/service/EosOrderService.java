@@ -102,6 +102,12 @@ public class EosOrderService {
             {
                 EosOrderVo eosOrderVo = new EosOrderVo();
                 BeanUtils.copyProperties(p, eosOrderVo);
+                if(p.getOrderHeadIds()!=null&&p.getOrderHeadIds()!="") {
+                    eosOrderVo.setOrderHeadIds(p.getOrderHeadIds().substring(0,p.getOrderHeadIds().length()-1));
+                }
+                if(p.getOrderHeadOrderNos()!=null&&p.getOrderHeadOrderNos()!="") {
+                    eosOrderVo.setOrderHeadOrderNos(p.getOrderHeadOrderNos().substring(0,p.getOrderHeadOrderNos().length()-1));
+                }
                 eosOrderVoList.add(eosOrderVo);
             });
             pageData.setRows(eosOrderVoList);

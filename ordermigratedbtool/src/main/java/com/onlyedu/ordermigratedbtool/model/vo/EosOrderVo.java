@@ -29,4 +29,6 @@ public class EosOrderVo {
     private String relativeStateStr;
 
     private String orderHeadOrderNos;
+
+    private String orderHeadIds;
 }
