@@ -96,6 +96,10 @@ public class EosStudentController {
         return eosStudentService.getGrade();
     }
 
+    @GetMapping("/getEosStudentByIdWithRelative")
+    public MessageResult<EosStudentVO> getEosStudentByIdWithRelative(Integer id) {
+        return eosStudentService.getEosStudentByIdWithRelative(id);
+    }
 
 
 }
