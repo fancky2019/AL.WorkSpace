@@ -1,8 +1,6 @@
 package com.onlyedu.ordermigratedbtool.controller;
 
-import com.onlyedu.ordermigratedbtool.model.dto.StudentOrderDto;
-import com.onlyedu.ordermigratedbtool.model.dto.UserInfoDto;
-import com.onlyedu.ordermigratedbtool.model.dto.UserInfoStatisticsDto;
+import com.onlyedu.ordermigratedbtool.model.dto.*;
 import com.onlyedu.ordermigratedbtool.model.entity.OrderHead;
 import com.onlyedu.ordermigratedbtool.model.pojo.MessageResult;
 import com.onlyedu.ordermigratedbtool.model.pojo.PageData;
@@ -48,10 +46,24 @@ public class OrderController {
         return messageResult;
     }
 
-//    @PostMapping("/updateRelative")
-//    public MessageResult<Integer> updateRelative(@RequestBody OrderHead orderHead) {
+    @PostMapping("/updateRelative")
+    public MessageResult<Void> updateRelative(@RequestBody RelativeOrderHeadEosOrderDto relativeOrderHeadEosOrderDto) {
+
+        if (relativeOrderHeadEosOrderDto.getOrderHeadIds().size() > 1 && relativeOrderHeadEosOrderDto.getEosOrderIds().size() > 1) {
+            MessageResult<Void> result = new MessageResult<>();
+            result.setCode(400);
+            result.setMessage("订单不存在多对多关联关系!");
+            return result;
+        }
+        return orderHeadService.updateRelative(relativeOrderHeadEosOrderDto);
+    }
+
+    @PostMapping("/unRelative")
+    public MessageResult<Void> unRelative(@RequestBody OrderHeaderEosOrderUnRelativeDto dto) {
 //        return orderHeadService.updateRelative(orderHead);
-//    }
+        return null;
+    }
+
 
 //    @PostMapping("/updateRelative")
 //    public MessageResult<Integer> updateRelative(@RequestParam Integer id,

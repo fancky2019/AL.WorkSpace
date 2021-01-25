@@ -16,11 +16,15 @@
     <!--    </constructor>-->
     <!--  </resultMap>-->
 
-    <update id="updateRelative" parameterType="com.onlyedu.ordermigratedbtool.model.entity.EosOrder">
-        update OrderHead
+
+    <update id="updateRelativeBatch" parameterType="java.util.List">
+        update NewClassesAdmin.dbo.EosOrder
         set
-            RelativeState = #{relativeState,jdbcType=BIT}
-        where Id = #{id,jdbcType=INTEGER}
+        RelativeState = 1
+        where Id in
+        <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
     </update>
 
     <insert id="insert" parameterType="com.onlyedu.ordermigratedbtool.model.entity.EosOrder">
@@ -34,6 +38,33 @@
                 #{orderBalance,jdbcType=DECIMAL}, #{remainRemaining,jdbcType=DECIMAL}, #{relativeState,jdbcType=BIT},
                 #{orderHeadID,jdbcType=INTEGER})
     </insert>
+
+    <select id="selectByPrimaryKey" resultType="com.onlyedu.ordermigratedbtool.model.entity.EosOrder">
+        SELECT OrderNo,
+               EosStudentID,
+               FeeContent,
+               OrderTime,
+               CourseProductName,
+               OrderBalance,
+               RemainRemaining
+        FROM [NewClassesAdmin].[dbo].[EosOrder]
+        where Id =#{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectByIds" parameterType="java.util.List" resultType="com.onlyedu.ordermigratedbtool.model.entity.EosOrder">
+        SELECT OrderNo,
+               EosStudentID,
+               FeeContent,
+               OrderTime,
+               CourseProductName,
+               OrderBalance,
+               RemainRemaining
+        FROM [NewClassesAdmin].[dbo].[EosOrder]
+        where Id in
+        <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </select>
 
     <select id="getAll" resultType="com.onlyedu.ordermigratedbtool.model.entity.EosOrder">
         SELECT OrderNo,
@@ -63,34 +94,43 @@
     </insert>
 
 
-    <select id="getEosOrdersByStudentId" parameterType="com.onlyedu.ordermigratedbtool.model.dto.EosOrderDto" resultType="com.onlyedu.ordermigratedbtool.model.dto.EosOrderDto">
-        select * from (
-        select ROW_NUMBER() over(order by (select 0) ) as RowNum,*
-        from
-        (
-            select eo.[Id],eo.[OrderNo] ,eo.[EosStudentID],eo.[OrderTime] ,eo.[CourseProductName],eo.[OrderBalance],
-                   case ISNULL( eo.[RelativeState] ,0) when 0 then '未关联'
-                                                       when 1 then '已关联'
-                       end RelativeStateStr,ISNULL( eo.[RelativeState] ,0) RelativeState,
-                   eo.[RemainRemaining] ,
-                   (
-                       select  oh.OrderNo+','
-                       from  NewClassesAdmin.dbo.RelativeOrder rs
-                                 join  NewClassesAdmin.dbo.OrderHead oh on rs.OrderHeadId=oh.Id
-                       where rs.EosOrderId=eo.Id
-                FOR XML PATH('')
-        )OrderHeadOrderNos
-            from NewClassesAdmin.dbo.EosOrder eo
-        where eo.EosStudentID=#{eosStudentID,jdbcType=INTEGER}
-        ) t1
-        )t2
-        where t2.RowNum BETWEEN  (#{pageIndex,jdbcType=INTEGER}-1)*#{pageSize,jdbcType=INTEGER}+1 and #{pageIndex,jdbcType=INTEGER}*#{pageSize,jdbcType=INTEGER}
+    <select id="getEosOrdersByStudentId" parameterType="com.onlyedu.ordermigratedbtool.model.dto.EosOrderDto"
+            resultType="com.onlyedu.ordermigratedbtool.model.dto.EosOrderDto">
+        select *
+        from (
+                 select ROW_NUMBER() over(order by (select 0) ) as RowNum,*
+                 from (
+                          select eo.[Id],
+                                 eo.[OrderNo],
+                                 eo.[EosStudentID],
+                                 eo.[OrderTime],
+                                 eo.[CourseProductName],
+                                 eo.[OrderBalance],
+                                 case ISNULL(eo.[RelativeState], 0)
+                                     when 0 then '未关联'
+                                     when 1 then '已关联'
+                                     end                       RelativeStateStr,
+                                 ISNULL(eo.[RelativeState], 0) RelativeState,
+                                 eo.[RemainRemaining],
+                                 (
+                                     select oh.OrderNo + ','
+                                     from NewClassesAdmin.dbo.RelativeOrder rs
+                                              join NewClassesAdmin.dbo.OrderHead oh on rs.OrderHeadId = oh.Id
+                                     where rs.EosOrderId = eo.Id
+                              FOR XML PATH ('')
+                      ) OrderHeadOrderNos from NewClassesAdmin.dbo.EosOrder eo
+                 where eo.EosStudentID=#{eosStudentID,jdbcType=INTEGER}
+             ) t1 )t2
+        where t2.RowNum BETWEEN (#{pageIndex,jdbcType=INTEGER}-1)*#{pageSize,jdbcType=INTEGER}+1
+          and #{pageIndex,jdbcType=INTEGER}*#{pageSize,jdbcType=INTEGER}
 
     </select>
 
-    <select id="getEosOrderCountByStudentId" parameterType="com.onlyedu.ordermigratedbtool.model.dto.EosOrderDto" resultType="java.lang.Integer">
-        select COUNT(ID) [Count] from NewClassesAdmin.dbo.EosOrder
-        where EosStudentID=#{eosStudentID,jdbcType=INTEGER}
+    <select id="getEosOrderCountByStudentId" parameterType="com.onlyedu.ordermigratedbtool.model.dto.EosOrderDto"
+            resultType="java.lang.Integer">
+        select COUNT(ID)[Count]
+        from NewClassesAdmin.dbo.EosOrder
+        where EosStudentID = #{eosStudentID,jdbcType=INTEGER}
     </select>
 
 
