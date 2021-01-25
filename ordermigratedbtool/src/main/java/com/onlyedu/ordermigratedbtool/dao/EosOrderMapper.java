@@ -14,6 +14,8 @@ public interface EosOrderMapper {
 
     int batchInsert(List<EosOrder> eosOrderList);
 
+    EosOrder selectByPrimaryKey(Integer id);
+
     List<EosOrder> getAll();
 
     int insert(EosOrder record);
@@ -24,5 +26,8 @@ public interface EosOrderMapper {
 
     List<EosOrderDto> getEosOrdersByStudentId(EosOrderDto eosOrderDto);
 
-    Integer updateRelative(EosOrder record);
+    Integer updateRelativeBatch(List<Integer> ids);
+
+    List<EosOrder> selectByIds(List<Integer> ids);
+
 }

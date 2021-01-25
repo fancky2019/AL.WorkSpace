@@ -100,7 +100,13 @@
 <!--               selectByExampleQueryId="false">-->
 <!--            <property name="useActualColumnNames" value="true"/>-->
 <!--        </table>-->
-        <table tableName="RelativeStudent" domainObjectName="RelativeStudent"
+<!--        <table tableName="RelativeStudent" domainObjectName="RelativeStudent"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false">-->
+<!--            <property name="useActualColumnNames" value="true"/>-->
+<!--        </table>-->
+        <table tableName="RelativeOrder" domainObjectName="RelativeOrder"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">

@@ -15,4 +15,7 @@ public interface OrderHeadMapper {
     List<StudentOrderDto> getOrderByStudentGuid(StudentOrderDto studentOrderDto);
 
     Integer updateRelative(OrderHead record);
+
+    Integer updateRelativeBatch(List<Integer> ids);
+
 }
