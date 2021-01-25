@@ -22,7 +22,7 @@ public class EosOrderVo {
 
     private BigDecimal orderBalance;
 
-    private BigDecimal remainRemaining;
+    private BigDecimal remainBalance;
 
     private Boolean relativeState;
 

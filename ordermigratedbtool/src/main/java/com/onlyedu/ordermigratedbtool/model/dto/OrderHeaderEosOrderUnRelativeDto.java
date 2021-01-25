@@ -7,11 +7,12 @@ import java.util.List;
 @Data
 public class OrderHeaderEosOrderUnRelativeDto {
     /**
-     * 0:UserInfo解除关联，1：EosStudent解除关联
+     * 0:OrderHead解除关联，1：EosOrder解除关联
      */
     private short unRelativeType;
     /**
-     * UserInfo或EosStudent的id
+     * OrderHead或EosOrder的id
      */
     private Integer id;
+
 }
