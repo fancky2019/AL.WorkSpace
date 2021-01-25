@@ -18,4 +18,6 @@ public interface OrderHeadMapper {
 
     Integer updateRelativeBatch(List<Integer> ids);
 
+    Integer updateUnRelative(OrderHead record);
+
 }

@@ -27,15 +27,25 @@
         </foreach>
     </update>
 
+    <update id="updateUnRelativeBatch" parameterType="java.util.List">
+        update NewClassesAdmin.dbo.EosOrder
+        set
+        RelativeState = 0
+        where Id in
+        <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </update>
+
     <insert id="insert" parameterType="com.onlyedu.ordermigratedbtool.model.entity.EosOrder">
         insert into EosOrder (Id, OrderNo, EosStudentID,
                               FeeContent, OrderTime, CourseProductName,
-                              OrderBalance, RemainRemaining, RelativeState,
+                              OrderBalance, RemainBalance, RelativeState,
                               OrderHeadID)
         values (#{id,jdbcType=INTEGER}, #{orderNo,jdbcType=NVARCHAR}, #{eosStudentID,jdbcType=INTEGER},
                 #{feeContent,jdbcType=NVARCHAR}, #{orderTime,jdbcType=TIMESTAMP},
                 #{courseProductName,jdbcType=NVARCHAR},
-                #{orderBalance,jdbcType=DECIMAL}, #{remainRemaining,jdbcType=DECIMAL}, #{relativeState,jdbcType=BIT},
+                #{orderBalance,jdbcType=DECIMAL}, #{remainBalance,jdbcType=DECIMAL}, #{relativeState,jdbcType=BIT},
                 #{orderHeadID,jdbcType=INTEGER})
     </insert>
 
@@ -46,7 +56,7 @@
                OrderTime,
                CourseProductName,
                OrderBalance,
-               RemainRemaining
+               RemainBalance
         FROM [NewClassesAdmin].[dbo].[EosOrder]
         where Id =#{id,jdbcType=INTEGER}
     </select>
@@ -58,7 +68,7 @@
                OrderTime,
                CourseProductName,
                OrderBalance,
-               RemainRemaining
+               RemainBalance
         FROM [NewClassesAdmin].[dbo].[EosOrder]
         where Id in
         <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
@@ -73,14 +83,14 @@
                OrderTime,
                CourseProductName,
                OrderBalance,
-               RemainRemaining
+               RemainBalance
         FROM [NewClassesAdmin].[dbo].[EosOrder]
     </select>
 
     <insert id="batchInsert" parameterType="com.onlyedu.ordermigratedbtool.model.entity.EosOrder">
         insert into EosOrder (OrderNo, EosStudentID,
         FeeContent, OrderTime, CourseProductName,
-        OrderBalance, RemainRemaining
+        OrderBalance, RemainBalance
         )
         values
         <foreach collection="list" item="item" separator=",">
@@ -88,7 +98,7 @@
             #{item.feeContent,jdbcType=NVARCHAR}, #{item.orderTime,jdbcType=TIMESTAMP},
             #{item.courseProductName,jdbcType=NVARCHAR},
             cast(#{item.orderBalance,jdbcType=DECIMAL} as decimal(18,2)),
-            cast( #{item.remainRemaining,jdbcType=DECIMAL} as decimal(18,2))
+            cast( #{item.remainBalance,jdbcType=DECIMAL} as decimal(18,2))
             )
         </foreach>
     </insert>
@@ -111,7 +121,7 @@
                                      when 1 then '已关联'
                                      end                       RelativeStateStr,
                                  ISNULL(eo.[RelativeState], 0) RelativeState,
-                                 eo.[RemainRemaining],
+                                 eo.[RemainBalance],
                                  (
                                      select oh.OrderNo + ','
                                      from NewClassesAdmin.dbo.RelativeOrder rs

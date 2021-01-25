@@ -60,8 +60,7 @@ public class OrderController {
 
     @PostMapping("/unRelative")
     public MessageResult<Void> unRelative(@RequestBody OrderHeaderEosOrderUnRelativeDto dto) {
-//        return orderHeadService.updateRelative(orderHead);
-        return null;
+        return orderHeadService.unRelative(dto);
     }
 
 

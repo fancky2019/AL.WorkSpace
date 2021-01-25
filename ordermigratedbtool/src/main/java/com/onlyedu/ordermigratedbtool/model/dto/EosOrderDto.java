@@ -25,7 +25,7 @@ public class EosOrderDto  extends Page {
 
     private BigDecimal orderBalance;
 
-    private BigDecimal remainRemaining;
+    private BigDecimal remainBalance;
 
     private Boolean relativeState;
 

@@ -28,6 +28,8 @@ public interface EosOrderMapper {
 
     Integer updateRelativeBatch(List<Integer> ids);
 
+    Integer updateUnRelativeBatch(List<Integer> ids);
+
     List<EosOrder> selectByIds(List<Integer> ids);
 
 }

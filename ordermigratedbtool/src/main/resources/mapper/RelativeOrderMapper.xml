@@ -41,34 +41,44 @@
       )
     </foreach>
   </insert>
-<!--  <update id="updateByPrimaryKeySelective" parameterType="com.onlyedu.ordermigratedbtool.model.entity.RelativeOrder">-->
-<!--    update RelativeOrder-->
-<!--    <set>-->
-<!--      <if test="orderHeadId != null">-->
-<!--        OrderHeadId = #{orderHeadId,jdbcType=INTEGER},-->
-<!--      </if>-->
-<!--      <if test="eosOrderId != null">-->
-<!--        EosOrderId = #{eosOrderId,jdbcType=INTEGER},-->
-<!--      </if>-->
-<!--      <if test="eosRemainBalance != null">-->
-<!--        EosRemainBalance = #{eosRemainBalance,jdbcType=DECIMAL},-->
-<!--      </if>-->
-<!--      <if test="createTime != null">-->
-<!--        CreateTime = #{createTime,jdbcType=TIMESTAMP},-->
-<!--      </if>-->
-<!--      <if test="isDelete != null">-->
-<!--        IsDelete = #{isDelete,jdbcType=BIT},-->
-<!--      </if>-->
-<!--    </set>-->
-<!--    where Id = #{id,jdbcType=INTEGER}-->
-<!--  </update>-->
-<!--  <update id="updateByPrimaryKey" parameterType="com.onlyedu.ordermigratedbtool.model.entity.RelativeOrder">-->
-<!--    update RelativeOrder-->
-<!--    set OrderHeadId = #{orderHeadId,jdbcType=INTEGER},-->
-<!--      EosOrderId = #{eosOrderId,jdbcType=INTEGER},-->
-<!--      EosRemainBalance = #{eosRemainBalance,jdbcType=DECIMAL},-->
-<!--      CreateTime = #{createTime,jdbcType=TIMESTAMP},-->
-<!--      IsDelete = #{isDelete,jdbcType=BIT}-->
-<!--    where Id = #{id,jdbcType=INTEGER}-->
-<!--  </update>-->
+
+  <delete id="deleteByOrderHeadId" parameterType="java.lang.Integer">
+    delete from [NewClassesAdmin].[dbo].[RelativeOrder]
+    where [OrderHeadId] = #{orderHeadId,jdbcType=INTEGER}
+  </delete>
+
+  <delete id="deleteByEosOrderId" parameterType="java.lang.Integer">
+    delete from [NewClassesAdmin].[dbo].[RelativeOrder]
+    where [EosOrderId] = #{eosOrderId,jdbcType=INTEGER}
+  </delete>
+
+  <select id="getByOrderHeadId" parameterType="java.lang.Integer" resultType="com.onlyedu.ordermigratedbtool.model.entity.RelativeOrder">
+    SELECT *  FROM [NewClassesAdmin].[dbo].[RelativeOrder]
+    where EosOrderId in(
+      SELECT EosOrderId  FROM [NewClassesAdmin].[dbo].[RelativeOrder]
+      where OrderHeadId=#{orderHeadId,jdbcType=INTEGER}
+      )
+  </select>
+
+  <select id="getByEosOrderId" parameterType="java.lang.Integer" resultType="com.onlyedu.ordermigratedbtool.model.entity.RelativeOrder">
+    SELECT *  FROM [NewClassesAdmin].[dbo].[RelativeOrder]
+    where OrderHeadId in(
+      SELECT OrderHeadId  FROM [NewClassesAdmin].[dbo].[RelativeOrder]
+      where EosOrderId=#{eosOrderId,jdbcType=INTEGER}
+      )
+  </select>
+
+  <update id="updateEosRemainBalanceByOrderHeadId" parameterType="com.onlyedu.ordermigratedbtool.model.entity.RelativeOrder">
+    update [NewClassesAdmin].[dbo].[RelativeOrder]
+    set
+      [EosRemainBalance] =#{eosRemainBalance,jdbcType=DECIMAL}
+    where OrderHeadId = #{orderHeadId,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateEosRemainBalanceByEosOrderId" parameterType="com.onlyedu.ordermigratedbtool.model.entity.RelativeOrder">
+    update [NewClassesAdmin].[dbo].[RelativeOrder]
+    set
+      [EosRemainBalance] =#{eosRemainBalance,jdbcType=DECIMAL}
+    where EosOrderId = #{eosOrderId,jdbcType=INTEGER}
+  </update>
 </mapper>

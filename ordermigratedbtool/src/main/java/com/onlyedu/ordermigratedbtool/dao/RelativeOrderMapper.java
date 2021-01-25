@@ -7,12 +7,22 @@ import java.util.List;
 
 @Mapper
 public interface RelativeOrderMapper {
-//    int deleteByPrimaryKey(Integer id);
 
     int insert(RelativeOrder record);
 
     int batchInsert(List<RelativeOrder> relativeOrders);
 
+    int deleteByOrderHeadId(Integer orderHeadId);
+
+    List<RelativeOrder> getByOrderHeadId(Integer orderHeadId);
+
+    int deleteByEosOrderId(Integer eosOrderId);
+
+    List<RelativeOrder> getByEosOrderId(Integer eosOrderId);
+
+    int updateEosRemainBalanceByOrderHeadId(RelativeOrder relativeOrder);
+
+    int updateEosRemainBalanceByEosOrderId(RelativeOrder relativeOrder);
 //    int insertSelective(RelativeOrder record);
 //
 //    RelativeOrder selectByPrimaryKey(Integer id);

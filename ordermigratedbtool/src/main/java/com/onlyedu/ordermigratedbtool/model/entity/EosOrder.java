@@ -19,9 +19,15 @@ public class EosOrder {
 
     private String courseProductName;
 
+    /**
+     * 订单金额
+     */
     private BigDecimal orderBalance;
 
-    private BigDecimal remainRemaining;
+    /**
+     * 剩余金额
+     */
+    private BigDecimal remainBalance;
 
     private Boolean relativeState;
 
@@ -44,7 +50,7 @@ public class EosOrder {
                     other.getOrderTime().equals(this.getOrderTime()) &&
                     other.getCourseProductName().equals(this.getCourseProductName()) &&
                     other.getOrderBalance().equals(this.getOrderBalance()) &&
-                    other.getRemainRemaining().equals(this.getRemainRemaining())) {
+                    other.getRemainBalance().equals(this.getRemainBalance())) {
                 return true;
             }
         }

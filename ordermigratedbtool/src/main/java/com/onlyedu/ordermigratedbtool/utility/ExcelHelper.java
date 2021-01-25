@@ -2,7 +2,6 @@ package com.onlyedu.ordermigratedbtool.utility;
 
 import com.onlyedu.ordermigratedbtool.model.entity.EosOrder;
 import com.onlyedu.ordermigratedbtool.model.entity.EosStudent;
-import com.onlyedu.ordermigratedbtool.model.pojo.MessageResult;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.ss.usermodel.Cell;
@@ -10,7 +9,6 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -93,7 +91,7 @@ public class ExcelHelper {
 
             //保留两位小数。不然2.00会变成2.0
             eosStudent.setOrderBalance(new BigDecimal(getCellFormatValue(row.getCell(20)).toString().trim()).setScale(2, RoundingMode.HALF_UP));
-            eosStudent.setRemainRemaining(new BigDecimal(getCellFormatValue(row.getCell(24)).toString().trim()).setScale(2, RoundingMode.HALF_UP));
+            eosStudent.setRemainBalance(new BigDecimal(getCellFormatValue(row.getCell(24)).toString().trim()).setScale(2, RoundingMode.HALF_UP));
 
 //            EosStudent eosStudent = new EosStudent();
 //            eosStudent.setEosStudentID((Integer) getCellFormatValue(row.getCell(2)));
