@@ -19,6 +19,7 @@ import java.util.Optional;
 public class UserInfoDto extends Page {
     private Integer id;
     private String userId;
+    private List<String> studentIds;
     private String studentId;
     private String studentNo;
     private String userName;

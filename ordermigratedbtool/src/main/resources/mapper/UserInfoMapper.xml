@@ -78,7 +78,10 @@
         from [NewClassesAdmin].[dbo].UserInfo ui
             left join School s on s.Guid=ui.SchoolId
             left join [NewClassesAdmin].[dbo].RelativeStudent rs on ui.Id=rs.UserInfoId
-        where  ui.StudentId=#{studentId,jdbcType=NVARCHAR}
+        where  ui.StudentId in
+        <foreach collection="studentIds" index="index" item="studentGuid" separator="," open="(" close=")">
+            #{studentGuid,jdbcType=NVARCHAR}
+        </foreach>
      </select>
 
     <select id="getUserWithOrderCount" parameterType="com.onlyedu.ordermigratedbtool.model.dto.UserInfoDto" resultType="java.lang.Integer">

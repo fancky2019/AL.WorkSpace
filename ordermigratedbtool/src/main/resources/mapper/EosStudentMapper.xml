@@ -131,5 +131,26 @@
         where Id=#{id,jdbcType=INTEGER}
     </select>
 
+    <select id="getEosStudentByIdWithRelative" parameterType="java.lang.Integer"
+            resultType="com.onlyedu.ordermigratedbtool.model.dto.EosStudentDto">
+        select es.ID,es.[EosStudentID],es.[StudentName] ,es.[Grade] ,es.[Phone],
+               case ISNULL( es.RelativeState ,0) when 0 then '未关联'
+                                                 when 1 then '已关联'
+                   end RelativeStateStr,ISNULL( es.RelativeState ,0) RelativeState,
+               (
+                   select  ui.UserId+',' from NewClassesAdmin.dbo.UserInfo ui
+                                                  join  NewClassesAdmin.dbo.RelativeStudent rs on ui.Id=rs.UserInfoId
+                   where rs.EosStudentId=es.ID
+            FOR XML PATH('')
+            )UserInfoId ,
+            (
+        select cast( ui.StudentId as nvarchar(50))+',' from NewClassesAdmin.dbo.UserInfo ui
+            join  NewClassesAdmin.dbo.RelativeStudent rs on ui.Id=rs.UserInfoId
+        where rs.EosStudentId=es.ID
+            FOR XML PATH('')
+            )UserInfoStudentIds
+        from [NewClassesAdmin].[dbo].[EosStudent] es
+        where es.Id=#{id,jdbcType=INTEGER}
+    </select>
 
 </mapper>

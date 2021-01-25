@@ -30,7 +30,7 @@ public class EosStudentService {
     @Autowired
     private EosStudentMapper eosStudentMapper;
 
-    public MessageResult<Void> importData(String fileFullName) {
+    public MessageResult<Void> importData(String fileFullName ) {
         MessageResult<Void> messageResult = new MessageResult<>();
         try {
             List<EosStudent> eosStudentList = ExcelHelper.getExcelStudentData(fileFullName);
@@ -75,6 +75,23 @@ public class EosStudentService {
             messageResult.setMessage(e.getMessage());
         }
         return messageResult;
+    }
+
+    public MessageResult<EosStudentVO> getEosStudentByIdWithRelative(Integer id) {
+        MessageResult<EosStudentVO> message = new MessageResult<>();
+        try {
+            EosStudentDto eosStudentDto= eosStudentMapper.getEosStudentByIdWithRelative(id);
+            EosStudentVO eosStudentVO=new EosStudentVO();
+            BeanUtils.copyProperties(eosStudentDto,eosStudentVO);
+            message.setData(eosStudentVO);
+            message.setCode(0);
+        } catch (Exception ex) {
+            message.setCode(500);
+            message.setMessage(ex.getMessage());
+            logger.error(ex.toString());
+        }
+        return message;
+
     }
 
     //region
