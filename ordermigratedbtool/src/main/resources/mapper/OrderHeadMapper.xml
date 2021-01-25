@@ -56,7 +56,10 @@
     and oh.IsDelete=0 and oh.OrderType between 1 and 2 and oh.OrderStateId=6
     and p.IsDelete=0 and p.Isopen=1
     and pd.isDelete=0 and  pd.FKID=pd.ZID
-    and ui.StudentId=  #{studentId,jdbcType=VARCHAR}
+    and ui.StudentId in
+    <foreach collection="studentIds" index="index" item="studentGuid" separator="," open="(" close=")">
+      #{studentGuid}
+    </foreach>
   </sql>
 
   <select id="getOrderByStudentGuid" parameterType="com.onlyedu.ordermigratedbtool.model.dto.StudentOrderDto" resultType="com.onlyedu.ordermigratedbtool.model.dto.StudentOrderDto">

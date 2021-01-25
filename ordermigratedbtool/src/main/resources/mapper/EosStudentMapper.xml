@@ -52,7 +52,13 @@
         join  NewClassesAdmin.dbo.RelativeStudent rs on ui.Id=rs.UserInfoId
         where rs.EosStudentId=es.ID
         FOR XML PATH('')
-        )UserInfoId
+        )UserInfoId,
+        (
+        select cast( ui.StudentId as nvarchar(50))+',' from NewClassesAdmin.dbo.UserInfo ui
+        join  NewClassesAdmin.dbo.RelativeStudent rs on ui.Id=rs.UserInfoId
+        where rs.EosStudentId=es.ID
+        FOR XML PATH('')
+        )UserInfoStudentIds
         from [NewClassesAdmin].[dbo].[EosStudent] es
         where 1=1
         <include refid="dynamicWhere"></include>

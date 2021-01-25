@@ -7,11 +7,13 @@ import lombok.EqualsAndHashCode;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class StudentOrderDto extends Page {
     private Integer id;
+    private List<String> studentIds;
     private String studentId;
     private String orderNo;
     private String courseWareName;

@@ -88,8 +88,11 @@ public class EosStudentService {
             eosStudentDtoList.forEach(p ->
             {
                 String userInfoId = p.getUserInfoId();
-                if (userInfoId != null) {
+                if (userInfoId != null&&userInfoId!="") {
                     p.setUserInfoId(userInfoId.substring(0, userInfoId.length() - 1));
+                }
+                if(p.getUserInfoStudentIds()!=null&&p.getUserInfoStudentIds()!="") {
+                    p.setUserInfoStudentIds(p.getUserInfoStudentIds().substring(0,p.getUserInfoStudentIds().length()-1));
                 }
             });
             PageData<EosStudentVO> pageData = new PageData<>();
