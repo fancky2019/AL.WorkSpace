@@ -89,7 +89,12 @@
     join NewClassesAdmin.dbo.EosOrder eo on rs.EosOrderId=eo.Id
     where rs.OrderHeadId=oh.Id
     FOR XML PATH('')
-    )EosOrderNos
+    )EosOrderNos,
+    ( select CAST( eo.Id as nvarchar)+',' from  NewClassesAdmin.dbo.RelativeOrder ro
+    join NewClassesAdmin.dbo.EosOrder eo on ro.EosOrderId=eo.Id
+    where ro.OrderHeadId=oh.Id
+    FOR XML PATH('')
+    )EosOrderIds
     <include refid="basicTable"></include>
     ) t1
     )t2
