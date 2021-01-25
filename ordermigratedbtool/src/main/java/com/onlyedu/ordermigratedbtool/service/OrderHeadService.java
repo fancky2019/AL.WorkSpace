@@ -54,6 +54,13 @@ public class OrderHeadService {
             {
                 StudentOrderVO studentOrderVO = new StudentOrderVO();
                 BeanUtils.copyProperties(p, studentOrderVO);
+                if(p.getEosOrderIds()!=null&&p.getEosOrderIds()!="") {
+                    studentOrderVO.setEosOrderIds(p.getEosOrderIds().substring(0,p.getEosOrderIds().length()-1));
+                }
+                if(p.getEosOrderNos()!=null&&p.getEosOrderNos()!="") {
+                    studentOrderVO.setEosOrderNos(p.getEosOrderNos().substring(0,p.getEosOrderNos().length()-1));
+                }
+
                 studentOrderVOList.add(studentOrderVO);
             });
             pageData.setRows(studentOrderVOList);

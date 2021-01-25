@@ -32,4 +32,7 @@ public class EosOrderDto  extends Page {
     private String relativeStateStr;
 
     private String orderHeadOrderNos;
+
+    private String orderHeadIds;
+
 }

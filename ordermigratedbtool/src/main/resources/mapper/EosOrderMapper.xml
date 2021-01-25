@@ -118,7 +118,14 @@
                                               join NewClassesAdmin.dbo.OrderHead oh on rs.OrderHeadId = oh.Id
                                      where rs.EosOrderId = eo.Id
                               FOR XML PATH ('')
-                      ) OrderHeadOrderNos from NewClassesAdmin.dbo.EosOrder eo
+                      ) OrderHeadOrderNos  ,
+                      (
+                          select   CAST( oh.Id as nvarchar)+','
+                          from  NewClassesAdmin.dbo.RelativeOrder ro
+                                    join  NewClassesAdmin.dbo.OrderHead oh on ro.OrderHeadId=oh.Id
+                          where ro.EosOrderId=eo.Id
+                              FOR XML PATH('')
+                      )OrderHeadIds from NewClassesAdmin.dbo.EosOrder eo
                  where eo.EosStudentID=#{eosStudentID,jdbcType=INTEGER}
              ) t1 )t2
         where t2.RowNum BETWEEN (#{pageIndex,jdbcType=INTEGER}-1)*#{pageSize,jdbcType=INTEGER}+1
