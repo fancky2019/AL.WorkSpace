@@ -12,11 +12,13 @@ public class EosOrderVo {
     private Integer id;
 
     private String orderNo;
-//    private Integer eosStudentID;
+    //    private Integer eosStudentID;
     private String feeContent;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime orderTime;
+
+    private Integer courseProductID;
 
     private String courseProductName;
 

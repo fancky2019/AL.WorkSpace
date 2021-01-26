@@ -63,7 +63,7 @@ public class EosOrderService {
             //sqlserver最大支持2100个参数，此插入语句有4个参数。
             //每次插入500条确保小于2100最大值。
 //            Integer num=2100/4;
-            Integer paramCount = 7;
+            Integer paramCount = 8;
             Integer maxInsertCount = 2099 / paramCount;
             Integer loopCount = eosOrderList.size() / maxInsertCount + 1;
             for (int i = 0; i < loopCount; i++) {

@@ -23,8 +23,7 @@
 <!--    where Id = #{id,jdbcType=INTEGER}-->
 <!--  </delete>-->
   <insert id="insert" parameterType="com.onlyedu.ordermigratedbtool.model.entity.RelativeOrder">
-    insert into RelativeOrder ( OrderHeadId, EosOrderId,
-      EosRemainBalance
+    insert into [NewClassesAdmin].[dbo].[RelativeOrder]  (   [OrderHeadId] ,[OrderProductId],[EosOrderId],[EosOrderProductId] ,[EosRemainBalance]
       )
     values ( #{orderHeadId,jdbcType=INTEGER}, #{eosOrderId,jdbcType=INTEGER},
       #{eosRemainBalance,jdbcType=DECIMAL}
@@ -32,7 +31,7 @@
   </insert>
   <insert id="batchInsert" parameterType="com.onlyedu.ordermigratedbtool.model.entity.RelativeOrder">
     insert into [NewClassesAdmin].[dbo].[RelativeOrder] (
-                                                         [OrderHeadId] ,[EosOrderId] ,[EosRemainBalance]
+                                                         [OrderHeadId] ,[OrderProductId],[EosOrderId],[EosOrderProductId] ,[EosRemainBalance]
                                                          )
     values
     <foreach collection="list" item="item" separator=",">

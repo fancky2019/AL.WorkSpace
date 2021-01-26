@@ -97,8 +97,8 @@ public class EosStudentController {
     }
 
     @GetMapping("/getEosStudentByIdWithRelative")
-    public MessageResult<EosStudentVO> getEosStudentByIdWithRelative(Integer id) {
-        return eosStudentService.getEosStudentByIdWithRelative(id);
+    public MessageResult<EosStudentVO> getEosStudentByIdWithRelative(Integer eosStudentID) {
+        return eosStudentService.getEosStudentByIdWithRelative(eosStudentID);
     }
 
 

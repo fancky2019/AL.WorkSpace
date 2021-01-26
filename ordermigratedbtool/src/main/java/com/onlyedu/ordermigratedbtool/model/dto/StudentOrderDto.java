@@ -20,6 +20,7 @@ public class StudentOrderDto extends Page {
     private String studentId;
     private String orderNo;
     private String courseWareName;
+    private Integer orderProductId;
     private String productName;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")

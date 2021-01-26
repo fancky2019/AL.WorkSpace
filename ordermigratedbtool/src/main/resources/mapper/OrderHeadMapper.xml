@@ -80,6 +80,7 @@
     when 'L' then 'L_'+ L.[Name]
     ELSE '其他课程'
     end as CourseWareName,
+    p.ID [OrderProductId],
     p.ProductName , oc.[CourseStime] CourseStartTime ,oc.[OverTime] CourseEndTime ,
     case   when oh.OrderType= 1 then '正式'
     when oh.OrderType= 2 then '试听'

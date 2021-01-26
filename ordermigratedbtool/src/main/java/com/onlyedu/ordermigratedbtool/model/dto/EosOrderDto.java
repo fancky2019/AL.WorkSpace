@@ -21,6 +21,8 @@ public class EosOrderDto  extends Page {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime orderTime;
 
+    private Integer courseProductID;
+
     private String courseProductName;
 
     private BigDecimal orderBalance;

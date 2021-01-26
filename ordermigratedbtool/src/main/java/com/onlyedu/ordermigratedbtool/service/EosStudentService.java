@@ -77,10 +77,10 @@ public class EosStudentService {
         return messageResult;
     }
 
-    public MessageResult<EosStudentVO> getEosStudentByIdWithRelative(Integer id) {
+    public MessageResult<EosStudentVO> getEosStudentByIdWithRelative(Integer eosStudentID) {
         MessageResult<EosStudentVO> message = new MessageResult<>();
         try {
-            EosStudentDto eosStudentDto= eosStudentMapper.getEosStudentByIdWithRelative(id);
+            EosStudentDto eosStudentDto= eosStudentMapper.getEosStudentByIdWithRelative(eosStudentID);
             EosStudentVO eosStudentVO=new EosStudentVO();
             BeanUtils.copyProperties(eosStudentDto,eosStudentVO);
             message.setData(eosStudentVO);

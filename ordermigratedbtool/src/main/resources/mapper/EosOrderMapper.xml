@@ -39,12 +39,12 @@
 
     <insert id="insert" parameterType="com.onlyedu.ordermigratedbtool.model.entity.EosOrder">
         insert into EosOrder (Id, OrderNo, EosStudentID,
-                              FeeContent, OrderTime, CourseProductName,
+                              FeeContent, OrderTime,CourseProductID,CourseProductName,
                               OrderBalance, RemainBalance, RelativeState,
                               OrderHeadID)
         values (#{id,jdbcType=INTEGER}, #{orderNo,jdbcType=NVARCHAR}, #{eosStudentID,jdbcType=INTEGER},
                 #{feeContent,jdbcType=NVARCHAR}, #{orderTime,jdbcType=TIMESTAMP},
-                #{courseProductName,jdbcType=NVARCHAR},
+                #{courseProductID,jdbcType=INTEGER},  #{courseProductName,jdbcType=NVARCHAR},
                 #{orderBalance,jdbcType=DECIMAL}, #{remainBalance,jdbcType=DECIMAL}, #{relativeState,jdbcType=BIT},
                 #{orderHeadID,jdbcType=INTEGER})
     </insert>
@@ -54,6 +54,7 @@
                EosStudentID,
                FeeContent,
                OrderTime,
+               CourseProductID,
                CourseProductName,
                OrderBalance,
                RemainBalance
@@ -61,14 +62,16 @@
         where Id =#{id,jdbcType=INTEGER}
     </select>
 
-    <select id="selectByIds" parameterType="java.util.List" resultType="com.onlyedu.ordermigratedbtool.model.entity.EosOrder">
+    <select id="selectByIds" parameterType="java.util.List"
+            resultType="com.onlyedu.ordermigratedbtool.model.entity.EosOrder">
         SELECT OrderNo,
-               EosStudentID,
-               FeeContent,
-               OrderTime,
-               CourseProductName,
-               OrderBalance,
-               RemainBalance
+        EosStudentID,
+        FeeContent,
+        OrderTime,
+        CourseProductID,
+        CourseProductName,
+        OrderBalance,
+        RemainBalance
         FROM [NewClassesAdmin].[dbo].[EosOrder]
         where Id in
         <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
@@ -81,6 +84,7 @@
                EosStudentID,
                FeeContent,
                OrderTime,
+               CourseProductID,
                CourseProductName,
                OrderBalance,
                RemainBalance
@@ -89,14 +93,14 @@
 
     <insert id="batchInsert" parameterType="com.onlyedu.ordermigratedbtool.model.entity.EosOrder">
         insert into EosOrder (OrderNo, EosStudentID,
-        FeeContent, OrderTime, CourseProductName,
+        FeeContent, OrderTime,CourseProductID, CourseProductName,
         OrderBalance, RemainBalance
         )
         values
         <foreach collection="list" item="item" separator=",">
             (#{item.orderNo,jdbcType=NVARCHAR}, #{item.eosStudentID,jdbcType=INTEGER},
             #{item.feeContent,jdbcType=NVARCHAR}, #{item.orderTime,jdbcType=TIMESTAMP},
-            #{item.courseProductName,jdbcType=NVARCHAR},
+            #{item.courseProductID,jdbcType=INTEGER}, #{item.courseProductName,jdbcType=NVARCHAR},
             cast(#{item.orderBalance,jdbcType=DECIMAL} as decimal(18,2)),
             cast( #{item.remainBalance,jdbcType=DECIMAL} as decimal(18,2))
             )
@@ -114,6 +118,7 @@
                                  eo.[OrderNo],
                                  eo.[EosStudentID],
                                  eo.[OrderTime],
+                                 eo.[CourseProductID],
                                  eo.[CourseProductName],
                                  eo.[OrderBalance],
                                  case ISNULL(eo.[RelativeState], 0)
@@ -128,14 +133,13 @@
                                               join NewClassesAdmin.dbo.OrderHead oh on rs.OrderHeadId = oh.Id
                                      where rs.EosOrderId = eo.Id
                               FOR XML PATH ('')
-                      ) OrderHeadOrderNos  ,
+                      ) OrderHeadOrderNos,
                       (
-                          select   CAST( oh.Id as nvarchar)+','
-                          from  NewClassesAdmin.dbo.RelativeOrder ro
-                                    join  NewClassesAdmin.dbo.OrderHead oh on ro.OrderHeadId=oh.Id
-                          where ro.EosOrderId=eo.Id
-                              FOR XML PATH('')
-                      )OrderHeadIds from NewClassesAdmin.dbo.EosOrder eo
+                          select CAST(oh.Id as nvarchar) + ','
+                          from NewClassesAdmin.dbo.RelativeOrder ro
+                                   join NewClassesAdmin.dbo.OrderHead oh on ro.OrderHeadId = oh.Id
+                          where ro.EosOrderId = eo.Id FOR XML PATH('')
+                      ) OrderHeadIds from NewClassesAdmin.dbo.EosOrder eo
                  where eo.EosStudentID=#{eosStudentID,jdbcType=INTEGER}
              ) t1 )t2
         where t2.RowNum BETWEEN (#{pageIndex,jdbcType=INTEGER}-1)*#{pageSize,jdbcType=INTEGER}+1
