@@ -50,12 +50,21 @@ public class OrderController {
     public MessageResult<Void> updateRelative(@RequestBody RelativeOrderHeadEosOrderDto relativeOrderHeadEosOrderDto) {
 
         if (relativeOrderHeadEosOrderDto.getOrderHeadIds().size() > 1 && relativeOrderHeadEosOrderDto.getEosOrderIds().size() > 1) {
-            MessageResult<Void> result = new MessageResult<>();
-            result.setCode(400);
-            result.setMessage("订单不存在多对多关联关系!");
-            return result;
+            return returnError("订单不存在多对多关联关系!",200);
+        }
+        if(relativeOrderHeadEosOrderDto.getOrderHeadIds().size() ==0|| relativeOrderHeadEosOrderDto.getEosOrderIds().size() ==0)
+        {
+            return returnError("存在空参数!",200);
         }
         return orderHeadService.updateRelative(relativeOrderHeadEosOrderDto);
+    }
+
+    private  MessageResult<Void> returnError(String errMessage,Integer code)
+    {
+        MessageResult<Void> result = new MessageResult<>();
+        result.setCode(code);
+        result.setMessage(errMessage);
+        return result;
     }
 
     @PostMapping("/unRelative")
