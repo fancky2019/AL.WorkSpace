@@ -35,6 +35,8 @@ public class EosOrderDto  extends Page {
 
     private String orderHeadOrderNos;
 
+    private String  orderHeadProductIds;
+
     private String orderHeadIds;
 
 }

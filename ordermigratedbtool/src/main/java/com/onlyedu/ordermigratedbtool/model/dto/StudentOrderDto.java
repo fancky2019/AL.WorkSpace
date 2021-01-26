@@ -38,6 +38,7 @@ public class StudentOrderDto extends Page {
     private String relativeStateStr;
     private Boolean relativeState;
     private String eosOrderNos;
+    private String eosProductIds;
     private String eosOrderIds;
 
 }

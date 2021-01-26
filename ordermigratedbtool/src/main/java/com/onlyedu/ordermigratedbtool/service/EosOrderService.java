@@ -108,6 +108,9 @@ public class EosOrderService {
                 if(p.getOrderHeadOrderNos()!=null&&p.getOrderHeadOrderNos()!="") {
                     eosOrderVo.setOrderHeadOrderNos(p.getOrderHeadOrderNos().substring(0,p.getOrderHeadOrderNos().length()-1));
                 }
+                if (p.getOrderHeadProductIds() != null && p.getOrderHeadProductIds() != "") {
+                    eosOrderVo.setOrderHeadProductIds(p.getOrderHeadProductIds().substring(0, p.getOrderHeadProductIds().length() - 1));
+                }
                 eosOrderVoList.add(eosOrderVo);
             });
             pageData.setRows(eosOrderVoList);
