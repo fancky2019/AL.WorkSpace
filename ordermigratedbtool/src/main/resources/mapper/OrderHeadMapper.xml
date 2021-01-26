@@ -86,10 +86,10 @@
         select ROW_NUMBER() over(order by (select 0) ) as RowNum,*
         from
         (
-        select * , case when EoseProductIds is null then '未关联'
+        select * , case when EosProductIds is null then '未关联'
         else '已关联'
         end RelativeStateStr,
-        case when EoseProductIds is null then 0
+        case when EosProductIds is null then 0
         else 1
         end RelativeState
         from (
@@ -121,7 +121,7 @@
         join NewClassesAdmin.dbo.EosOrder eo on ro.EosOrderId=eo.Id and ro.EosOrderProductId=eo.CourseProductID
         where ro.OrderHeadId=oh.Id and ro.OrderProductId=p.ID
         FOR XML PATH('')
-        )EoseProductIds ,
+        )EosProductIds ,
         ( select CAST( eo.Id as nvarchar)+',' from NewClassesAdmin.dbo.RelativeOrder ro
         join NewClassesAdmin.dbo.EosOrder eo on ro.EosOrderId=eo.Id and ro.EosOrderProductId=eo.CourseProductID
         where ro.OrderHeadId=oh.Id and ro.OrderProductId=p.ID

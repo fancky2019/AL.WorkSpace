@@ -32,5 +32,7 @@ public class EosOrderVo {
 
     private String orderHeadOrderNos;
 
+    private String  orderHeadProductIds;
+
     private String orderHeadIds;
 }

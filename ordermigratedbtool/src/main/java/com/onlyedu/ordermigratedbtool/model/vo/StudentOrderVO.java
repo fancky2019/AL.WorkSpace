@@ -28,5 +28,6 @@ public class StudentOrderVO {
     private String relativeStateStr;
     private Boolean relativeState;
     private String eosOrderNos;
+    private String eosProductIds;
     private String eosOrderIds;
 }
