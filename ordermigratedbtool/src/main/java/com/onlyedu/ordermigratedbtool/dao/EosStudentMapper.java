@@ -25,5 +25,5 @@ public interface EosStudentMapper {
 
     Integer updateRelative(EosStudent eosStudent);
 
-    EosStudentDto getEosStudentByIdWithRelative(Integer id);
+    EosStudentDto getEosStudentByIdWithRelative(Integer eosStudentID);
 }

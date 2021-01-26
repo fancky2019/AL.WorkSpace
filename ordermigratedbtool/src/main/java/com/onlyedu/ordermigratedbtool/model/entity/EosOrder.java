@@ -4,6 +4,7 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Data
 public class EosOrder {
@@ -16,6 +17,8 @@ public class EosOrder {
     private String feeContent;
 
     private LocalDateTime orderTime;
+
+    private Integer courseProductID;
 
     private String courseProductName;
 
@@ -32,29 +35,17 @@ public class EosOrder {
     private Boolean relativeState;
 
 
+    //ALT+INSERT
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;//地址相等
-        }
+    public boolean equals(Object o) {
+        if (this == o) return true;//地址相等
+        if (o == null || getClass() != o.getClass()) return false;
+        EosOrder eosOrder = (EosOrder) o;
+        return orderNo.equals(eosOrder.orderNo) && eosStudentID.equals(eosOrder.eosStudentID) && feeContent.equals(eosOrder.feeContent) && orderTime.equals(eosOrder.orderTime) && courseProductID.equals(eosOrder.courseProductID) && courseProductName.equals(eosOrder.courseProductName) && orderBalance.equals(eosOrder.orderBalance) && remainBalance.equals(eosOrder.remainBalance);
+    }
 
-        if (obj == null) {
-            return false;//非空性：对于任意非空引用x，x.equals(null)应该返回false。
-        }
-
-        if (obj instanceof EosOrder) {
-            EosOrder other = (EosOrder) obj;
-            if (other.getOrderNo().equals(this.getOrderNo()) &&
-                    other.getEosStudentID().equals(this.getEosStudentID()) &&
-                    other.getFeeContent().equals(this.getFeeContent()) &&
-                    other.getOrderTime().equals(this.getOrderTime()) &&
-                    other.getCourseProductName().equals(this.getCourseProductName()) &&
-                    other.getOrderBalance().equals(this.getOrderBalance()) &&
-                    other.getRemainBalance().equals(this.getRemainBalance())) {
-                return true;
-            }
-        }
-
-        return false;
+    @Override
+    public int hashCode() {
+        return Objects.hash(orderNo, eosStudentID, feeContent, orderTime, courseProductID, courseProductName, orderBalance, remainBalance);
     }
 }

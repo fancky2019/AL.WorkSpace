@@ -80,14 +80,13 @@ public class ExcelHelper {
              */
             //索引从0开始
             eosStudent.setOrderNo(getCellFormatValue(row.getCell(9)).toString().trim());
-            eosStudent.setEosStudentID(Integer.valueOf( getCellFormatValue(row.getCell(7)).toString().trim()));
+            eosStudent.setEosStudentID(Integer.valueOf(getCellFormatValue(row.getCell(7)).toString().trim()));
             eosStudent.setFeeContent(getCellFormatValue(row.getCell(10)).toString().trim());
             String timeStr = getCellFormatValue(row.getCell(12)).toString().trim();
             LocalDateTime orderTime = LocalDateTime.parse(timeStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS"));
             eosStudent.setOrderTime(orderTime);
             eosStudent.setCourseProductName(getCellFormatValue(row.getCell(13)).toString().trim());
-
-
+            eosStudent.setCourseProductID(Integer.valueOf(getCellFormatValue(row.getCell(14)).toString().trim()));
 
             //保留两位小数。不然2.00会变成2.0
             eosStudent.setOrderBalance(new BigDecimal(getCellFormatValue(row.getCell(20)).toString().trim()).setScale(2, RoundingMode.HALF_UP));

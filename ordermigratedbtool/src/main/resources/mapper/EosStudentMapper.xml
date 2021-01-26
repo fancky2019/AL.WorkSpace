@@ -150,7 +150,7 @@
             FOR XML PATH('')
             )UserInfoStudentIds
         from [NewClassesAdmin].[dbo].[EosStudent] es
-        where es.Id=#{id,jdbcType=INTEGER}
+        where es.EosStudentID=#{eosStudentID,jdbcType=INTEGER}
     </select>
 
 </mapper>
