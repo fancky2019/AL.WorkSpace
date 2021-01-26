@@ -115,8 +115,8 @@ public class UserInfoController {
     }
 
     @GetMapping("/getUserInfoByGuid")
-    public MessageResult<UserInfoVO> getUserInfoByGuid(UserInfoDto userInfoDto) {
-        MessageResult<UserInfoVO> message = userInfoService.getUserInfoByGuid(userInfoDto);
+    public MessageResult<List<UserInfoVO>> getUserInfoByGuid(UserInfoDto userInfoDto) {
+        MessageResult<List<UserInfoVO>> message = userInfoService.getUserInfoByGuid(userInfoDto);
         return message;
     }
 
