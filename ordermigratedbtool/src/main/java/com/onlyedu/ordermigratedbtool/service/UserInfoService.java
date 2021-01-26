@@ -249,15 +249,22 @@ public class UserInfoService {
         return messageResult;
     }
 
-    public MessageResult<UserInfoVO> getUserInfoByGuid(UserInfoDto userInfoDto) {
-        MessageResult<UserInfoVO> messageResult = new MessageResult<>();
+    public MessageResult<List<UserInfoVO>> getUserInfoByGuid(UserInfoDto userInfoDto) {
+        MessageResult<List<UserInfoVO>> messageResult = new MessageResult<>();
         try {
-            UserInfoDto dto = userInfoMapper.getUserInfoByGuid(userInfoDto);
-            UserInfoVO userInfoVO = new UserInfoVO();
-            BeanUtils.copyProperties(dto, userInfoVO);
-            userInfoVO.setRegTime(dto.getRegTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")));
-            userInfoVO.setRelativeStateStr(dto.getRelativeState() != null ? dto.getRelativeState() ? "已关联" : "未关联" : "未关联");
-            messageResult.setData(userInfoVO);
+            List<UserInfoDto> dtos = userInfoMapper.getUserInfoByGuid(userInfoDto);
+
+            List<UserInfoVO> userInfoVOList = new ArrayList<>();
+            dtos.forEach(dto ->
+            {
+                UserInfoVO userInfoVO = new UserInfoVO();
+                BeanUtils.copyProperties(dto, userInfoVO);
+                userInfoVO.setRegTime(dto.getRegTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")));
+                userInfoVO.setRelativeStateStr(dto.getRelativeState() != null ? dto.getRelativeState() ? "已关联" : "未关联" : "未关联");
+                userInfoVOList.add(userInfoVO);
+            });
+
+            messageResult.setData(userInfoVOList);
             messageResult.setCode(0);
         } catch (Exception e) {
             logger.error(e.toString());

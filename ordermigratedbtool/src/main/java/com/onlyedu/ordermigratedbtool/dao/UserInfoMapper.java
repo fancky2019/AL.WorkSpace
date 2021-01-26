@@ -27,7 +27,7 @@ public interface UserInfoMapper {
 
     List<RelativeStateDto> getRelativeState();
 
-    UserInfoDto getUserInfoByGuid(UserInfoDto userInfoDto);
+    List<UserInfoDto> getUserInfoByGuid(UserInfoDto userInfoDto);
 
     EosStudent getRelativeEosStudentByUserInfoId(Integer id);
 
