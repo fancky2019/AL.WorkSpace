@@ -73,9 +73,9 @@ public class UserInfoService {
     }
     //endregion
 
-    //region 更新关联装填
+    //region 更新关联
     @Transactional(rollbackFor = Exception.class)
-    public MessageResult<Void> updateRelative(RelativeUserInfoEosStudentDto relativeUserInfoEosStudentDto) throws Exception {
+    public MessageResult<Void> updateRelative(RelativeUserInfoEosStudentDto relativeUserInfoEosStudentDto) {
         MessageResult<Void> messageResult = new MessageResult<>();
         try {
             String userInfoIds = "";
@@ -123,9 +123,9 @@ public class UserInfoService {
             messageResult.setCode(500);
             messageResult.setMessage(e.getMessage());
             // 手动回滚
-            //  TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+              TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             //如果不抛出异常，将不能自动回滚
-            throw e;
+//            throw e;
         }
         return messageResult;
     }

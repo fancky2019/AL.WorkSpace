@@ -36,7 +36,7 @@ public class OrderHeadService {
     @Autowired
     private RelativeOrderMapper relativeOrderMapper;
 
-    //region 获取有订单的学生列表
+    //region 获取有订单列表
 
     public MessageResult<PageData<StudentOrderVO>> getOrderByStudentGuidPage(StudentOrderDto studentOrderDto) {
         MessageResult<PageData<StudentOrderVO>> message = new MessageResult<>();
@@ -95,7 +95,7 @@ public class OrderHeadService {
     }
 
 
-    //region 更新关联装填
+    //region 更新关联
     @Transactional(rollbackFor = Exception.class)
     public MessageResult<Void> updateRelative(RelativeOrderHeadEosOrderDto dto) {
         MessageResult<Void> messageResult = new MessageResult<>();
@@ -169,9 +169,9 @@ public class OrderHeadService {
             messageResult.setCode(500);
             messageResult.setMessage(e.getMessage());
             // 手动回滚
-            //  TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             //如果不抛出异常，将不能自动回滚
-            throw e;
+//            throw e;
         }
         return messageResult;
     }
