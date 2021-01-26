@@ -103,15 +103,17 @@ public class OrderHeadService {
             List<RelativeOrder> relativeOrderList = new ArrayList<>();
             String userInfoIds = "";
             //网校多对Eos一
-            if (dto.getOrderHeadIds().size() > 1) {
+            if (dto.getOrderHeads().size() > 1) {
                 Integer eosOrderId = dto.getEosOrderIds().get(0);
                 EosOrder eosOrder = this.eosOrderMapper.selectByPrimaryKey(eosOrderId);
-                BigDecimal orderHeadCount = BigDecimal.valueOf(dto.getOrderHeadIds().size());
-                relativeOrderList = dto.getOrderHeadIds().stream().map(p ->
+                BigDecimal orderHeadCount = BigDecimal.valueOf(dto.getOrderHeads().size());
+                relativeOrderList = dto.getOrderHeads().stream().map(p ->
                 {
                     RelativeOrder relativeOrder = new RelativeOrder();
-                    relativeOrder.setEosOrderId(eosOrderId);
-                    relativeOrder.setOrderHeadId(p);
+                    relativeOrder.setOrderHeadId(p.getId());
+                    relativeOrder.setOrderProductId(p.getOrderProductId());
+                    relativeOrder.setEosOrderId(eosOrder.getId());
+                    relativeOrder.setEosOrderProductId(eosOrder.getCourseProductID());
                     //平均剩余金额
                     relativeOrder.setEosRemainBalance(eosOrder.getRemainBalance().divide(orderHeadCount, 2, RoundingMode.HALF_UP));
                     return relativeOrder;
@@ -122,12 +124,15 @@ public class OrderHeadService {
                 //网线一对Eos多
                 List<EosOrder> eosOrderList = this.eosOrderMapper.selectByIds(dto.getEosOrderIds());
                 BigDecimal sumRemainRemaining = eosOrderList.stream().map(EosOrder::getRemainBalance).reduce(BigDecimal::add).get();
-                Integer orderHeadId = dto.getOrderHeadIds().get(0);
-                relativeOrderList = dto.getEosOrderIds().stream().map(p ->
+                Integer orderHeadId = dto.getOrderHeads().get(0).getId();
+                Integer orderProductId = dto.getOrderHeads().get(0).getOrderProductId();
+                relativeOrderList = eosOrderList.stream().map(p ->
                 {
                     RelativeOrder relativeOrder = new RelativeOrder();
                     relativeOrder.setOrderHeadId(orderHeadId);
-                    relativeOrder.setEosOrderId(p);
+                    relativeOrder.setOrderProductId(orderProductId);
+                    relativeOrder.setEosOrderId(p.getId());
+                    relativeOrder.setEosOrderProductId(p.getCourseProductID());
                     //剩余金额
                     relativeOrder.setEosRemainBalance(sumRemainRemaining);
                     return relativeOrder;
@@ -143,23 +148,24 @@ public class OrderHeadService {
                 return messageResult;
             }
 
-            //更新OrderHead表关联状态
-            Integer result2 = this.orderHeadMapper.updateRelativeBatch(dto.getOrderHeadIds());
-            if (result2 <= 0) {
-                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-                messageResult.setMessage("关联失败");
-                messageResult.setCode(500);
-                return messageResult;
-            }
-
-            //更新EosOrder表关联状态
-            Integer result3 = this.eosOrderMapper.updateRelativeBatch(dto.getEosOrderIds());
-            if (result3 <= 0) {
-                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-                messageResult.setMessage("关联失败");
-                messageResult.setCode(500);
-                return messageResult;
-            }
+//            //更新OrderHead表关联状态
+//            List<Integer> orderHeadIds = dto.getOrderHeads().stream().map(StudentOrderDto::getId).collect(Collectors.toList());
+//            Integer result2 = this.orderHeadMapper.updateRelativeBatch(orderHeadIds);
+//            if (result2 <= 0) {
+//                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+//                messageResult.setMessage("关联失败");
+//                messageResult.setCode(500);
+//                return messageResult;
+//            }
+//
+//            //更新EosOrder表关联状态
+//            Integer result3 = this.eosOrderMapper.updateRelativeBatch(dto.getEosOrderIds());
+//            if (result3 <= 0) {
+//                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+//                messageResult.setMessage("关联失败");
+//                messageResult.setCode(500);
+//                return messageResult;
+//            }
             messageResult.setCode(0);
 
 
@@ -186,8 +192,11 @@ public class OrderHeadService {
             //OrderHead 解除关联
             if (dto.getUnRelativeType() == 0) {
 
+                RelativeOrder relativeOrderQ = new RelativeOrder();
+                relativeOrderQ.setOrderHeadId(dto.getId());
+                relativeOrderQ.setOrderProductId(dto.getProductId());
                 //该条关联的EosOrder的关联信息
-                List<RelativeOrder> relativeOrderList = this.relativeOrderMapper.getByOrderHeadId(dto.getId());
+                List<RelativeOrder> relativeOrderList = this.relativeOrderMapper.getByOrderHeadProduct(relativeOrderQ);
                 //OrderHead多对EosOrder一
                 if (relativeOrderList.size() > 1) {
                     //获取EosOrder信息
@@ -204,31 +213,16 @@ public class OrderHeadService {
                     if (result <= 0) {
                         return setRollBackReturn(messageResult);
                     }
-                } else {
-                    //OrderHead一对EosOrder一或OrderHead一对EosOrder多
-                    //更新EosOrder信息
-                    List<Integer> eosOrderIds = new ArrayList<>();
-                    eosOrderIds.add(relativeOrderList.get(0).getEosOrderId());
-                    result = this.eosOrderMapper.updateUnRelativeBatch(eosOrderIds);
-                    if (result <= 0) {
-                        return setRollBackReturn(messageResult);
-                    }
                 }
                 //删除RelativeOrder信息
-                result = this.relativeOrderMapper.deleteByOrderHeadId(dto.getId());
+                result = this.relativeOrderMapper.deleteByOrderHeadProduct(relativeOrderQ);
                 if (result <= 0) {
                     return setRollBackReturn(messageResult);
                 }
-                //更新OrderHead
-                OrderHead orderHead = new OrderHead();
-                orderHead.setId(dto.getId());
-                result = orderHeadMapper.updateUnRelative(orderHead);
-                if (result <= 0) {
-                    return setRollBackReturn(messageResult);
-                }
+
             } else {
                 //EosOrder解除
-                //该条关联的OrderHead的关联信息
+                //该条Eos关联的OrderHead的关联Eos信息
                 List<RelativeOrder> relativeOrderList = this.relativeOrderMapper.getByEosOrderId(dto.getId());
                 //EosOrder多对OrderHead一
                 if (relativeOrderList.size() > 1) {
@@ -242,21 +236,9 @@ public class OrderHeadService {
                     //更新剩余关联记录的剩余金额
                     RelativeOrder relativeOrder = new RelativeOrder();
                     relativeOrder.setOrderHeadId(relativeOrderList.get(0).getOrderHeadId());
+                    relativeOrder.setOrderProductId(relativeOrderList.get(0).getOrderProductId());
                     relativeOrder.setEosRemainBalance(avgRemainBalance);
-                    result = this.relativeOrderMapper.updateEosRemainBalanceByOrderHeadId(relativeOrder);
-                    if (result <= 0) {
-                        return setRollBackReturn(messageResult);
-                    }
-                } else {
-                    //EosOrder一对OrderHead一或EosOrder一对OrderHead多
-                    //更新OrderHead信息
-                    OrderHead orderHead=new OrderHead();
-                    if(relativeOrderList.size()==0)
-                    {
-                        return returnError("没有关联记录！",200);
-                    }
-                    orderHead.setId(relativeOrderList.get(0).getOrderHeadId());
-                    result = this.orderHeadMapper.updateUnRelative(orderHead);
+                    result = this.relativeOrderMapper.updateEosRemainBalanceByOrderHeadProduct(relativeOrder);
                     if (result <= 0) {
                         return setRollBackReturn(messageResult);
                     }
@@ -266,13 +248,7 @@ public class OrderHeadService {
                 if (result <= 0) {
                     return setRollBackReturn(messageResult);
                 }
-                //更新EosOrder
-                List<Integer> eosOrderIds = new ArrayList<>();
-                eosOrderIds.add(dto.getId());
-                result = this.eosOrderMapper.updateUnRelativeBatch(eosOrderIds);
-                if (result <= 0) {
-                    return setRollBackReturn(messageResult);
-                }
+
             }
             messageResult.setCode(0);
         } catch (Exception e) {
@@ -296,8 +272,7 @@ public class OrderHeadService {
     }
     //endregion
 
-    private  MessageResult<Void> returnError(String errMessage,Integer code)
-    {
+    private MessageResult<Void> returnError(String errMessage, Integer code) {
         MessageResult<Void> result = new MessageResult<>();
         result.setCode(code);
         result.setMessage(errMessage);

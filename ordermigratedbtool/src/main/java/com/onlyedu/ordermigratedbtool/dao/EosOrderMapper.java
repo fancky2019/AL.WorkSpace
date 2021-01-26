@@ -26,9 +26,9 @@ public interface EosOrderMapper {
 
     List<EosOrderDto> getEosOrdersByStudentId(EosOrderDto eosOrderDto);
 
-    Integer updateRelativeBatch(List<Integer> ids);
-
-    Integer updateUnRelativeBatch(List<Integer> ids);
+//    Integer updateRelativeBatch(List<Integer> ids);
+//
+//    Integer updateUnRelativeBatch(List<Integer> ids);
 
     List<EosOrder> selectByIds(List<Integer> ids);
 

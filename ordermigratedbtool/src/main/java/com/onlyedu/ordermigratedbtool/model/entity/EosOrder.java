@@ -32,8 +32,6 @@ public class EosOrder {
      */
     private BigDecimal remainBalance;
 
-    private Boolean relativeState;
-
 
     //ALT+INSERT
     @Override

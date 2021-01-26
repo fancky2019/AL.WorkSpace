@@ -1,123 +1,146 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.onlyedu.ordermigratedbtool.dao.OrderHeadMapper">
-  <update id="updateRelative" parameterType="com.onlyedu.ordermigratedbtool.model.entity.OrderHead">
-    update NewClassesAdmin.dbo.OrderHead
-    set
-      RelativeState = 1
-    where Id = #{id,jdbcType=INTEGER}
-  </update>
+    <!--  <update id="updateRelative" parameterType="com.onlyedu.ordermigratedbtool.model.entity.OrderHead">-->
+    <!--    update NewClassesAdmin.dbo.OrderHead-->
+    <!--    set-->
+    <!--      RelativeState = 1-->
+    <!--    where Id = #{id,jdbcType=INTEGER}-->
+    <!--  </update>-->
 
-  <update id="updateRelativeBatch" parameterType="java.util.List">
-    update NewClassesAdmin.dbo.OrderHead
-    set
-      RelativeState = 1
-    where Id in
-    <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
-      #{item}
-    </foreach>
-  </update>
+    <!--  <update id="updateRelativeBatch" parameterType="java.util.List">-->
+    <!--    update NewClassesAdmin.dbo.OrderHead-->
+    <!--    set-->
+    <!--      RelativeState = 1-->
+    <!--    where Id in-->
+    <!--    <foreach collection="list" index="index" item="item" separator="," open="(" close=")">-->
+    <!--      #{item}-->
+    <!--    </foreach>-->
+    <!--  </update>-->
 
-  <update id="updateUnRelative" parameterType="com.onlyedu.ordermigratedbtool.model.entity.OrderHead">
-    update NewClassesAdmin.dbo.OrderHead
-    set
-      RelativeState = 0
-    where Id = #{id,jdbcType=INTEGER}
-  </update>
+    <!--  <update id="updateUnRelative" parameterType="com.onlyedu.ordermigratedbtool.model.entity.OrderHead">-->
+    <!--    update NewClassesAdmin.dbo.OrderHead-->
+    <!--    set-->
+    <!--      RelativeState = 0-->
+    <!--    where Id = #{id,jdbcType=INTEGER}-->
+    <!--  </update>-->
 
-  <sql id="basicTable">
-    from NewClassesAdmin.dbo.OrderHead oh
-    join NewClassesAdmin.dbo.UserInfo ui on oh.StudentId=ui.StudentId
-    left join [NewClassesAdmin].[dbo].School sch on ui.SchoolId=sch.[Guid]
-    join NewClassesAdmin.dbo.OrderMoney om on om.OrderNo=oh.OrderNo
-    join NewClassesAdmin.dbo.OrderCourse oc on oh.OrderNo=oc.OrderNo
-    join NewClassesAdmin.dbo.Product p on oc.ProductGuid=p.ProductGuid
-    join NewClassesAdmin.dbo.ProductDetail pd on pd.FKID=p.ProductId
-    left join (
-    select tcw.CourseWareGuid,tcw.CourseWareTitle,ty.YearName,ts.SubjectName--,tg.GradeName
-    from  studyDBNewAdmin.dbo.tblCourseWare tcw
-    join studyDBNewAdmin.dbo.tblCourseWareYear tcwy on tcw.CourseWareGuid=tcwy.CourseWareGuid
-    join studyDBNewAdmin.dbo.tblYear ty on tcwy.YearGuid=ty.YearGuid
-    join studyDBNewAdmin.dbo.tblCourseWareSubject tcws on tcw.CourseWareGuid=tcws.CourseWareGuid
-    join studyDBNewAdmin.dbo.tblSubject ts on tcws.SubjectGuid=ts.SubjectGuid
-    where tcw.DelFlag=0
-    )N on pd.CourseWareGuid=N.CourseWareGuid
-    left join(
-    select  ocsv.PK_OCS_Guid ,ocv.OC_Name, ty.YearName,ts.SubjectName--,tg.GradeName
-    from OfflineCourseV25  ocv
-    join NewClassesAdmin.dbo.OfflineCourseSubjectV25 ocsv  on ocsv.FK_OC_Guid=ocv.PK_OC_Guid
-    join studyDBNewAdmin.dbo.tblSubject ts on ts.SubjectGuid=ocsv.FK_Subject_Guid
-    join studyDBNewAdmin.dbo.tblYear ty on ocv.FK_Year_Guid=ty.YearGuid
-    where ocv.IsDelete=0 and ocsv.IsDelete=0
-    )X on pd.CourseWareGuid=x.PK_OCS_Guid
-    left join (
-    select lc.PK_LiveCourseGuid, lc.Name,ty.YearName,ts.SubjectName
-    from NewClassesAdmin.dbo.LiveCourse lc
-    join studyDBNewAdmin.dbo.tblYear ty on lc.FK_TblYearGuid=ty.YearGuid
-    join studyDBNewAdmin.dbo.tblSubject ts on lc.FK_TblSubjectGuid=ts.SubjectGuid
-    where lc.IsDeleted=0
+    <!--  <update id="updateUnRelativeBatch" parameterType="java.util.List">-->
+    <!--    update NewClassesAdmin.dbo.OrderHead-->
+    <!--    set-->
+    <!--    RelativeState = 0-->
+    <!--    where Id in-->
+    <!--    <foreach collection="list" index="index" item="item" separator="," open="(" close=")">-->
+    <!--      #{item}-->
+    <!--    </foreach>-->
+    <!--  </update>-->
 
-    )L on l.PK_LiveCourseGuid= CAST( pd.CourseWareGuid as nvarchar(50))
-    left  join studyDBNewAdmin.dbo.tblGrade tg on p.GradeGuid=tg.GradeGuid
-    where 1=1
-    and oh.IsDelete=0 and oh.OrderType between 1 and 2 and oh.OrderStateId=6
-    and p.IsDelete=0 and p.Isopen=1
-    and pd.isDelete=0 and  pd.FKID=pd.ZID
-    and ui.StudentId in
-    <foreach collection="studentIds" index="index" item="studentGuid" separator="," open="(" close=")">
-      #{studentGuid}
-    </foreach>
-  </sql>
 
-  <select id="getOrderByStudentGuid" parameterType="com.onlyedu.ordermigratedbtool.model.dto.StudentOrderDto" resultType="com.onlyedu.ordermigratedbtool.model.dto.StudentOrderDto">
-    select * from (
-    select ROW_NUMBER() over(order by (select 0) ) as RowNum,*
-    from
-    (
-    select oh.Id, oh.OrderNo ,
-    case p.ProductType when 'N' then 'N_'+ N.[CourseWareTitle]
-    when 'X' then 'X_'+ X.OC_Name
-    when 'L' then 'L_'+ L.[Name]
-    ELSE '其他课程'
-    end as CourseWareName,
-    p.ID [OrderProductId],
-    p.ProductName , oc.[CourseStime] CourseStartTime ,oc.[OverTime] CourseEndTime ,
-    case   when oh.OrderType= 1 then '正式'
-    when oh.OrderType= 2 then '试听'
-    else '其他'
-    end OrderType,
-    case  om.[PayType]  when 1 then '定金'
-    when 0 then '全额'
-    ELSE '其他'
-    end PayType,
-    oh.[ShareUserId] , om.PayMoney ,oh.AddedTime,
-    case ISNULL( oh.[RelativeState] ,0) when 0 then '未关联'
-    when 1 then '已关联'
-    end RelativeStateStr,ISNULL( oh.[RelativeState] ,0) RelativeState,
-    (
-    select  eo.OrderNo +','
-    from  NewClassesAdmin.dbo.RelativeOrder rs
-    join NewClassesAdmin.dbo.EosOrder eo on rs.EosOrderId=eo.Id
-    where rs.OrderHeadId=oh.Id
-    FOR XML PATH('')
-    )EosOrderNos,
-    ( select CAST( eo.Id as nvarchar)+',' from  NewClassesAdmin.dbo.RelativeOrder ro
-    join NewClassesAdmin.dbo.EosOrder eo on ro.EosOrderId=eo.Id
-    where ro.OrderHeadId=oh.Id
-    FOR XML PATH('')
-    )EosOrderIds
-    <include refid="basicTable"></include>
-    ) t1
-    )t2
-    where t2.RowNum BETWEEN  (#{pageIndex,jdbcType=INTEGER}-1)*#{pageSize,jdbcType=INTEGER}+1 and #{pageIndex,jdbcType=INTEGER}*#{pageSize,jdbcType=INTEGER}
+    <sql id="basicTable">
+        from NewClassesAdmin.dbo.OrderHead oh
+        join NewClassesAdmin.dbo.UserInfo ui on oh.StudentId=ui.StudentId
+        left join [NewClassesAdmin].[dbo].School sch on ui.SchoolId=sch.[Guid]
+        join NewClassesAdmin.dbo.OrderMoney om on om.OrderNo=oh.OrderNo
+        join NewClassesAdmin.dbo.OrderCourse oc on oh.OrderNo=oc.OrderNo
+        join NewClassesAdmin.dbo.Product p on oc.ProductGuid=p.ProductGuid
+        join NewClassesAdmin.dbo.ProductDetail pd on pd.FKID=p.ProductId
+        left join (
+        select tcw.CourseWareGuid,tcw.CourseWareTitle,ty.YearName,ts.SubjectName--,tg.GradeName
+        from studyDBNewAdmin.dbo.tblCourseWare tcw
+        join studyDBNewAdmin.dbo.tblCourseWareYear tcwy on tcw.CourseWareGuid=tcwy.CourseWareGuid
+        join studyDBNewAdmin.dbo.tblYear ty on tcwy.YearGuid=ty.YearGuid
+        join studyDBNewAdmin.dbo.tblCourseWareSubject tcws on tcw.CourseWareGuid=tcws.CourseWareGuid
+        join studyDBNewAdmin.dbo.tblSubject ts on tcws.SubjectGuid=ts.SubjectGuid
+        where tcw.DelFlag=0
+        )N on pd.CourseWareGuid=N.CourseWareGuid
+        left join(
+        select ocsv.PK_OCS_Guid ,ocv.OC_Name, ty.YearName,ts.SubjectName--,tg.GradeName
+        from OfflineCourseV25 ocv
+        join NewClassesAdmin.dbo.OfflineCourseSubjectV25 ocsv on ocsv.FK_OC_Guid=ocv.PK_OC_Guid
+        join studyDBNewAdmin.dbo.tblSubject ts on ts.SubjectGuid=ocsv.FK_Subject_Guid
+        join studyDBNewAdmin.dbo.tblYear ty on ocv.FK_Year_Guid=ty.YearGuid
+        where ocv.IsDelete=0 and ocsv.IsDelete=0
+        )X on pd.CourseWareGuid=x.PK_OCS_Guid
+        left join (
+        select lc.PK_LiveCourseGuid, lc.Name,ty.YearName,ts.SubjectName
+        from NewClassesAdmin.dbo.LiveCourse lc
+        join studyDBNewAdmin.dbo.tblYear ty on lc.FK_TblYearGuid=ty.YearGuid
+        join studyDBNewAdmin.dbo.tblSubject ts on lc.FK_TblSubjectGuid=ts.SubjectGuid
+        where lc.IsDeleted=0
 
-  </select>
+        )L on l.PK_LiveCourseGuid= CAST( pd.CourseWareGuid as nvarchar(50))
+        left join studyDBNewAdmin.dbo.tblGrade tg on p.GradeGuid=tg.GradeGuid
+        where 1=1
+        and oh.IsDelete=0 and oh.OrderType between 1 and 2 and oh.OrderStateId=6
+        and p.IsDelete=0 and p.Isopen=1
+        and pd.isDelete=0 and pd.FKID=pd.ZID
+        and ui.StudentId in
+        <foreach collection="studentIds" index="index" item="studentGuid" separator="," open="(" close=")">
+            #{studentGuid}
+        </foreach>
+    </sql>
 
-  <select id="getOrderByStudentGuidCount" parameterType="com.onlyedu.ordermigratedbtool.model.dto.StudentOrderDto" resultType="java.lang.Integer">
-    select count(oh.Id) [count]
-    <include refid="basicTable"></include>
-  </select>
+    <select id="getOrderByStudentGuid" parameterType="com.onlyedu.ordermigratedbtool.model.dto.StudentOrderDto"
+            resultType="com.onlyedu.ordermigratedbtool.model.dto.StudentOrderDto">
+        select * from (
+        select ROW_NUMBER() over(order by (select 0) ) as RowNum,*
+        from
+        (
+        select * , case when EoseProductIds is null then '未关联'
+        else '已关联'
+        end RelativeStateStr,
+        case when EoseProductIds is null then 0
+        else 1
+        end RelativeState
+        from (
+        select oh.Id, oh.OrderNo ,
+        case p.ProductType when 'N' then 'N_'+ N.[CourseWareTitle]
+        when 'X' then 'X_'+ X.OC_Name
+        when 'L' then 'L_'+ L.[Name]
+        ELSE '其他课程'
+        end as CourseWareName,
+        p.ID [OrderProductId],
+        p.ProductName , oc.[CourseStime] CourseStartTime ,oc.[OverTime] CourseEndTime ,
+        case when oh.OrderType= 1 then '正式'
+        when oh.OrderType= 2 then '试听'
+        else '其他'
+        end OrderType,
+        case om.[PayType] when 1 then '定金'
+        when 0 then '全额'
+        ELSE '其他'
+        end PayType,
+        oh.[ShareUserId] , om.PayMoney ,oh.AddedTime,
+        (
+        select eo.OrderNo +','
+        from NewClassesAdmin.dbo.RelativeOrder ro
+        join NewClassesAdmin.dbo.EosOrder eo on ro.EosOrderId=eo.Id and ro.EosOrderProductId=eo.CourseProductID
+        where ro.OrderHeadId=oh.Id and ro.OrderProductId=p.ID
+        FOR XML PATH('')
+        )EosOrderNos,
+        ( select CAST( eo.CourseProductID as nvarchar)+',' from NewClassesAdmin.dbo.RelativeOrder ro
+        join NewClassesAdmin.dbo.EosOrder eo on ro.EosOrderId=eo.Id and ro.EosOrderProductId=eo.CourseProductID
+        where ro.OrderHeadId=oh.Id and ro.OrderProductId=p.ID
+        FOR XML PATH('')
+        )EoseProductIds ,
+        ( select CAST( eo.Id as nvarchar)+',' from NewClassesAdmin.dbo.RelativeOrder ro
+        join NewClassesAdmin.dbo.EosOrder eo on ro.EosOrderId=eo.Id and ro.EosOrderProductId=eo.CourseProductID
+        where ro.OrderHeadId=oh.Id and ro.OrderProductId=p.ID
+        FOR XML PATH('')
+        )EosOrderIds
+        <include refid="basicTable"></include>
+        )t
+        ) t1
+        )t2
+        where t2.RowNum BETWEEN (#{pageIndex,jdbcType=INTEGER}-1)*#{pageSize,jdbcType=INTEGER}+1 and
+        #{pageIndex,jdbcType=INTEGER}*#{pageSize,jdbcType=INTEGER}
 
+    </select>
+
+    <select id="getOrderByStudentGuidCount" parameterType="com.onlyedu.ordermigratedbtool.model.dto.StudentOrderDto"
+            resultType="java.lang.Integer">
+        select count(oh.Id) [count]
+        <include refid="basicTable"></include>
+    </select>
 
 
 </mapper>

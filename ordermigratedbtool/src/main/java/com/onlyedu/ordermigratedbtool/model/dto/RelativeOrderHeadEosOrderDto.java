@@ -10,6 +10,7 @@ import java.util.List;
 @Data
 public class RelativeOrderHeadEosOrderDto {
 
-    private List<Integer> orderHeadIds;
+    private List<StudentOrderDto> orderHeads;
+
     private List<Integer> eosOrderIds;
 }

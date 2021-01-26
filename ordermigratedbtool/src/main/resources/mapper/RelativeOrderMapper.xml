@@ -25,7 +25,8 @@
   <insert id="insert" parameterType="com.onlyedu.ordermigratedbtool.model.entity.RelativeOrder">
     insert into [NewClassesAdmin].[dbo].[RelativeOrder]  (   [OrderHeadId] ,[OrderProductId],[EosOrderId],[EosOrderProductId] ,[EosRemainBalance]
       )
-    values ( #{orderHeadId,jdbcType=INTEGER}, #{eosOrderId,jdbcType=INTEGER},
+    values ( #{orderHeadId,jdbcType=INTEGER},#{orderProductId,jdbcType=INTEGER},
+      #{eosOrderId,jdbcType=INTEGER},#{EosOrderProductId,jdbcType=INTEGER},
       #{eosRemainBalance,jdbcType=DECIMAL}
       )
   </insert>
@@ -35,15 +36,16 @@
                                                          )
     values
     <foreach collection="list" item="item" separator=",">
-      (#{item.orderHeadId,jdbcType=INTEGER}, #{item.eosOrderId,jdbcType=INTEGER},
+      (#{item.orderHeadId,jdbcType=INTEGER},#{item.orderProductId,jdbcType=INTEGER},
+      #{item.eosOrderId,jdbcType=INTEGER},#{item.eosOrderProductId,jdbcType=INTEGER},
       #{item.eosRemainBalance,jdbcType=DECIMAL}
       )
     </foreach>
   </insert>
 
-  <delete id="deleteByOrderHeadId" parameterType="java.lang.Integer">
+  <delete id="deleteByOrderHeadProduct" parameterType="com.onlyedu.ordermigratedbtool.model.entity.RelativeOrder">
     delete from [NewClassesAdmin].[dbo].[RelativeOrder]
-    where [OrderHeadId] = #{orderHeadId,jdbcType=INTEGER}
+    where [OrderHeadId] = #{orderHeadId,jdbcType=INTEGER} and [OrderProductId] = #{orderProductId,jdbcType=INTEGER}
   </delete>
 
   <delete id="deleteByEosOrderId" parameterType="java.lang.Integer">
@@ -51,12 +53,31 @@
     where [EosOrderId] = #{eosOrderId,jdbcType=INTEGER}
   </delete>
 
-  <select id="getByOrderHeadId" parameterType="java.lang.Integer" resultType="com.onlyedu.ordermigratedbtool.model.entity.RelativeOrder">
+  <select id="getByOrderHeadProduct" parameterType="com.onlyedu.ordermigratedbtool.model.entity.RelativeOrder" resultType="com.onlyedu.ordermigratedbtool.model.entity.RelativeOrder">
     SELECT *  FROM [NewClassesAdmin].[dbo].[RelativeOrder]
     where EosOrderId in(
       SELECT EosOrderId  FROM [NewClassesAdmin].[dbo].[RelativeOrder]
-      where OrderHeadId=#{orderHeadId,jdbcType=INTEGER}
+      where OrderHeadId=#{orderHeadId,jdbcType=INTEGER} and [OrderProductId] = #{orderProductId,jdbcType=INTEGER}
       )
+  </select>
+
+  <select id="getEosProductByOrderProduct" parameterType="com.onlyedu.ordermigratedbtool.model.entity.RelativeOrder" resultType="com.onlyedu.ordermigratedbtool.model.entity.RelativeOrder">
+    SELECT *  FROM [NewClassesAdmin].[dbo].[RelativeOrder]
+
+      where OrderHeadId=#{orderHeadId,jdbcType=INTEGER} and [OrderProductId] = #{orderProductId,jdbcType=INTEGER}
+
+  </select>
+
+  <select id="getByOrderHeadId" parameterType="com.onlyedu.ordermigratedbtool.model.entity.RelativeOrder" resultType="com.onlyedu.ordermigratedbtool.model.entity.RelativeOrder">
+    SELECT *  FROM [NewClassesAdmin].[dbo].[RelativeOrder]
+
+    where OrderHeadId=#{orderHeadId,jdbcType=INTEGER}
+
+  </select>
+
+  <select id="getOrderProductByEosProduct" parameterType="com.onlyedu.ordermigratedbtool.model.entity.RelativeOrder" resultType="com.onlyedu.ordermigratedbtool.model.entity.RelativeOrder">
+    SELECT *  FROM [NewClassesAdmin].[dbo].[RelativeOrder]
+      where EosOrderId=#{eosOrderId,jdbcType=INTEGER}
   </select>
 
   <select id="getByEosOrderId" parameterType="java.lang.Integer" resultType="com.onlyedu.ordermigratedbtool.model.entity.RelativeOrder">
@@ -67,11 +88,11 @@
       )
   </select>
 
-  <update id="updateEosRemainBalanceByOrderHeadId" parameterType="com.onlyedu.ordermigratedbtool.model.entity.RelativeOrder">
+  <update id="updateEosRemainBalanceByOrderHeadProduct" parameterType="com.onlyedu.ordermigratedbtool.model.entity.RelativeOrder">
     update [NewClassesAdmin].[dbo].[RelativeOrder]
     set
       [EosRemainBalance] =#{eosRemainBalance,jdbcType=DECIMAL}
-    where OrderHeadId = #{orderHeadId,jdbcType=INTEGER}
+    where OrderHeadId = #{orderHeadId,jdbcType=INTEGER} and [OrderProductId] = #{orderProductId,jdbcType=INTEGER}
   </update>
 
   <update id="updateEosRemainBalanceByEosOrderId" parameterType="com.onlyedu.ordermigratedbtool.model.entity.RelativeOrder">
