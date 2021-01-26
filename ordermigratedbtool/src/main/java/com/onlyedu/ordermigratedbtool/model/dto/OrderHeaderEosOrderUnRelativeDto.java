@@ -15,4 +15,6 @@ public class OrderHeaderEosOrderUnRelativeDto {
      */
     private Integer id;
 
+    private Integer productId;
+
 }

@@ -49,10 +49,10 @@ public class OrderController {
     @PostMapping("/updateRelative")
     public MessageResult<Void> updateRelative(@RequestBody RelativeOrderHeadEosOrderDto relativeOrderHeadEosOrderDto) {
 
-        if (relativeOrderHeadEosOrderDto.getOrderHeadIds().size() > 1 && relativeOrderHeadEosOrderDto.getEosOrderIds().size() > 1) {
+        if (relativeOrderHeadEosOrderDto.getOrderHeads().size() > 1 && relativeOrderHeadEosOrderDto.getEosOrderIds().size() > 1) {
             return returnError("订单不存在多对多关联关系!",200);
         }
-        if(relativeOrderHeadEosOrderDto.getOrderHeadIds().size() ==0|| relativeOrderHeadEosOrderDto.getEosOrderIds().size() ==0)
+        if(relativeOrderHeadEosOrderDto.getOrderHeads().size() ==0|| relativeOrderHeadEosOrderDto.getEosOrderIds().size() ==0)
         {
             return returnError("存在空参数!",200);
         }

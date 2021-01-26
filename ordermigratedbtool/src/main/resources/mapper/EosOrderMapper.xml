@@ -50,7 +50,7 @@
     </insert>
 
     <select id="selectByPrimaryKey" resultType="com.onlyedu.ordermigratedbtool.model.entity.EosOrder">
-        SELECT OrderNo,
+        SELECT ID,OrderNo,
                EosStudentID,
                FeeContent,
                OrderTime,
@@ -64,7 +64,7 @@
 
     <select id="selectByIds" parameterType="java.util.List"
             resultType="com.onlyedu.ordermigratedbtool.model.entity.EosOrder">
-        SELECT OrderNo,
+        SELECT ID,OrderNo,
         EosStudentID,
         FeeContent,
         OrderTime,
@@ -114,33 +114,47 @@
         from (
                  select ROW_NUMBER() over(order by (select 0) ) as RowNum,*
                  from (
-                          select eo.[Id],
-                                 eo.[OrderNo],
-                                 eo.[EosStudentID],
-                                 eo.[OrderTime],
-                                 eo.[CourseProductID],
-                                 eo.[CourseProductName],
-                                 eo.[OrderBalance],
-                                 case ISNULL(eo.[RelativeState], 0)
-                                     when 0 then '未关联'
-                                     when 1 then '已关联'
-                                     end                       RelativeStateStr,
-                                 ISNULL(eo.[RelativeState], 0) RelativeState,
-                                 eo.[RemainBalance],
-                                 (
-                                     select oh.OrderNo + ','
-                                     from NewClassesAdmin.dbo.RelativeOrder rs
-                                              join NewClassesAdmin.dbo.OrderHead oh on rs.OrderHeadId = oh.Id
-                                     where rs.EosOrderId = eo.Id
-                              FOR XML PATH ('')
-                      ) OrderHeadOrderNos,
-                      (
-                          select CAST(oh.Id as nvarchar) + ','
-                          from NewClassesAdmin.dbo.RelativeOrder ro
-                                   join NewClassesAdmin.dbo.OrderHead oh on ro.OrderHeadId = oh.Id
-                          where ro.EosOrderId = eo.Id FOR XML PATH('')
-                      ) OrderHeadIds from NewClassesAdmin.dbo.EosOrder eo
-                 where eo.EosStudentID=#{eosStudentID,jdbcType=INTEGER}
+                          select  * ,	case when OrderHeadProductIds is null then '未关联'
+                                              else  '已关联'
+                              end RelativeStateStr,
+                                  case when OrderHeadProductIds is null then 0
+                                       else  1
+                                      end RelativeState
+                          from (
+
+                                   select eo.[Id],
+                                          eo.[OrderNo],
+                                          eo.[EosStudentID],
+                                          eo.[OrderTime],
+                                          eo.[CourseProductID],
+                                          eo.[CourseProductName],
+                                          eo.[OrderBalance],
+                                          eo.[RemainBalance],
+                                          (
+                                              select oh.OrderNo + ','
+                                              from NewClassesAdmin.dbo.RelativeOrder ro
+                                                       join NewClassesAdmin.dbo.OrderHead oh on ro.OrderHeadId = oh.Id
+                                              where ro.EosOrderId = eo.Id and ro.EosOrderProductId=eo.CourseProductID
+                                       FOR XML PATH ('')
+                               ) OrderHeadOrderNos,
+                               (
+                                   select oh.OrderNo + ','
+                                   from NewClassesAdmin.dbo.RelativeOrder ro
+                                            join NewClassesAdmin.dbo.OrderHead oh on ro.OrderHeadId = oh.Id
+                                   where ro.EosOrderId = eo.Id and ro.EosOrderProductId=eo.CourseProductID
+                                       FOR XML PATH ('')
+                               ) OrderHeadProductIds,
+                               (
+                                   select CAST(oh.Id as nvarchar) + ','
+                                   from NewClassesAdmin.dbo.RelativeOrder ro
+                                            join NewClassesAdmin.dbo.OrderHead oh on ro.OrderHeadId = oh.Id
+                                   where ro.EosOrderId = eo.Id and ro.EosOrderProductId=eo.CourseProductID
+                                       FOR XML PATH('')
+                               ) OrderHeadIds
+                              from NewClassesAdmin.dbo.EosOrder eo
+                          where eo.EosStudentID=#{eosStudentID,jdbcType=INTEGER}
+                      )t
+
              ) t1 )t2
         where t2.RowNum BETWEEN (#{pageIndex,jdbcType=INTEGER}-1)*#{pageSize,jdbcType=INTEGER}+1
           and #{pageIndex,jdbcType=INTEGER}*#{pageSize,jdbcType=INTEGER}
