@@ -251,6 +251,10 @@ public class OrderHeadService {
                     //EosOrder一对OrderHead一或EosOrder一对OrderHead多
                     //更新OrderHead信息
                     OrderHead orderHead=new OrderHead();
+                    if(relativeOrderList.size()==0)
+                    {
+                        return returnError("没有关联记录！",200);
+                    }
                     orderHead.setId(relativeOrderList.get(0).getOrderHeadId());
                     result = this.orderHeadMapper.updateUnRelative(orderHead);
                     if (result <= 0) {
@@ -291,4 +295,12 @@ public class OrderHeadService {
         return messageResult;
     }
     //endregion
+
+    private  MessageResult<Void> returnError(String errMessage,Integer code)
+    {
+        MessageResult<Void> result = new MessageResult<>();
+        result.setCode(code);
+        result.setMessage(errMessage);
+        return result;
+    }
 }

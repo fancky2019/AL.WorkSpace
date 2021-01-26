@@ -13,6 +13,9 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class StudentOrderDto extends Page {
     private Integer id;
+    /**
+     * 前端：字符串之间用逗号分隔。
+     */
     private List<String> studentIds;
     private String studentId;
     private String orderNo;
