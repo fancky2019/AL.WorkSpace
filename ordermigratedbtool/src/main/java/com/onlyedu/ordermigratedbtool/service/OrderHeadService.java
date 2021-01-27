@@ -109,6 +109,8 @@ public class OrderHeadService {
                 Integer eosOrderId = dto.getEosOrderIds().get(0);
                 EosOrder eosOrder = this.eosOrderMapper.selectByPrimaryKey(eosOrderId);
                 BigDecimal orderHeadCount = BigDecimal.valueOf(dto.getOrderHeads().size());
+                //多对一平均分
+                BigDecimal avgRemainBalance=eosOrder.getRemainBalance().divide(orderHeadCount, 2, RoundingMode.HALF_UP);
                 relativeOrderList = dto.getOrderHeads().stream().map(p ->
                 {
                     RelativeOrder relativeOrder = new RelativeOrder();
@@ -117,7 +119,7 @@ public class OrderHeadService {
                     relativeOrder.setEosOrderId(eosOrder.getId());
                     relativeOrder.setEosOrderProductId(eosOrder.getCourseProductID());
                     //平均剩余金额
-                    relativeOrder.setEosRemainBalance(eosOrder.getRemainBalance().divide(orderHeadCount, 2, RoundingMode.HALF_UP));
+                    relativeOrder.setEosRemainBalance(avgRemainBalance);
                     return relativeOrder;
                 }).collect(Collectors.toList());
 
@@ -125,7 +127,7 @@ public class OrderHeadService {
             } else {
                 //网线一对Eos多
                 List<EosOrder> eosOrderList = this.eosOrderMapper.selectByIds(dto.getEosOrderIds());
-                BigDecimal sumRemainRemaining = eosOrderList.stream().map(EosOrder::getRemainBalance).reduce(BigDecimal::add).get();
+//                BigDecimal sumRemainRemaining = eosOrderList.stream().map(EosOrder::getRemainBalance).reduce(BigDecimal::add).get();
                 Integer orderHeadId = dto.getOrderHeads().get(0).getId();
                 Integer orderProductId = dto.getOrderHeads().get(0).getOrderProductId();
                 relativeOrderList = eosOrderList.stream().map(p ->
@@ -135,8 +137,8 @@ public class OrderHeadService {
                     relativeOrder.setOrderProductId(orderProductId);
                     relativeOrder.setEosOrderId(p.getId());
                     relativeOrder.setEosOrderProductId(p.getCourseProductID());
-                    //剩余金额
-                    relativeOrder.setEosRemainBalance(sumRemainRemaining);
+                    //剩余金额：一对多直接插入
+                    relativeOrder.setEosRemainBalance(p.getRemainBalance());
                     return relativeOrder;
                 }).collect(Collectors.toList());
             }
