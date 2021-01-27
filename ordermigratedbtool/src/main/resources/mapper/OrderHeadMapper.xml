@@ -70,6 +70,12 @@
 
         )L on l.PK_LiveCourseGuid= CAST( pd.CourseWareGuid as nvarchar(50))
         left join studyDBNewAdmin.dbo.tblGrade tg on p.GradeGuid=tg.GradeGuid
+        left join (
+        select ro1.OrderHeadId,ro1.OrderProductId,sum(eo1.OrderBalance)OrderBalance,sum( ro1.EosRemainBalance)EosRemainBalance
+        from  NewClassesAdmin.dbo.RelativeOrder ro1
+        join NewClassesAdmin.dbo.EosOrder eo1 on ro1.EosOrderId=eo1.Id
+        group by ro1.OrderHeadId,ro1.OrderProductId
+        )ro2 on ro2.OrderHeadId=oh.Id and ro2.OrderProductId=p.ID
         where 1=1
         and oh.IsDelete=0 and oh.OrderType between 1 and 2 and oh.OrderStateId=6
         and p.IsDelete=0 and p.Isopen=1
@@ -83,7 +89,7 @@
     <select id="getOrderByStudentGuid" parameterType="com.onlyedu.ordermigratedbtool.model.dto.StudentOrderDto"
             resultType="com.onlyedu.ordermigratedbtool.model.dto.StudentOrderDto">
         select * from (
-        select ROW_NUMBER() over(order by (select 0) ) as RowNum,*
+        select ROW_NUMBER() over(order by OrderNo ) as RowNum,*
         from
         (
         select * , case when EosProductIds is null then '未关联'
@@ -126,7 +132,8 @@
         join NewClassesAdmin.dbo.EosOrder eo on ro.EosOrderId=eo.Id and ro.EosOrderProductId=eo.CourseProductID
         where ro.OrderHeadId=oh.Id and ro.OrderProductId=p.ID
         FOR XML PATH('')
-        )EosOrderIds
+        )EosOrderIds ,
+        ro2.OrderBalance,ro2.EosRemainBalance
         <include refid="basicTable"></include>
         )t
         ) t1

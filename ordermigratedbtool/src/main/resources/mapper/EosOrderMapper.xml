@@ -125,6 +125,7 @@
                                    select eo.[Id],
                                           eo.[OrderNo],
                                           eo.[EosStudentID],
+                                          eo.[FeeContent],
                                           eo.[OrderTime],
                                           eo.[CourseProductID],
                                           eo.[CourseProductName],

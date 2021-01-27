@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 @Data
 public class StudentOrderVO {
@@ -30,4 +31,6 @@ public class StudentOrderVO {
     private String eosOrderNos;
     private String eosProductIds;
     private String eosOrderIds;
+    private BigDecimal orderBalance;
+    private BigDecimal eosRemainBalance;
 }
