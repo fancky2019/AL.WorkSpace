@@ -6,6 +6,14 @@
         WHERE Id=#{id,jdbcType=INTEGER}
     </update>
 
+    <update id="updateRelativeBatch" parameterType="java.util.List">
+        UPDATE [NewClassesAdmin].[dbo].[UserInfo] SET [RelativeState] = 1
+        where Id in
+        <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </update>
+
     <update id="updateUnRelativeBatch" parameterType="java.util.List">
         UPDATE [NewClassesAdmin].[dbo].[UserInfo] SET [RelativeState] = 0
         where Id in
@@ -13,6 +21,9 @@
             #{item}
         </foreach>
     </update>
+
+
+
 
     <sql id="dynamicWhere">
         <if test="userName != null and userName !='' ">
@@ -135,7 +146,11 @@
         )
     </select>
 
-
-
-
+    <select id="getSamePhoneWithEosStudent" resultType="com.onlyedu.ordermigratedbtool.model.dto.UserInfoEosStudentRelativeDto">
+        select  distinct ui.Id UserInfoId,es.ID EosStudentId ,ui.MobilePhone Phone,
+                         ui.UserName UserInfoName  ,es.StudentName EosStudentName
+        from NewClassesAdmin.dbo.UserInfo ui
+                 join NewClassesAdmin.dbo.EosStudent es on ui.MobilePhone=es.Phone
+        where ISNULL(ui.[RelativeState],0)=0 and ISNULL(es.[RelativeState],0)=0
+    </select>
 </mapper>

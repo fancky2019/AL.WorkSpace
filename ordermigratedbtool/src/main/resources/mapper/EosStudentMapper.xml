@@ -8,6 +8,14 @@
         WHERE Id=#{id,jdbcType=INTEGER}
     </update>
 
+    <update id="updateRelativeBatch" parameterType="java.util.List">
+        UPDATE [NewClassesAdmin].[dbo].[EosStudent] SET [RelativeState] = 1
+        where Id in
+        <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </update>
+
     <sql id="dynamicWhere">
         <if test="eosStudentID != null and eosStudentID !='' ">
             and es.EosStudentID = #{eosStudentID,jdbcType=NVARCHAR}

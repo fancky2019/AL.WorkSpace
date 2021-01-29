@@ -15,7 +15,7 @@ public interface EosStudentMapper {
 
     List<EosStudent> getAll();
 
-    Integer getEosStudentCount (EosStudentDto eosStudentDto);
+    Integer getEosStudentCount(EosStudentDto eosStudentDto);
 
     List<EosStudentDto> getEosStudentPage(EosStudentDto eosStudentDto);
 
@@ -24,6 +24,8 @@ public interface EosStudentMapper {
     List<String> getGrade();
 
     Integer updateRelative(EosStudent eosStudent);
+
+    Integer updateRelativeBatch(List<Integer> ids);
 
     EosStudentDto getEosStudentByIdWithRelative(Integer eosStudentID);
 }

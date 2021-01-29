@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import java.text.MessageFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,6 +38,8 @@ public class UserInfoService {
 
     @Autowired
     private RelativeStudentMapper relativeStudentMapper;
+
+
     //region 获取有订单的学生列表
 
     /**
@@ -123,7 +126,7 @@ public class UserInfoService {
             messageResult.setCode(500);
             messageResult.setMessage(e.getMessage());
             // 手动回滚
-              TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             //如果不抛出异常，将不能自动回滚
 //            throw e;
         }
@@ -144,14 +147,14 @@ public class UserInfoService {
                 userInfo.setId(userInfoStudentUnRelativeDto.getId());
                 Integer result = userInfoMapper.updateRelative(userInfo);
                 if (result <= 0) {
-                    return setRollBackReturn(messageResult);
+                    return setRollBackReturn("解除关联失败", 200);
                 }
                 //获取EosStudent关联UserInfo的个数
                 List<RelativeStudent> relativeStudentList = relativeStudentMapper.getEosStudentRelative(userInfoStudentUnRelativeDto.getId());
                 //删除RelativeStudent关联记录
                 Integer delCount = relativeStudentMapper.deleteByUserInfoId(userInfoStudentUnRelativeDto.getId());
                 if (delCount <= 0) {
-                    return setRollBackReturn(messageResult);
+                    return setRollBackReturn("解除关联失败", 200);
                 }
                 if (relativeStudentList.size() == 1) {
                     //EosStudent关联记录删除完了，更新EosStudent关联状态
@@ -160,7 +163,7 @@ public class UserInfoService {
                     eosStudent.setId(relativeStudent.getEosStudentId());
                     Integer res = eosStudentMapper.updateRelative(eosStudent);
                     if (res <= 0) {
-                        return setRollBackReturn(messageResult);
+                        return setRollBackReturn("解除关联失败", 200);
                     }
                 }
             } else {
@@ -169,7 +172,7 @@ public class UserInfoService {
                 eosStudent.setId(userInfoStudentUnRelativeDto.getId());
                 Integer res = eosStudentMapper.updateRelative(eosStudent);
                 if (res <= 0) {
-                    return setRollBackReturn(messageResult);
+                    return setRollBackReturn("解除关联失败", 200);
                 }
                 //获取EosStudent关联的UserInfo
                 List<RelativeStudent> relativeStudentList = relativeStudentMapper.getEosStudentRelativeUserInfo(userInfoStudentUnRelativeDto.getId());
@@ -177,12 +180,12 @@ public class UserInfoService {
                 //更新UserInfo未关联
                 Integer re = userInfoMapper.updateUnRelativeBatch(userInfoIds);
                 if (re <= 0) {
-                    return setRollBackReturn(messageResult);
+                    return setRollBackReturn("解除关联失败", 200);
                 }
                 //删除RelativeStudent关联记录
                 Integer delCount = relativeStudentMapper.deleteByEosStudentId(userInfoStudentUnRelativeDto.getId());
                 if (delCount <= 0) {
-                    return setRollBackReturn(messageResult);
+                    return setRollBackReturn("解除关联失败", 200);
                 }
             }
             messageResult.setCode(0);
@@ -199,10 +202,11 @@ public class UserInfoService {
         return messageResult;
     }
 
-    private MessageResult<Void> setRollBackReturn(MessageResult<Void> messageResult) {
+    private MessageResult<Void> setRollBackReturn(String msg, Integer code) {
+        MessageResult<Void> messageResult = new MessageResult<>();
         TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-        messageResult.setMessage("解除关联失败");
-        messageResult.setCode(500);
+        messageResult.setMessage(msg);
+        messageResult.setCode(code);
         return messageResult;
     }
     //endregion
@@ -273,4 +277,57 @@ public class UserInfoService {
         }
         return messageResult;
     }
+
+    @Transactional(rollbackFor = Exception.class)
+    public MessageResult<Void> autoRelative() {
+        MessageResult<Void> messageResult = new MessageResult<>();
+        try {
+            List<UserInfoEosStudentRelativeDto> userInfoList = this.userInfoMapper.getSamePhoneWithEosStudent();
+            if (userInfoList.size() > 0) {
+                Integer paramCount = 2;
+                Integer maxInsertCount = 2000 / paramCount;
+                Integer loopCount = userInfoList.size() / maxInsertCount + 1;
+                Integer result = 0;
+                for (int i = 0; i < loopCount; i++) {
+                    //插入RelativeStudent
+                    List<UserInfoEosStudentRelativeDto> subList = userInfoList.stream().skip(maxInsertCount * i).limit(maxInsertCount).collect(Collectors.toList());
+                    if (subList.size() > 0) {
+                        List<RelativeStudent> relativeStudents = subList.stream().map(e ->
+                                {
+                                    RelativeStudent relativeStudent = new RelativeStudent();
+                                    relativeStudent.setUserInfoId(e.getUserInfoId());
+                                    relativeStudent.setEosStudentId(e.getEosStudentId());
+                                    return relativeStudent;
+                                }
+                        ).collect(Collectors.toList());
+                        //Insert 最大插入1000行，更新最大2100个参数
+                        result = this.relativeStudentMapper.batchInsert(relativeStudents);
+                        if (result <= 0) {
+                            return setRollBackReturn("批量关联失败", 200);
+                        }
+                    }
+
+                    //更新UserInfo
+                    List<Integer> userInfoIds = subList.stream().map(p -> p.getUserInfoId()).distinct().collect(Collectors.toList());
+                    result = this.userInfoMapper.updateRelativeBatch(userInfoIds);
+                    if (result <= 0) {
+                        return setRollBackReturn("批量关联失败", 200);
+                    }
+                    //更新EosStudent
+                    List<Integer> eosStudents = subList.stream().map(p -> p.getEosStudentId()).distinct().collect(Collectors.toList());
+                    result = this.eosStudentMapper.updateRelativeBatch(eosStudents);
+                    if (result <= 0) {
+                        return setRollBackReturn("批量关联失败", 200);
+                    }
+                }
+            }
+            messageResult.setCode(0);
+        } catch (Exception e) {
+            logger.error(e.toString());
+            messageResult.setCode(500);
+            messageResult.setMessage(e.getMessage());
+        }
+        return messageResult;
+    }
+
 }

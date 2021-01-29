@@ -121,4 +121,9 @@ public class UserInfoController {
     }
 
 
+    @PostMapping("/autoRelative")
+    public MessageResult<Void> autoRelative() {
+        return userInfoService.autoRelative();
+    }
+
 }

@@ -22,6 +22,7 @@ import java.text.MessageFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 public class EosStudentService {
@@ -30,7 +31,8 @@ public class EosStudentService {
     @Autowired
     private EosStudentMapper eosStudentMapper;
 
-    public MessageResult<Void> importData(String fileFullName ) {
+
+    public MessageResult<Void> importData(String fileFullName) {
         MessageResult<Void> messageResult = new MessageResult<>();
         try {
             List<EosStudent> eosStudentList = ExcelHelper.getExcelStudentData(fileFullName);
@@ -69,6 +71,11 @@ public class EosStudentService {
             }
 
             messageResult.setCode(0);
+
+//            CompletableFuture.runAsync(() ->
+//            {
+//                autoRelative();
+//            });
         } catch (Exception e) {
             logger.error(e.toString());
             messageResult.setCode(500);
@@ -80,9 +87,9 @@ public class EosStudentService {
     public MessageResult<EosStudentVO> getEosStudentByIdWithRelative(Integer eosStudentID) {
         MessageResult<EosStudentVO> message = new MessageResult<>();
         try {
-            EosStudentDto eosStudentDto= eosStudentMapper.getEosStudentByIdWithRelative(eosStudentID);
-            EosStudentVO eosStudentVO=new EosStudentVO();
-            BeanUtils.copyProperties(eosStudentDto,eosStudentVO);
+            EosStudentDto eosStudentDto = eosStudentMapper.getEosStudentByIdWithRelative(eosStudentID);
+            EosStudentVO eosStudentVO = new EosStudentVO();
+            BeanUtils.copyProperties(eosStudentDto, eosStudentVO);
             message.setData(eosStudentVO);
             message.setCode(0);
         } catch (Exception ex) {
@@ -105,11 +112,11 @@ public class EosStudentService {
             eosStudentDtoList.forEach(p ->
             {
                 String userInfoId = p.getUserInfoId();
-                if (userInfoId != null&&userInfoId!="") {
+                if (userInfoId != null && userInfoId != "") {
                     p.setUserInfoId(userInfoId.substring(0, userInfoId.length() - 1));
                 }
-                if(p.getUserInfoStudentIds()!=null&&p.getUserInfoStudentIds()!="") {
-                    p.setUserInfoStudentIds(p.getUserInfoStudentIds().substring(0,p.getUserInfoStudentIds().length()-1));
+                if (p.getUserInfoStudentIds() != null && p.getUserInfoStudentIds() != "") {
+                    p.setUserInfoStudentIds(p.getUserInfoStudentIds().substring(0, p.getUserInfoStudentIds().length() - 1));
                 }
             });
             PageData<EosStudentVO> pageData = new PageData<>();
