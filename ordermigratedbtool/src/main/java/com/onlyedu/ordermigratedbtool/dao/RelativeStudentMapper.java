@@ -1,5 +1,6 @@
 package com.onlyedu.ordermigratedbtool.dao;
 
+import com.onlyedu.ordermigratedbtool.model.entity.EosStudent;
 import com.onlyedu.ordermigratedbtool.model.entity.RelativeStudent;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -18,5 +19,7 @@ public interface RelativeStudentMapper {
     List<RelativeStudent> getEosStudentRelative(Integer userInfoId);
 
     List<RelativeStudent> getEosStudentRelativeUserInfo(Integer eosStudentId);
+
+    int batchInsert(List<RelativeStudent> relativeStudentList);
 
 }

@@ -40,11 +40,10 @@ public class ExcelHelper {
             if (row == null || row.getFirstCellNum() == j) {
                 continue;
             }
-            String cellStopVal=row.getCell(4).toString().trim();
-            if(cellStopVal.contains("已停用"))
-            {
-                continue;
-            }
+//            String cellStopVal = row.getCell(4).toString().trim();
+//            if (cellStopVal.contains("已停用")) {
+//                continue;
+//            }
             EosStudent eosStudent = new EosStudent();
             eosStudent.setEosStudentID(Integer.valueOf(getCellFormatValue(row.getCell(2)).toString().trim()));
             eosStudent.setStudentName(getCellFormatValue(row.getCell(1)).toString().trim());
