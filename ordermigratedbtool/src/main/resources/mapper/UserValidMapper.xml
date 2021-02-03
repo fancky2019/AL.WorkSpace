@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.onlyedu.ordermigratedbtool.dao.UserValidMapper">
+
+  <insert id="insert" parameterType="com.onlyedu.ordermigratedbtool.model.entity.UserValid">
+    insert into UserVaild (id, StudentId, VaildType, 
+      SmallVaildType, Addtime)
+    values (#{id,jdbcType=INTEGER}, #{studentId,jdbcType=CHAR}, #{vaildType,jdbcType=INTEGER}, 
+      #{smallVaildType,jdbcType=INTEGER}, #{addtime,jdbcType=TIMESTAMP})
+  </insert>
+
+<!--  <update id="updateByPrimaryKey" parameterType="com.onlyedu.ordermigratedbtool.model.entity.UserValid">-->
+<!--    update UserVaild-->
+<!--    set StudentId = #{studentId,jdbcType=CHAR},-->
+<!--      VaildType = #{vaildType,jdbcType=INTEGER},-->
+<!--      SmallVaildType = #{smallVaildType,jdbcType=INTEGER},-->
+<!--      Addtime = #{addtime,jdbcType=TIMESTAMP}-->
+<!--    where id = #{id,jdbcType=INTEGER}-->
+<!--  </update>-->
+</mapper>

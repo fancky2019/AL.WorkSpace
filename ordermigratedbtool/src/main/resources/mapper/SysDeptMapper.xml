@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.onlyedu.ordermigratedbtool.dao.SysDeptMapper">
+
+  <insert id="insertSelective" parameterType="com.onlyedu.ordermigratedbtool.model.entity.SysDept">
+    insert into SysDept
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="deptID != null">
+        DeptID,
+      </if>
+      <if test="deptName != null">
+        DeptName,
+      </if>
+      <if test="reportDeptId != null">
+        ReportDeptId,
+      </if>
+      <if test="remark != null">
+        Remark,
+      </if>
+      <if test="isDoPerformance != null">
+        IsDoPerformance,
+      </if>
+      <if test="addBy != null">
+        AddBy,
+      </if>
+      <if test="addedTime != null">
+        AddedTime,
+      </if>
+      <if test="isDelete != null">
+        IsDelete,
+      </if>
+      <if test="deleteBy != null">
+        DeleteBy,
+      </if>
+      <if test="deleteTime != null">
+        DeleteTime,
+      </if>
+      <if test="modifyBy != null">
+        ModifyBy,
+      </if>
+      <if test="modifyTime != null">
+        ModifyTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="deptID != null">
+        #{deptID,jdbcType=INTEGER},
+      </if>
+      <if test="deptName != null">
+        #{deptName,jdbcType=NVARCHAR},
+      </if>
+      <if test="reportDeptId != null">
+        #{reportDeptId,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="isDoPerformance != null">
+        #{isDoPerformance,jdbcType=BIT},
+      </if>
+      <if test="addBy != null">
+        #{addBy,jdbcType=VARCHAR},
+      </if>
+      <if test="addedTime != null">
+        #{addedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=BIT},
+      </if>
+      <if test="deleteBy != null">
+        #{deleteBy,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteTime != null">
+        #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyBy != null">
+        #{modifyBy,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="getAll"  parameterType="com.onlyedu.ordermigratedbtool.model.entity.School">
+    select * from
+      from NewClassesAdmin.dbo.School
+  </select>
+</mapper>

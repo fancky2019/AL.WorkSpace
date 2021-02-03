@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.onlyedu.ordermigratedbtool.dao.UserInfoAssignMapper">
+
+  <insert id="insert" parameterType="com.onlyedu.ordermigratedbtool.model.entity.UserInfoAssign">
+    insert into UserInfoAssign (StudentId, Id, ddlAdminCall, 
+      ddlCallTime, ddlAdmin, ddlAdminTime, 
+      ddlAdminInvite, ddlInviteTime, ddlAdminCenter, 
+      ddlCenterTime, UserIntentionId, UserInviteIntentionId, 
+      UserCallIntentionId, UserCenterIntentionId, lastRemarksTime, 
+      lastRemarks, lastRemarksAdminUserId, nextRemarks, 
+      lastInviteTime, lastInvite, lastInviteAdminUserId, 
+      nextInvite, lastCallTime, lastCall, 
+      lastCallAdminUserId, nextCall, lastCenterTime, 
+      lastCenter, lastCenterAdminUserId, nextCenter, 
+      lastreturntime, lastreturncontent, lastreturnAdminUserId, 
+      nextreturn, lastkktime, addedtime, 
+      ActionTime, action, warinType, 
+      NAction, NWarinType)
+    values (#{studentId,jdbcType=CHAR}, #{id,jdbcType=INTEGER}, #{ddlAdminCall,jdbcType=CHAR}, 
+      #{ddlCallTime,jdbcType=TIMESTAMP}, #{ddlAdmin,jdbcType=CHAR}, #{ddlAdminTime,jdbcType=TIMESTAMP}, 
+      #{ddlAdminInvite,jdbcType=CHAR}, #{ddlInviteTime,jdbcType=TIMESTAMP}, #{ddlAdminCenter,jdbcType=CHAR}, 
+      #{ddlCenterTime,jdbcType=TIMESTAMP}, #{userIntentionId,jdbcType=CHAR}, #{userInviteIntentionId,jdbcType=CHAR}, 
+      #{userCallIntentionId,jdbcType=CHAR}, #{userCenterIntentionId,jdbcType=CHAR}, #{lastRemarksTime,jdbcType=TIMESTAMP}, 
+      #{lastRemarks,jdbcType=VARCHAR}, #{lastRemarksAdminUserId,jdbcType=CHAR}, #{nextRemarks,jdbcType=TIMESTAMP}, 
+      #{lastInviteTime,jdbcType=TIMESTAMP}, #{lastInvite,jdbcType=VARCHAR}, #{lastInviteAdminUserId,jdbcType=CHAR}, 
+      #{nextInvite,jdbcType=TIMESTAMP}, #{lastCallTime,jdbcType=TIMESTAMP}, #{lastCall,jdbcType=VARCHAR}, 
+      #{lastCallAdminUserId,jdbcType=CHAR}, #{nextCall,jdbcType=TIMESTAMP}, #{lastCenterTime,jdbcType=TIMESTAMP}, 
+      #{lastCenter,jdbcType=VARCHAR}, #{lastCenterAdminUserId,jdbcType=CHAR}, #{nextCenter,jdbcType=TIMESTAMP}, 
+      #{lastreturntime,jdbcType=TIMESTAMP}, #{lastreturncontent,jdbcType=VARCHAR}, #{lastreturnAdminUserId,jdbcType=CHAR}, 
+      #{nextreturn,jdbcType=TIMESTAMP}, #{lastkktime,jdbcType=TIMESTAMP}, #{addedtime,jdbcType=TIMESTAMP}, 
+      #{actionTime,jdbcType=TIMESTAMP}, #{action,jdbcType=INTEGER}, #{warinType,jdbcType=VARCHAR}, 
+      #{NAction,jdbcType=VARCHAR}, #{NWarinType,jdbcType=VARCHAR})
+  </insert>
+
+<!--  <update id="updateByPrimaryKey" parameterType="com.onlyedu.ordermigratedbtool.model.entity.UserInfoAssign">-->
+<!--    update UserInfoAssign-->
+<!--    set Id = #{id,jdbcType=INTEGER},-->
+<!--      ddlAdminCall = #{ddlAdminCall,jdbcType=CHAR},-->
+<!--      ddlCallTime = #{ddlCallTime,jdbcType=TIMESTAMP},-->
+<!--      ddlAdmin = #{ddlAdmin,jdbcType=CHAR},-->
+<!--      ddlAdminTime = #{ddlAdminTime,jdbcType=TIMESTAMP},-->
+<!--      ddlAdminInvite = #{ddlAdminInvite,jdbcType=CHAR},-->
+<!--      ddlInviteTime = #{ddlInviteTime,jdbcType=TIMESTAMP},-->
+<!--      ddlAdminCenter = #{ddlAdminCenter,jdbcType=CHAR},-->
+<!--      ddlCenterTime = #{ddlCenterTime,jdbcType=TIMESTAMP},-->
+<!--      UserIntentionId = #{userIntentionId,jdbcType=CHAR},-->
+<!--      UserInviteIntentionId = #{userInviteIntentionId,jdbcType=CHAR},-->
+<!--      UserCallIntentionId = #{userCallIntentionId,jdbcType=CHAR},-->
+<!--      UserCenterIntentionId = #{userCenterIntentionId,jdbcType=CHAR},-->
+<!--      lastRemarksTime = #{lastRemarksTime,jdbcType=TIMESTAMP},-->
+<!--      lastRemarks = #{lastRemarks,jdbcType=VARCHAR},-->
+<!--      lastRemarksAdminUserId = #{lastRemarksAdminUserId,jdbcType=CHAR},-->
+<!--      nextRemarks = #{nextRemarks,jdbcType=TIMESTAMP},-->
+<!--      lastInviteTime = #{lastInviteTime,jdbcType=TIMESTAMP},-->
+<!--      lastInvite = #{lastInvite,jdbcType=VARCHAR},-->
+<!--      lastInviteAdminUserId = #{lastInviteAdminUserId,jdbcType=CHAR},-->
+<!--      nextInvite = #{nextInvite,jdbcType=TIMESTAMP},-->
+<!--      lastCallTime = #{lastCallTime,jdbcType=TIMESTAMP},-->
+<!--      lastCall = #{lastCall,jdbcType=VARCHAR},-->
+<!--      lastCallAdminUserId = #{lastCallAdminUserId,jdbcType=CHAR},-->
+<!--      nextCall = #{nextCall,jdbcType=TIMESTAMP},-->
+<!--      lastCenterTime = #{lastCenterTime,jdbcType=TIMESTAMP},-->
+<!--      lastCenter = #{lastCenter,jdbcType=VARCHAR},-->
+<!--      lastCenterAdminUserId = #{lastCenterAdminUserId,jdbcType=CHAR},-->
+<!--      nextCenter = #{nextCenter,jdbcType=TIMESTAMP},-->
+<!--      lastreturntime = #{lastreturntime,jdbcType=TIMESTAMP},-->
+<!--      lastreturncontent = #{lastreturncontent,jdbcType=VARCHAR},-->
+<!--      lastreturnAdminUserId = #{lastreturnAdminUserId,jdbcType=CHAR},-->
+<!--      nextreturn = #{nextreturn,jdbcType=TIMESTAMP},-->
+<!--      lastkktime = #{lastkktime,jdbcType=TIMESTAMP},-->
+<!--      addedtime = #{addedtime,jdbcType=TIMESTAMP},-->
+<!--      ActionTime = #{actionTime,jdbcType=TIMESTAMP},-->
+<!--      action = #{action,jdbcType=INTEGER},-->
+<!--      warinType = #{warinType,jdbcType=VARCHAR},-->
+<!--      NAction = #{NAction,jdbcType=VARCHAR},-->
+<!--      NWarinType = #{NWarinType,jdbcType=VARCHAR}-->
+<!--    where StudentId = #{studentId,jdbcType=CHAR}-->
+<!--  </update>-->
+</mapper>
