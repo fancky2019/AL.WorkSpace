@@ -1,5 +1,6 @@
 package com.onlyedu.ordermigratedbtool.utility;
 
+import com.onlyedu.ordermigratedbtool.model.dto.StudentRecordDto;
 import com.onlyedu.ordermigratedbtool.model.entity.EosOrder;
 import com.onlyedu.ordermigratedbtool.model.entity.EosStudent;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -21,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ExcelHelper {
-
 
     public static List<EosStudent> getExcelStudentData(String fileName) throws Exception {
 
@@ -108,6 +108,43 @@ public class ExcelHelper {
 
         work.close();
         return eosOrderList;
+    }
+
+    public static List<StudentRecordDto> getStudentRecord(String fileName) throws Exception {
+
+        InputStream in = new FileInputStream(fileName);
+        // 创建excel工作簿
+        Workbook work = getWorkbook(in, fileName);
+        if (null == work) {
+            throw new Exception("创建Excel工作薄为空！");
+        }
+
+        Sheet sheet = work.getSheetAt(0);
+        List<StudentRecordDto> studentRecordDtoList = new ArrayList<>();
+        // 滤过第一行标题
+        for (int j = sheet.getFirstRowNum(); j <= sheet.getLastRowNum(); j++) {
+            Row row = sheet.getRow(j);
+            if (row == null || row.getFirstCellNum() == j) {
+                continue;
+            }
+
+            StudentRecordDto studentRecordDto = new StudentRecordDto();
+            studentRecordDto.setName(getCellFormatValue(row.getCell(0)).toString().trim());
+            studentRecordDto.setPhone(getCellFormatValue(row.getCell(1)).toString().trim());
+            studentRecordDto.setGrade(getCellFormatValue(row.getCell(2)).toString().trim());
+            studentRecordDto.setDistrict(getCellFormatValue(row.getCell(3)).toString().trim());
+            studentRecordDto.setSchool(getCellFormatValue(row.getCell(4)).toString().trim());
+            studentRecordDto.setMarketTypeOne(getCellFormatValue(row.getCell(5)).toString().trim());
+            studentRecordDto.setMarketTypeTwo(getCellFormatValue(row.getCell(6)).toString().trim());
+            studentRecordDto.setCallIntention(getCellFormatValue(row.getCell(7)).toString().trim());
+            studentRecordDto.setEnrollIntention(getCellFormatValue(row.getCell(8)).toString().trim());
+            studentRecordDto.setSaleGroup(getCellFormatValue(row.getCell(9)).toString().trim());
+            studentRecordDto.setSalesman(getCellFormatValue(row.getCell(10)).toString().trim());
+            studentRecordDtoList.add(studentRecordDto);
+        }
+
+        work.close();
+        return studentRecordDtoList;
     }
 
     /**

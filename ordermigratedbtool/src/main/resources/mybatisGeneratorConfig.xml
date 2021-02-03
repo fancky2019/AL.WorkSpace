@@ -106,12 +106,56 @@
 <!--               selectByExampleQueryId="false">-->
 <!--            <property name="useActualColumnNames" value="true"/>-->
 <!--        </table>-->
-        <table tableName="RelativeOrder" domainObjectName="RelativeOrder"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
-            <property name="useActualColumnNames" value="true"/>
-        </table>
+
+
+<!--        <table tableName="ParaDistrict" domainObjectName="ParaDistrict"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false">-->
+<!--            <property name="useActualColumnNames" value="true"/>-->
+<!--        </table>-->
+
+<!--        <table tableName="School" domainObjectName="School"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false">-->
+<!--            <property name="useActualColumnNames" value="true"/>-->
+<!--        </table>-->
+
+<!--        <table tableName="ChannelType" domainObjectName="ChannelType"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false">-->
+<!--            <property name="useActualColumnNames" value="true"/>-->
+<!--        </table>-->
+
+<!--        <table tableName="UserCallByWhy" domainObjectName="UserCallByWhy"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false">-->
+<!--            <property name="useActualColumnNames" value="true"/>-->
+<!--        </table>-->
+
+<!--        <table tableName="UserIntention" domainObjectName="UserIntention"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false">-->
+<!--            <property name="useActualColumnNames" value="true"/>-->
+<!--        </table>-->
+
+<!--        <table tableName="SysDept" domainObjectName="SysDept"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false">-->
+<!--            <property name="useActualColumnNames" value="true"/>-->
+<!--        </table>-->
+
+<!--        <table tableName="SysUser" domainObjectName="SysUser"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false">-->
+<!--            <property name="useActualColumnNames" value="true"/>-->
+<!--        </table>-->
         <!--如果生成n个表，那就将上面的那段table代码copy n份-->
     </context>
 
