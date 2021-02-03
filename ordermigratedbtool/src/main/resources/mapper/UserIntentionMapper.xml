@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.onlyedu.ordermigratedbtool.dao.UserIntentionMapper">
+
+  <select id="getAll"  parameterType="com.onlyedu.ordermigratedbtool.model.entity.UserIntention">
+    select * from
+      from NewClassesAdmin.dbo.UserIntention
+  </select>
+
+<!--  <insert id="insert" parameterType="com.onlyedu.ordermigratedbtool.model.entity.UserIntention">-->
+<!--    insert into UserIntention (Guid, UserIntentionId, UserIntention, -->
+<!--      IntentionType, AddBy, AddedTime, -->
+<!--      IsDelete, DeleteBy, DeleteTime, -->
+<!--      ModifyBy, ModifyTime)-->
+<!--    values (#{guid,jdbcType=CHAR}, #{userIntentionId,jdbcType=INTEGER}, #{userIntention,jdbcType=VARCHAR}, -->
+<!--      #{intentionType,jdbcType=INTEGER}, #{addBy,jdbcType=VARCHAR}, #{addedTime,jdbcType=TIMESTAMP}, -->
+<!--      #{isDelete,jdbcType=BIT}, #{deleteBy,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, -->
+<!--      #{modifyBy,jdbcType=VARCHAR}, #{modifyTime,jdbcType=TIMESTAMP})-->
+<!--  </insert>-->
+ </mapper>

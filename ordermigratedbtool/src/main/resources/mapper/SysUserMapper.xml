@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.onlyedu.ordermigratedbtool.dao.SysUserMapper">
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SysUser
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+
+<!--  <insert id="insert" parameterType="com.onlyedu.ordermigratedbtool.model.entity.SysUser">-->
+<!--    insert into SysUser (Id, SysUserGuid, AdminUserId, -->
+<!--      AdminUserName, Password, Sex, -->
+<!--      Email, Tel, MobilePhone, -->
+<!--      Allot, Extension, Avatar, -->
+<!--      QueueName, AddBy, AddedTime, -->
+<!--      IsDelete, DeleteBy, DeleteTime, -->
+<!--      ModifyBy, ModifyTime, UserLevel, -->
+<!--      AllotNum)-->
+<!--    values (#{id,jdbcType=INTEGER}, #{sysUserGuid,jdbcType=NVARCHAR}, #{adminUserId,jdbcType=VARCHAR}, -->
+<!--      #{adminUserName,jdbcType=NVARCHAR}, #{password,jdbcType=VARCHAR}, #{sex,jdbcType=NVARCHAR}, -->
+<!--      #{email,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, #{mobilePhone,jdbcType=VARCHAR}, -->
+<!--      #{allot,jdbcType=INTEGER}, #{extension,jdbcType=VARCHAR}, #{avatar,jdbcType=NVARCHAR}, -->
+<!--      #{queueName,jdbcType=VARCHAR}, #{addBy,jdbcType=VARCHAR}, #{addedTime,jdbcType=TIMESTAMP}, -->
+<!--      #{isDelete,jdbcType=BIT}, #{deleteBy,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, -->
+<!--      #{modifyBy,jdbcType=VARCHAR}, #{modifyTime,jdbcType=TIMESTAMP}, #{userLevel,jdbcType=INTEGER}, -->
+<!--      #{allotNum,jdbcType=INTEGER})-->
+<!--  </insert>-->
+
+</mapper>
