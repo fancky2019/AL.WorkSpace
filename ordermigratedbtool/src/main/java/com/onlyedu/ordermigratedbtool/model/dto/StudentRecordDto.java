@@ -1,8 +1,11 @@
 package com.onlyedu.ordermigratedbtool.model.dto;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class StudentRecordDto {
     private  String name;
     private  String phone;
@@ -14,9 +17,12 @@ public class StudentRecordDto {
     private  String marketTypeOne;
     private  String marketTypeOneId;
     private  String marketTypeTwo;
-    private  String marketTypeId;
+    private  String marketTypeTwoId;
     private  String callIntention;
     private  String callIntentionId;
+    /**
+     * 报名意向
+     */
     private  String enrollIntention;
     private  String enrollIntentionId;
     private  String saleGroup;

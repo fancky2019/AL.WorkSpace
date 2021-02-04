@@ -3,10 +3,11 @@ package com.onlyedu.ordermigratedbtool.dao;
 import com.onlyedu.ordermigratedbtool.model.entity.UserRemarks;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 @Mapper
 public interface UserRemarksMapper {
 
-    int insert(UserRemarks record);
-
+    int batchInsert(List<UserRemarks> userRemarksList);
 
 }

@@ -9,6 +9,5 @@ import java.util.List;
 
 @Mapper
 public interface CallInRecordMapper {
-
-    int insert(CallInRecord record);
+    int batchInsert(List<CallInRecord> callInRecordList);
 }

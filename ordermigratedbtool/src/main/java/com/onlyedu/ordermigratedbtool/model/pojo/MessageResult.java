@@ -13,4 +13,11 @@ public class MessageResult<T> {
     private Integer code;
     private String message;
     private T data;
+
+    public static MessageResult<Void> returnError(String errMessage, Integer code) {
+        MessageResult<Void> result = new MessageResult<>();
+        result.setCode(code);
+        result.setMessage(errMessage);
+        return result;
+    }
 }

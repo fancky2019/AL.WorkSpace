@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.onlyedu.ordermigratedbtool.dao.UserInfoMapper">
+    <insert id="batchInsert" parameterType="com.onlyedu.ordermigratedbtool.model.entity.UserInfo">
+        INSERT into [NewClassesAdmin].[dbo].[UserInfo] (StudentId,[UserName],[MobilePhone],[Grade],[DistrictId],
+                     [SchoolId],[UserType],[UserSourceId] ,[AddBy])
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.studentId,jdbcType=NVARCHAR},#{item.userName,jdbcType=NVARCHAR},#{item.mobilePhone,jdbcType=NVARCHAR},
+            #{item.grade,jdbcType=NVARCHAR},#{item.districtId,jdbcType=NVARCHAR},#{item.schoolId,jdbcType=NVARCHAR},'1',
+            #{item.userSourceId,jdbcType=NVARCHAR} ,#{item.addBy,jdbcType=NVARCHAR})
+        </foreach>
+    </insert>
+
     <update id="updateRelative" parameterType="com.onlyedu.ordermigratedbtool.model.entity.UserInfo">
-        UPDATE [NewClassesAdmin].[dbo].[UserInfo] SET  [RelativeState] = #{relativeState,jdbcType=BIT}
+        UPDATE [NewClassesAdmin].[dbo].[UserInfo]
+        SET [RelativeState] = #{relativeState,jdbcType=BIT}
         WHERE Id=#{id,jdbcType=INTEGER}
     </update>
 
@@ -21,8 +33,6 @@
             #{item}
         </foreach>
     </update>
-
-
 
 
     <sql id="dynamicWhere">
@@ -49,9 +59,10 @@
         </if>
         <if test="regStartTime != null">
             and ui.regTime <![CDATA[ >= ]]> #{regStartTime,jdbcType=DATE}
-        </if>   <if test="regEndTime != null">
-        and ui.regTime <![CDATA[ <= ]]> #{regEndTime,jdbcType=DATE}
-    </if>
+        </if>
+        <if test="regEndTime != null">
+            and ui.regTime <![CDATA[ <= ]]> #{regEndTime,jdbcType=DATE}
+        </if>
     </sql>
 
     <sql id="basicTable">
@@ -69,54 +80,60 @@
         )
     </sql>
 
-    <select id="getUserWithOrder" parameterType="com.onlyedu.ordermigratedbtool.model.dto.UserInfoDto" resultType="com.onlyedu.ordermigratedbtool.model.dto.UserInfoDto">
+    <select id="getUserWithOrder" parameterType="com.onlyedu.ordermigratedbtool.model.dto.UserInfoDto"
+            resultType="com.onlyedu.ordermigratedbtool.model.dto.UserInfoDto">
         select * from (
         select ROW_NUMBER() over(order by (select 0) ) as RowNum,*
         from
         (
-        select   ui.Id,  ui.UserId,ui.StudentId, left(ui.StudentId ,8)  studentNo,ui.UserName ,ui.Grade ,ui.MobilePhone,ui.Tel,s.School,ui.RegTime,
+        select ui.Id, ui.UserId,ui.StudentId, left(ui.StudentId ,8) studentNo,ui.UserName ,ui.Grade
+        ,ui.MobilePhone,ui.Tel,s.School,ui.RegTime,
         isnull(ui.[RelativeState],0) RelativeState,es.EosStudentID
         <include refid="basicTable"></include>
         <include refid="dynamicWhere"></include>
         ) t1
         )t2
-        where t2.RowNum BETWEEN  (#{pageIndex,jdbcType=INTEGER}-1)*#{pageSize,jdbcType=INTEGER}+1 and #{pageIndex,jdbcType=INTEGER}*#{pageSize,jdbcType=INTEGER}
+        where t2.RowNum BETWEEN (#{pageIndex,jdbcType=INTEGER}-1)*#{pageSize,jdbcType=INTEGER}+1 and
+        #{pageIndex,jdbcType=INTEGER}*#{pageSize,jdbcType=INTEGER}
     </select>
 
-    <select id="getUserInfoByGuid" parameterType="com.onlyedu.ordermigratedbtool.model.dto.UserInfoDto" resultType="com.onlyedu.ordermigratedbtool.model.dto.UserInfoDto">
-        select   ui.Id,  ui.UserId,ui.StudentId, left(ui.StudentId ,8)  studentNo,ui.UserName ,ui.Grade ,ui.MobilePhone,ui.Tel,s.School,ui.RegTime,
+    <select id="getUserInfoByGuid" parameterType="com.onlyedu.ordermigratedbtool.model.dto.UserInfoDto"
+            resultType="com.onlyedu.ordermigratedbtool.model.dto.UserInfoDto">
+        select ui.Id, ui.UserId,ui.StudentId, left(ui.StudentId ,8) studentNo,ui.UserName ,ui.Grade
+        ,ui.MobilePhone,ui.Tel,s.School,ui.RegTime,
         ui.[RelativeState],rs.EosStudentId
         from [NewClassesAdmin].[dbo].UserInfo ui
-            left join School s on s.Guid=ui.SchoolId
-            left join [NewClassesAdmin].[dbo].RelativeStudent rs on ui.Id=rs.UserInfoId
-        where  ui.StudentId in
+        left join School s on s.Guid=ui.SchoolId
+        left join [NewClassesAdmin].[dbo].RelativeStudent rs on ui.Id=rs.UserInfoId
+        where ui.StudentId in
         <foreach collection="studentIds" index="index" item="studentGuid" separator="," open="(" close=")">
             #{studentGuid,jdbcType=NVARCHAR}
         </foreach>
-     </select>
+    </select>
 
-    <select id="getUserWithOrderCount" parameterType="com.onlyedu.ordermigratedbtool.model.dto.UserInfoDto" resultType="java.lang.Integer">
+    <select id="getUserWithOrderCount" parameterType="com.onlyedu.ordermigratedbtool.model.dto.UserInfoDto"
+            resultType="java.lang.Integer">
         select count(ui.Id) [count]
         <include refid="basicTable"></include>
         <include refid="dynamicWhere"></include>
     </select>
 
 
-    <select id="getUserInfoStatistics"  resultType="com.onlyedu.ordermigratedbtool.model.dto.UserInfoStatisticsDto">
-        declare @totalCount int  ;
-        declare @relativeStateCount int  ;
-        declare @unRelativeStateCount int  ;
+    <select id="getUserInfoStatistics" resultType="com.onlyedu.ordermigratedbtool.model.dto.UserInfoStatisticsDto">
+        declare @totalCount int ;
+        declare @relativeStateCount int ;
+        declare @unRelativeStateCount int ;
         set @totalCount= (
-        select  count( ui.Id) totalCount
+        select count( ui.Id) totalCount
         <include refid="basicTable"></include>
         )
         set @relativeStateCount= (
-        select  count( ui.Id) totalCount
+        select count( ui.Id) totalCount
         <include refid="basicTable"></include>
         and isnull(ui.RelativeState,0)=1
         )
         set @unRelativeStateCount= (
-        select  count( ui.Id) totalCount
+        select count( ui.Id) totalCount
         <include refid="basicTable"></include>
         and isnull(ui.RelativeState,0)=0
         )
@@ -132,25 +149,32 @@
 
     <select id="getRelativeState" resultType="com.onlyedu.ordermigratedbtool.model.dto.RelativeStateDto">
         select distinct ISNULL( ui.RelativeState ,0) RelativeStateVal,
-        case  ISNULL( ui.RelativeState ,0)  when 0 then '未关联'
+        case ISNULL( ui.RelativeState ,0) when 0 then '未关联'
         when 1 then '已关联'
         end RelativeState
         <include refid="basicTable"></include>
     </select>
 
-    <select id="getRelativeEosStudentByUserInfoId" parameterType="java.lang.Integer" resultType="com.onlyedu.ordermigratedbtool.model.entity.EosStudent">
-        select  *  from NewClassesAdmin.dbo.EosStudent
-        where  IsDelete=0
-          and ID in(
-            select  RelativeStudentID  from NewClassesAdmin.dbo.UserInfo where  Id=#{id,jdbcType=INTEGER}
+    <select id="getRelativeEosStudentByUserInfoId" parameterType="java.lang.Integer"
+            resultType="com.onlyedu.ordermigratedbtool.model.entity.EosStudent">
+        select *
+        from NewClassesAdmin.dbo.EosStudent
+        where IsDelete = 0
+          and ID in (
+            select RelativeStudentID from NewClassesAdmin.dbo.UserInfo where Id = #{id,jdbcType=INTEGER}
         )
     </select>
 
-    <select id="getSamePhoneWithEosStudent" resultType="com.onlyedu.ordermigratedbtool.model.dto.UserInfoEosStudentRelativeDto">
-        select  distinct ui.Id UserInfoId,es.ID EosStudentId ,ui.MobilePhone Phone,
-                         ui.UserName UserInfoName  ,es.StudentName EosStudentName
+    <select id="getSamePhoneWithEosStudent"
+            resultType="com.onlyedu.ordermigratedbtool.model.dto.UserInfoEosStudentRelativeDto">
+        select distinct ui.Id          UserInfoId,
+                        es.ID          EosStudentId,
+                        ui.MobilePhone Phone,
+                        ui.UserName    UserInfoName,
+                        es.StudentName EosStudentName
         from NewClassesAdmin.dbo.UserInfo ui
-                 join NewClassesAdmin.dbo.EosStudent es on ui.MobilePhone=es.Phone
-        where ISNULL(ui.[RelativeState],0)=0 and ISNULL(es.[RelativeState],0)=0
+                 join NewClassesAdmin.dbo.EosStudent es on ui.MobilePhone = es.Phone
+        where ISNULL(ui.[RelativeState], 0) = 0
+          and ISNULL(es.[RelativeState], 0) = 0
     </select>
 </mapper>
