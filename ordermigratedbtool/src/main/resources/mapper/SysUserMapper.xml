@@ -7,6 +7,10 @@
     from NewClassesAdmin.dbo.SysUser
     where Id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectByAdminUserName" parameterType="java.lang.String" resultType="com.onlyedu.ordermigratedbtool.model.entity.SysUser">
+    select * from NewClassesAdmin.dbo.SysUser
+    where AdminUserName = #{adminUserName,jdbcType=NVARCHAR}
+  </select>
 
 <!--  <insert id="insert" parameterType="com.onlyedu.ordermigratedbtool.model.entity.SysUser">-->
 <!--    insert into SysUser (Id, SysUserGuid, AdminUserId, -->

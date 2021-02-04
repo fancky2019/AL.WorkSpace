@@ -2,23 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.onlyedu.ordermigratedbtool.dao.UserRemarksMapper">
 
-  <insert id="insert" parameterType="com.onlyedu.ordermigratedbtool.model.entity.UserRemarks">
-    insert into UserRemarks (Id, StudentId, NextRemarksTime, 
-      UserIntentionId, BMlevel, RemarkType, 
-      recordId, IsNoticeCustomDirector, AddBy, 
-      AddedTime, IsDelete, DeleteBy, 
-      DeleteTime, IsModify, ModifyBy, 
-      ModifyTime, Action, warinType, 
-      Advise, ActionTime, RemarksType, 
-      Remarks)
-    values (#{id,jdbcType=INTEGER}, #{studentId,jdbcType=CHAR}, #{nextRemarksTime,jdbcType=TIMESTAMP}, 
-      #{userIntentionId,jdbcType=CHAR}, #{BMlevel,jdbcType=INTEGER}, #{remarkType,jdbcType=INTEGER}, 
-      #{recordId,jdbcType=VARCHAR}, #{isNoticeCustomDirector,jdbcType=BIT}, #{addBy,jdbcType=VARCHAR}, 
-      #{addedTime,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=BIT}, #{deleteBy,jdbcType=VARCHAR}, 
-      #{deleteTime,jdbcType=TIMESTAMP}, #{isModify,jdbcType=BIT}, #{modifyBy,jdbcType=VARCHAR}, 
-      #{modifyTime,jdbcType=TIMESTAMP}, #{action,jdbcType=INTEGER}, #{warinType,jdbcType=VARCHAR}, 
-      #{advise,jdbcType=INTEGER}, #{actionTime,jdbcType=TIMESTAMP}, #{remarksType,jdbcType=INTEGER}, 
-      #{remarks,jdbcType=LONGNVARCHAR})
+  <insert id="batchInsert" parameterType="com.onlyedu.ordermigratedbtool.model.entity.UserRemarks">
+    insert into [NewClassesAdmin].[dbo].UserRemarks ( StudentId, UserIntentionId, AddBy, Remarks)
+    values
+    <foreach collection="list" item="item" separator=",">
+           (#{item.studentId,jdbcType=CHAR}, #{item.userIntentionId,jdbcType=CHAR},
+            #{item.addBy,jdbcType=VARCHAR},  #{item.remarks,jdbcType=LONGNVARCHAR})
+    </foreach>
   </insert>
 
 <!--  <update id="updateByPrimaryKey" parameterType="com.onlyedu.ordermigratedbtool.model.entity.UserRemarks">-->

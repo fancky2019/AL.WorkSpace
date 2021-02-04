@@ -10,6 +10,8 @@ import java.util.List;
 @Mapper
 public interface UserInfoMapper {
 
+    Integer batchInsert(List<UserInfo> userInfoList);
+
     Integer getUserWithOrderCount(UserInfoDto userInfoDto);
 
     List<UserInfoDto> getUserWithOrder(UserInfoDto userInfoDto);

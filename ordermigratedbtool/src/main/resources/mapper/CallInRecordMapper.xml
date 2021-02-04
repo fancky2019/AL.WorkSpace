@@ -1,19 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.onlyedu.ordermigratedbtool.dao.CallInRecordMapper">
-
-  <insert id="insert" parameterType="com.onlyedu.ordermigratedbtool.model.entity.CallInRecord">
-    insert into CallInRecord (ID, StudentId, ComeTime, 
-      ChannelType, OtherChannel, IntentionType, 
-      OtherIntention, VaildType, AddBy, 
-      AddTime, UpdateBy, UpdateTime, 
-      UpdateCount)
-    values (#{ID,jdbcType=INTEGER}, #{studentId,jdbcType=CHAR}, #{comeTime,jdbcType=TIMESTAMP}, 
-      #{channelType,jdbcType=NVARCHAR}, #{otherChannel,jdbcType=NVARCHAR}, #{intentionType,jdbcType=INTEGER}, 
-      #{otherIntention,jdbcType=NVARCHAR}, #{vaildType,jdbcType=INTEGER}, #{addBy,jdbcType=NVARCHAR}, 
-      #{addTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=NVARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{updateCount,jdbcType=INTEGER})
+  <insert id="batchInsert" parameterType="com.onlyedu.ordermigratedbtool.model.entity.CallInRecord">
+    insert into CallInRecord ( StudentId, ComeTime, ChannelType,
+                              IntentionType,VaildType, AddBy, AddTime)
+    values
+    <foreach collection="list" item="item" separator=",">
+           ( #{item.studentId,jdbcType=CHAR}, #{item.comeTime,jdbcType=TIMESTAMP},
+            #{item.channelType,jdbcType=NVARCHAR}, #{item.intentionType,jdbcType=INTEGER},
+            #{item.vaildType,jdbcType=INTEGER}, #{item.addBy,jdbcType=NVARCHAR},
+            #{item.addTime,jdbcType=TIMESTAMP})
+    </foreach>
   </insert>
+
+<!--  <insert id="insert" parameterType="com.onlyedu.ordermigratedbtool.model.entity.CallInRecord">-->
+<!--    insert into CallInRecord (ID, StudentId, ComeTime, -->
+<!--      ChannelType, OtherChannel, IntentionType, -->
+<!--      OtherIntention, VaildType, AddBy, -->
+<!--      AddTime, UpdateBy, UpdateTime, -->
+<!--      UpdateCount)-->
+<!--    values (#{ID,jdbcType=INTEGER}, #{studentId,jdbcType=CHAR}, #{comeTime,jdbcType=TIMESTAMP}, -->
+<!--      #{channelType,jdbcType=NVARCHAR}, #{otherChannel,jdbcType=NVARCHAR}, #{intentionType,jdbcType=INTEGER}, -->
+<!--      #{otherIntention,jdbcType=NVARCHAR}, #{vaildType,jdbcType=INTEGER}, #{addBy,jdbcType=NVARCHAR}, -->
+<!--      #{addTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=NVARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, -->
+<!--      #{updateCount,jdbcType=INTEGER})-->
+<!--  </insert>-->
 <!--<update id="updateByPrimaryKey" parameterType="com.onlyedu.ordermigratedbtool.model.entity.CallInRecord">-->
 <!--    update CallInRecord-->
 <!--    set StudentId = #{studentId,jdbcType=CHAR},-->
