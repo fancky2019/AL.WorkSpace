@@ -6,8 +6,7 @@
 <!--    insert into UserCallByWhy (Id, WhyCallType)-->
 <!--    values (#{id,jdbcType=INTEGER}, #{whyCallType,jdbcType=VARCHAR})-->
 <!--  </insert>-->
-  <select id="getAll"  parameterType="com.onlyedu.ordermigratedbtool.model.entity.UserCallByWhy">
-    select * from
-      from NewClassesAdmin.dbo.UserCallByWhy
+  <select id="getAll"  resultType="com.onlyedu.ordermigratedbtool.model.entity.UserCallByWhy">
+    select * from NewClassesAdmin.dbo.UserCallByWhy
   </select>
 </mapper>

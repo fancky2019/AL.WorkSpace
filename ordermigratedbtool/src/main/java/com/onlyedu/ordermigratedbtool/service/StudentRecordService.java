@@ -49,8 +49,8 @@ public class StudentRecordService {
     public MessageResult<Void> importData(String fileFullName) {
         MessageResult<Void> messageResult = new MessageResult<>();
         try {
-            List<StudentRecordDto> eosStudentList = ExcelHelper.getStudentRecord(fileFullName);
-            List<School> eosStudentDbAllList = schoolMapper.getAll();
+            List<StudentRecordDto> studentRecordDtoList = ExcelHelper.getStudentRecord(fileFullName);
+            List<School> schoolList = schoolMapper.getAll();
             List<ParaDistrict> paraDistrictList = paraDistrictMapper.getAll();
             List<UserIntention> userIntentionList = userIntentionMapper.getAll();
             List<ChannelType> channelTypeMapperList = channelTypeMapper.getAll();
