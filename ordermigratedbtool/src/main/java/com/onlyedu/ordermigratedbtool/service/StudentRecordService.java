@@ -90,7 +90,7 @@ public class StudentRecordService {
                 p.setMarketTypeTwoId(channelTypeTwo.getTypeId().toString());
                 p.setCallIntentionId(userCallByWhy.getId().toString());
 
-                String grade = p.getGrade().substring(0, 3);
+                String grade = p.getGrade().substring(0, 4);
                 UserInfo userInfo = new UserInfo();
                 userInfo.setStudentId(UUID.randomUUID().toString());
                 userInfo.setUserName(p.getName());
@@ -137,7 +137,7 @@ public class StudentRecordService {
             });
 
             //一次插入200条
-            Integer maxInsertCount = 50;
+            Integer maxInsertCount = 200;
             Integer loopCount = studentRecordDtoList.size() / maxInsertCount + 1;
             for (int i = 0; i < loopCount; i++) {
                 Integer fromIndex = i * maxInsertCount;
