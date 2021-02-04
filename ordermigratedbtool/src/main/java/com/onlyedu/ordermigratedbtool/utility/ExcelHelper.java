@@ -16,6 +16,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.NumberFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -158,7 +159,11 @@ public class ExcelHelper {
         if (cell != null) {
             switch (cell.getCellType()) {
                 case NUMERIC:
-                    cellvalue = String.valueOf(cell.getNumericCellValue());
+                    //去除科学计数法"E",直接toString会有E
+                    NumberFormat nf = NumberFormat.getInstance();
+                    nf.setGroupingUsed(false);
+                    Double val=cell.getNumericCellValue();
+                    cellvalue = nf.format(val);
                     break;
                 case FORMULA: {
                     cellvalue = cell.getDateCellValue();
