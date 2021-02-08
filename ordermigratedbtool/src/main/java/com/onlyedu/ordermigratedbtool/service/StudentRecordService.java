@@ -72,8 +72,12 @@ public class StudentRecordService {
             List<UserRemarks> userRemarksList = new ArrayList<>();
             List<CallInRecord> callInRecordList = new ArrayList<>();
             String addBy = "ExcelImport";
-            studentRecordDtoList.forEach(p ->
+            for(StudentRecordDto p:studentRecordDtoList)
+//            studentRecordDtoList.forEach(p ->
             {
+                try {
+
+
                 SysUser sysUser = sysUserMapper.selectByAdminUserName(p.getSalesman());
 
                 School school = schoolList.stream().filter(m -> m.getSchool().equals(p.getSchool())).findFirst().get();
@@ -133,8 +137,16 @@ public class StudentRecordService {
                 callInRecord.setAddBy(addBy);
                 callInRecord.setAddTime(LocalDateTime.now());
                 callInRecordList.add(callInRecord);
-
-            });
+                }
+                catch (Exception ex)
+                {
+                    TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                    logger.error(ex.toString());
+                    messageResult.setCode(500);
+                    messageResult.setMessage(ex.getMessage());
+                    return  messageResult;
+                }
+            };
 
             //一次插入200条
             Integer maxInsertCount = 200;

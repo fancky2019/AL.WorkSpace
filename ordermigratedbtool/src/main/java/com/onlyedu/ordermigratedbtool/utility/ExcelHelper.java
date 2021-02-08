@@ -3,12 +3,10 @@ package com.onlyedu.ordermigratedbtool.utility;
 import com.onlyedu.ordermigratedbtool.model.dto.StudentRecordDto;
 import com.onlyedu.ordermigratedbtool.model.entity.EosOrder;
 import com.onlyedu.ordermigratedbtool.model.entity.EosStudent;
+import lombok.val;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.opc.OPCPackage;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
@@ -39,6 +37,9 @@ public class ExcelHelper {
         for (int j = sheet.getFirstRowNum(); j <= sheet.getLastRowNum(); j++) {
             Row row = sheet.getRow(j);
             if (row == null || row.getFirstCellNum() == j) {
+                continue;
+            }
+            if (isRowEmpty(row)) {
                 continue;
             }
 //            String cellStopVal = row.getCell(4).toString().trim();
@@ -77,7 +78,9 @@ public class ExcelHelper {
             if (row == null || row.getFirstCellNum() == j) {
                 continue;
             }
-
+            if (isRowEmpty(row)) {
+                continue;
+            }
             EosOrder eosStudent = new EosOrder();
             /**
              * OrderNo, EosStudentID,
@@ -129,6 +132,9 @@ public class ExcelHelper {
                 continue;
             }
 
+            if (isRowEmpty(row)) {
+                continue;
+            }
             StudentRecordDto studentRecordDto = new StudentRecordDto();
             studentRecordDto.setName(getCellFormatValue(row.getCell(0)).toString().trim());
             studentRecordDto.setPhone(getCellFormatValue(row.getCell(1)).toString().trim());
@@ -148,6 +154,15 @@ public class ExcelHelper {
         return studentRecordDtoList;
     }
 
+    private static boolean isRowEmpty(Row row) {
+        for (int c = row.getFirstCellNum(); c < row.getLastCellNum(); c++) {
+            Cell cell = row.getCell(c);
+            if (cell != null && cell.getCellType() != CellType.BLANK)
+                return false;
+        }
+        return true;
+    }
+
     /**
      * 读取对应数据格式的单元格数据
      *
@@ -162,7 +177,7 @@ public class ExcelHelper {
                     //去除科学计数法"E",直接toString会有E
                     NumberFormat nf = NumberFormat.getInstance();
                     nf.setGroupingUsed(false);
-                    Double val=cell.getNumericCellValue();
+                    Double val = cell.getNumericCellValue();
                     cellvalue = nf.format(val);
                     break;
                 case FORMULA: {
