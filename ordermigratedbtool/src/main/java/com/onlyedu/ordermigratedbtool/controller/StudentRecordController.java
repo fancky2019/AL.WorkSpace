@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @RestController
-@RequestMapping("/studentrecord")
+@RequestMapping("/api/studentrecord")
 public class StudentRecordController {
     private final static Logger logger = LogManager.getLogger(StudentRecordController.class);
 
