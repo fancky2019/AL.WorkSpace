@@ -73,7 +73,6 @@ public class StudentRecordService {
             List<CallInRecord> callInRecordList = new ArrayList<>();
             String addBy = "ExcelImport";
             for(StudentRecordDto p:studentRecordDtoList)
-//            studentRecordDtoList.forEach(p ->
             {
                 try {
 
@@ -84,7 +83,8 @@ public class StudentRecordService {
                 ParaDistrict paraDistrict = paraDistrictList.stream().filter(m -> m.getDistrict().equals(p.getDistrict())).findFirst().get();
                 UserIntention userIntention = userIntentionList.stream().filter(m -> m.getUserIntention().equals(p.getEnrollIntention())).findFirst().get();
                 ChannelType channelTypeOne = channelTypeMapperList.stream().filter(m -> m.getTypeName().equals(p.getMarketTypeOne())).findFirst().get();
-                ChannelType channelTypeTwo = channelTypeMapperList.stream().filter(m -> m.getTypeName().equals(p.getMarketTypeTwo())).findFirst().get();
+                ChannelType channelTypeTwo = channelTypeMapperList.stream().filter(m -> m.getTypeName().equals(p.getMarketTypeTwo())&&
+                                                                                       m.getFid().equals(channelTypeOne.getTypeId())).findFirst().get();
                 UserCallByWhy userCallByWhy = userCallByWhyList.stream().filter(m -> m.getWhyCallType().equals(p.getCallIntention())).findFirst().get();
 
                 p.setSchoolId(school.getGuid());
@@ -163,36 +163,57 @@ public class StudentRecordService {
                     Integer result = this.userInfoMapper.batchInsert(currentUserInfoList);
                     if (result <= 0) {
                         TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-                        return MessageResult.returnError("插入失败", 200);
+                        String msg="插入UserInfo失败";
+                        logger.debug(msg);
+                        return MessageResult.returnError(msg, 200);
                     }
 
                     List<UserValid> currentUserValidList = userValidList.subList(fromIndex, toIndex);
                     result = this.userValidMapper.batchInsert(currentUserValidList);
                     if (result <= 0) {
                         TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-                        return MessageResult.returnError("插入失败", 200);
+                        String msg="插入UserValid失败";
+                        logger.debug(msg);
+                        return MessageResult.returnError("插入UserValid失败", 200);
                     }
 
                     List<UserInfoAssign> currentUserInfoAssignList = userInfoAssignList.subList(fromIndex, toIndex);
                     result = this.userInfoAssignMapper.batchInsert(currentUserInfoAssignList);
                     if (result <= 0) {
                         TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-                        return MessageResult.returnError("插入失败", 200);
+                        String msg="插入UserInfoAssign失败";
+                        logger.debug(msg);
+                        return MessageResult.returnError("插入UserInfoAssign失败", 200);
                     }
 
                     List<UserRemarks> currentUserRemarksList = userRemarksList.subList(fromIndex, toIndex);
                     result = this.userRemarksMapper.batchInsert(currentUserRemarksList);
                     if (result <= 0) {
                         TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-                        return MessageResult.returnError("插入失败", 200);
+                        String msg="插入UserRemarks失败";
+                        logger.debug(msg);
+                        return MessageResult.returnError("插入UserRemarks失败", 200);
                     }
 
                     List<CallInRecord> currentCallInRecordList = callInRecordList.subList(fromIndex, toIndex);
                     result = this.callInRecordMapper.batchInsert(currentCallInRecordList);
                     if (result <= 0) {
                         TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-                        return MessageResult.returnError("插入失败", 200);
+                        String msg="插入CallInRecord失败";
+                        logger.debug(msg);
+                        return MessageResult.returnError("插入CallInRecord失败", 200);
                     }
+
+                    try {
+                        this.userInfoMapper.syncStudent_CC_RelationShip();
+                    } catch (Exception e) {
+                        TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                        String msg="同步Student_CC_RelationShip失败";
+                        logger.debug(msg);
+                        return MessageResult.returnError("同步Student_CC_RelationShip失败", 200);
+                    }
+
+
                 }
             }
             messageResult.setCode(0);
