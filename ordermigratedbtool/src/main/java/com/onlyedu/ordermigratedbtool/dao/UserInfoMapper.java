@@ -33,4 +33,6 @@ public interface UserInfoMapper {
     EosStudent getRelativeEosStudentByUserInfoId(Integer id);
 
     List<UserInfoEosStudentRelativeDto>  getSamePhoneWithEosStudent();
+
+    void syncStudent_CC_RelationShip();
 }
