@@ -189,4 +189,13 @@
 
 
     </select>
+
+
+    <select id="getByPhones" parameterType="java.util.List" resultType="com.onlyedu.ordermigratedbtool.model.entity.UserInfo">
+        select * from [NewClassesAdmin].[dbo].[UserInfo]
+        where MobilePhone in
+        <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </select>
 </mapper>

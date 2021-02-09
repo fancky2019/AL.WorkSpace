@@ -20,6 +20,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentRecordService {
@@ -60,6 +61,28 @@ public class StudentRecordService {
         MessageResult<Void> messageResult = new MessageResult<>();
         try {
             List<StudentRecordDto> studentRecordDtoList = ExcelHelper.getStudentRecord(fileFullName);
+            //去重
+            Integer maxSize = 2000;
+            Integer maxLoopCount = studentRecordDtoList.size() / 2000 + 1;
+            List<UserInfo> getByPhoneList = new ArrayList<>();
+            for (int i = 0; i < maxLoopCount; i++) {
+                Integer fromIndex = i * maxSize;
+                Integer toIndex = (i + 1) * maxSize;
+                toIndex = toIndex > studentRecordDtoList.size() ? studentRecordDtoList.size() : toIndex;
+                //subList区间：[)
+                List<String> currentPhoneList = studentRecordDtoList.subList(fromIndex, toIndex).stream().map(p -> p.getPhone()).collect(Collectors.toList());
+
+                if (currentPhoneList.size() > 0) {
+                    List<UserInfo> phoneUserinfoList = this.userInfoMapper.getByPhones(currentPhoneList);
+                    getByPhoneList.addAll(phoneUserinfoList);
+                }
+
+            }
+
+            List<StudentRecordDto> notExistList = studentRecordDtoList.stream().filter(p -> !getByPhoneList.stream().anyMatch(m -> m.getMobilePhone().equals(p.getPhone()))).collect(Collectors.toList());
+
+
+            //导入
             List<School> schoolList = schoolMapper.getAll();
             List<ParaDistrict> paraDistrictList = paraDistrictMapper.getAll();
             List<UserIntention> userIntentionList = userIntentionMapper.getAll();
@@ -72,89 +95,87 @@ public class StudentRecordService {
             List<UserRemarks> userRemarksList = new ArrayList<>();
             List<CallInRecord> callInRecordList = new ArrayList<>();
             String addBy = "ExcelImport";
-            for(StudentRecordDto p:studentRecordDtoList)
-            {
+            for (StudentRecordDto p : notExistList) {
                 try {
 
 
-                SysUser sysUser = sysUserMapper.selectByAdminUserName(p.getSalesman());
+                    SysUser sysUser = sysUserMapper.selectByAdminUserName(p.getSalesman());
 
-                School school = schoolList.stream().filter(m -> m.getSchool().equals(p.getSchool())).findFirst().get();
-                ParaDistrict paraDistrict = paraDistrictList.stream().filter(m -> m.getDistrict().equals(p.getDistrict())).findFirst().get();
-                UserIntention userIntention = userIntentionList.stream().filter(m -> m.getUserIntention().equals(p.getEnrollIntention())).findFirst().get();
-                ChannelType channelTypeOne = channelTypeMapperList.stream().filter(m -> m.getTypeName().equals(p.getMarketTypeOne())).findFirst().get();
-                ChannelType channelTypeTwo = channelTypeMapperList.stream().filter(m -> m.getTypeName().equals(p.getMarketTypeTwo())&&
-                                                                                       m.getFid().equals(channelTypeOne.getTypeId())).findFirst().get();
-                UserCallByWhy userCallByWhy = userCallByWhyList.stream().filter(m -> m.getWhyCallType().equals(p.getCallIntention())).findFirst().get();
+                    School school = schoolList.stream().filter(m -> m.getSchool().equals(p.getSchool())).findFirst().get();
+                    ParaDistrict paraDistrict = paraDistrictList.stream().filter(m -> m.getDistrict().equals(p.getDistrict())).findFirst().get();
+                    UserIntention userIntention = userIntentionList.stream().filter(m -> m.getUserIntention().equals(p.getEnrollIntention())).findFirst().get();
+                    ChannelType channelTypeOne = channelTypeMapperList.stream().filter(m -> m.getTypeName().equals(p.getMarketTypeOne())).findFirst().get();
+                    ChannelType channelTypeTwo = channelTypeMapperList.stream().filter(m -> m.getTypeName().equals(p.getMarketTypeTwo()) &&
+                            m.getFid().equals(channelTypeOne.getTypeId())).findFirst().get();
+                    UserCallByWhy userCallByWhy = userCallByWhyList.stream().filter(m -> m.getWhyCallType().equals(p.getCallIntention())).findFirst().get();
 
-                p.setSchoolId(school.getGuid());
-                p.setDistrictId(paraDistrict.getGuid());
-                p.setEnrollIntentionId(userIntention.getGuid());
-                p.setMarketTypeOneId(channelTypeOne.getTypeId().toString());
-                p.setMarketTypeTwoId(channelTypeTwo.getTypeId().toString());
-                p.setCallIntentionId(userCallByWhy.getId().toString());
+                    p.setSchoolId(school.getGuid());
+                    p.setDistrictId(paraDistrict.getGuid());
+                    p.setEnrollIntentionId(userIntention.getGuid());
+                    p.setMarketTypeOneId(channelTypeOne.getTypeId().toString());
+                    p.setMarketTypeTwoId(channelTypeTwo.getTypeId().toString());
+                    p.setCallIntentionId(userCallByWhy.getId().toString());
 
-                String grade = p.getGrade().substring(0, 4);
-                UserInfo userInfo = new UserInfo();
-                userInfo.setStudentId(UUID.randomUUID().toString());
-                userInfo.setUserName(p.getName());
-                userInfo.setMobilePhone(p.getPhone());
-                userInfo.setGrade(grade);
-                userInfo.setDistrictId(p.getDistrictId());
-                userInfo.setSchoolId(p.getSchoolId());
-                userInfo.setUserType("1");
-                userInfo.setUserSourceId("820168d8-2da3-4a06-9ce8-60c704b6e4d0");
-                userInfo.setAddBy(addBy);
-                userInfoList.add(userInfo);
+                    String grade = p.getGrade().substring(0, 4);
+                    UserInfo userInfo = new UserInfo();
+                    userInfo.setStudentId(UUID.randomUUID().toString());
+                    userInfo.setUserName(p.getName());
+                    userInfo.setMobilePhone(p.getPhone());
+                    userInfo.setGrade(grade);
+                    userInfo.setDistrictId(p.getDistrictId());
+                    userInfo.setSchoolId(p.getSchoolId());
+                    userInfo.setUserType("1");
+                    userInfo.setUserSourceId("820168d8-2da3-4a06-9ce8-60c704b6e4d0");
+                    userInfo.setAddBy(addBy);
+                    userInfoList.add(userInfo);
 
-                UserValid userValid = new UserValid();
-                userValid.setStudentId(userInfo.getStudentId());
-                userValid.setVaildType(3);
-                userValid.setSmallVaildType(20);
-                userValidList.add(userValid);
+                    UserValid userValid = new UserValid();
+                    userValid.setStudentId(userInfo.getStudentId());
+                    userValid.setVaildType(3);
+                    userValid.setSmallVaildType(20);
+                    userValidList.add(userValid);
 
-                UserInfoAssign userInfoAssign = new UserInfoAssign();
-                userInfoAssign.setStudentId(userInfo.getStudentId());
-                userInfoAssign.setDdlAdmin(sysUser.getSysUserGuid());
-                userInfoAssign.setAddedtime(LocalDateTime.now());
-                userInfoAssign.setUserIntentionId(p.getEnrollIntentionId());
-                userInfoAssignList.add(userInfoAssign);
+                    UserInfoAssign userInfoAssign = new UserInfoAssign();
+                    userInfoAssign.setStudentId(userInfo.getStudentId());
+                    userInfoAssign.setDdlAdmin(sysUser.getSysUserGuid());
+                    userInfoAssign.setAddedtime(LocalDateTime.now());
+                    userInfoAssign.setUserIntentionId(p.getEnrollIntentionId());
+                    userInfoAssignList.add(userInfoAssign);
 
-                UserRemarks userRemarks = new UserRemarks();
-                userRemarks.setStudentId(userInfo.getStudentId());
-                String remarks = p.getMarketTypeOne() + "-" + p.getMarketTypeTwo();
-                userRemarks.setRemarks(remarks);
-                userRemarks.setUserIntentionId(p.getEnrollIntentionId());
-                userRemarks.setAddBy(addBy);
-                userRemarksList.add(userRemarks);
+                    UserRemarks userRemarks = new UserRemarks();
+                    userRemarks.setStudentId(userInfo.getStudentId());
+                    String remarks = p.getMarketTypeOne() + "-" + p.getMarketTypeTwo();
+                    userRemarks.setRemarks(remarks);
+                    userRemarks.setUserIntentionId(p.getEnrollIntentionId());
+                    userRemarks.setAddBy(addBy);
+                    userRemarksList.add(userRemarks);
 
-                CallInRecord callInRecord = new CallInRecord();
-                callInRecord.setStudentId(userInfo.getStudentId());
-                callInRecord.setComeTime(LocalDateTime.now());
-                callInRecord.setChannelType(p.getMarketTypeTwoId());
-                callInRecord.setIntentionType(Integer.valueOf(p.getCallIntentionId()));
-                callInRecord.setVaildType(20);
-                callInRecord.setAddBy(addBy);
-                callInRecord.setAddTime(LocalDateTime.now());
-                callInRecordList.add(callInRecord);
-                }
-                catch (Exception ex)
-                {
+                    CallInRecord callInRecord = new CallInRecord();
+                    callInRecord.setStudentId(userInfo.getStudentId());
+                    callInRecord.setComeTime(LocalDateTime.now());
+                    callInRecord.setChannelType(p.getMarketTypeTwoId());
+                    callInRecord.setIntentionType(Integer.valueOf(p.getCallIntentionId()));
+                    callInRecord.setVaildType(20);
+                    callInRecord.setAddBy(addBy);
+                    callInRecord.setAddTime(LocalDateTime.now());
+                    callInRecordList.add(callInRecord);
+                } catch (Exception ex) {
                     TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
                     logger.error(ex.toString());
                     messageResult.setCode(500);
                     messageResult.setMessage(ex.getMessage());
-                    return  messageResult;
+                    return messageResult;
                 }
-            };
+            }
+            ;
 
             //一次插入200条
             Integer maxInsertCount = 200;
-            Integer loopCount = studentRecordDtoList.size() / maxInsertCount + 1;
+            Integer loopCount = notExistList.size() / maxInsertCount + 1;
             for (int i = 0; i < loopCount; i++) {
                 Integer fromIndex = i * maxInsertCount;
                 Integer toIndex = (i + 1) * maxInsertCount;
-                toIndex = toIndex > studentRecordDtoList.size() ? studentRecordDtoList.size() : toIndex;
+                toIndex = toIndex > notExistList.size() ? notExistList.size() : toIndex;
                 //subList区间：[)
                 List<UserInfo> currentUserInfoList = userInfoList.subList(fromIndex, toIndex);
                 logger.info(MessageFormat.format("Insert form {0} to {1}", fromIndex, toIndex));
@@ -163,7 +184,7 @@ public class StudentRecordService {
                     Integer result = this.userInfoMapper.batchInsert(currentUserInfoList);
                     if (result <= 0) {
                         TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-                        String msg="插入UserInfo失败";
+                        String msg = "插入UserInfo失败";
                         logger.debug(msg);
                         return MessageResult.returnError(msg, 200);
                     }
@@ -172,7 +193,7 @@ public class StudentRecordService {
                     result = this.userValidMapper.batchInsert(currentUserValidList);
                     if (result <= 0) {
                         TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-                        String msg="插入UserValid失败";
+                        String msg = "插入UserValid失败";
                         logger.debug(msg);
                         return MessageResult.returnError("插入UserValid失败", 200);
                     }
@@ -181,7 +202,7 @@ public class StudentRecordService {
                     result = this.userInfoAssignMapper.batchInsert(currentUserInfoAssignList);
                     if (result <= 0) {
                         TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-                        String msg="插入UserInfoAssign失败";
+                        String msg = "插入UserInfoAssign失败";
                         logger.debug(msg);
                         return MessageResult.returnError("插入UserInfoAssign失败", 200);
                     }
@@ -190,7 +211,7 @@ public class StudentRecordService {
                     result = this.userRemarksMapper.batchInsert(currentUserRemarksList);
                     if (result <= 0) {
                         TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-                        String msg="插入UserRemarks失败";
+                        String msg = "插入UserRemarks失败";
                         logger.debug(msg);
                         return MessageResult.returnError("插入UserRemarks失败", 200);
                     }
@@ -199,7 +220,7 @@ public class StudentRecordService {
                     result = this.callInRecordMapper.batchInsert(currentCallInRecordList);
                     if (result <= 0) {
                         TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-                        String msg="插入CallInRecord失败";
+                        String msg = "插入CallInRecord失败";
                         logger.debug(msg);
                         return MessageResult.returnError("插入CallInRecord失败", 200);
                     }
@@ -208,7 +229,7 @@ public class StudentRecordService {
                         this.userInfoMapper.syncStudent_CC_RelationShip();
                     } catch (Exception e) {
                         TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-                        String msg="同步Student_CC_RelationShip失败";
+                        String msg = "同步Student_CC_RelationShip失败";
                         logger.debug(msg);
                         return MessageResult.returnError("同步Student_CC_RelationShip失败", 200);
                     }
@@ -217,7 +238,9 @@ public class StudentRecordService {
                 }
             }
             messageResult.setCode(0);
-
+            String importCountStr = "成功导入：" + notExistList.size() + "人；号码重复：" + (studentRecordDtoList.size() - notExistList.size()) + "人";
+            messageResult.setMessage(importCountStr);
+            logger.debug(importCountStr);
         } catch (Exception e) {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             logger.error(e.toString());
