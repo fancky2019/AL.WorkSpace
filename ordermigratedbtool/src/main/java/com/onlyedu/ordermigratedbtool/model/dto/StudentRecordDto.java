@@ -29,4 +29,10 @@ public class StudentRecordDto {
     private  String saleGroupId;
     private  String salesman;
     private  String salesmanId;
+
+    public Object[] toFieldObject()
+    {
+        Object[] objects= {this.name,this.phone};
+        return  objects;
+    }
 }
