@@ -5,6 +5,7 @@ import com.onlyedu.ordermigratedbtool.model.dto.StudentRecordDto;
 import com.onlyedu.ordermigratedbtool.model.entity.*;
 import com.onlyedu.ordermigratedbtool.model.pojo.MessageResult;
 import com.onlyedu.ordermigratedbtool.utility.Commons;
+import com.onlyedu.ordermigratedbtool.utility.CsvUtil;
 import com.onlyedu.ordermigratedbtool.utility.ExcelHelper;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -57,7 +58,7 @@ public class StudentRecordService {
     private SysUserMapper sysUserMapper;
 
     @Transactional(rollbackFor = Exception.class)
-    public MessageResult<Void> importData(String fileFullName) {
+    public MessageResult<Void> importData(String fileFullName,String repeatDataFileName) {
         MessageResult<Void> messageResult = new MessageResult<>();
         try {
             List<StudentRecordDto> studentRecordDtoList = ExcelHelper.getStudentRecord(fileFullName);
@@ -239,6 +240,8 @@ public class StudentRecordService {
             }
             messageResult.setCode(0);
             String importCountStr = "成功导入：" + notExistList.size() + "人；号码重复：" + (studentRecordDtoList.size() - notExistList.size()) + "人";
+            List<StudentRecordDto> repeatRecordList = CollectionUtils.removeAll(studentRecordDtoList, notExistList).stream().collect(Collectors.toList());
+            generalRepeatRecordFile(repeatRecordList,repeatDataFileName);
             messageResult.setMessage(importCountStr);
             logger.debug(importCountStr);
         } catch (Exception e) {
@@ -248,6 +251,11 @@ public class StudentRecordService {
             messageResult.setMessage(e.getMessage());
         }
         return messageResult;
+    }
+
+    private void generalRepeatRecordFile(List<StudentRecordDto> repeatRecordList,String repeatDataFileName) {
+        String[] csvHeaders={"name","phone"};
+        CsvUtil.write(repeatDataFileName,csvHeaders,repeatRecordList);
     }
 
 }
