@@ -239,7 +239,7 @@ public class StudentRecordService {
                 }
             }
             messageResult.setCode(0);
-            String importCountStr = "成功导入：" + notExistList.size() + "人；号码重复：" + (studentRecordDtoList.size() - notExistList.size()) + "人";
+            String importCountStr = "成功导入：" + notExistList.size() + "人；姓名号码重复：" + (studentRecordDtoList.size() - notExistList.size()) + "人";
             List<StudentRecordDto> repeatRecordList = CollectionUtils.removeAll(studentRecordDtoList, notExistList).stream().collect(Collectors.toList());
             generalRepeatRecordFile(repeatRecordList,repeatDataFileName);
             messageResult.setMessage(importCountStr);
