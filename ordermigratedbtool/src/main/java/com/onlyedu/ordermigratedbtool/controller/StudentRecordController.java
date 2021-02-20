@@ -71,7 +71,9 @@ public class StudentRecordController {
     @RequestMapping(value = "/downloadRepeat", method = RequestMethod.GET)
     public void downloadRepeat(HttpServletResponse response) {
         try {
-            CsvUtil.downloadFile(response, getRepeatFileFullName());
+            if (!CsvUtil.downloadFile(response, getRepeatFileFullName())) {
+                logger.info("下载失败！");
+            }
         } catch (Exception e) {
             logger.error(e.toString());
         }

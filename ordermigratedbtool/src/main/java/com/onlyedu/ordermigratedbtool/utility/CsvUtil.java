@@ -61,8 +61,12 @@ public class CsvUtil {
         }
     }
 
-    public static String downloadFile(HttpServletResponse response, String fileName) {
+    public static Boolean downloadFile(HttpServletResponse response, String fileName) {
         File file = new File(fileName);
+        if(!file.exists())
+        {
+            return  false;
+        }
         response.setHeader("content-type", "application/octet-stream");
         response.setContentType("application/octet-stream");
         try {
@@ -87,7 +91,7 @@ public class CsvUtil {
             }
         } catch (FileNotFoundException e1) {
             //e1.getMessage()+"系统找不到指定的文件";
-            return "系统找不到指定的文件";
+            return false;
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -99,6 +103,6 @@ public class CsvUtil {
                 }
             }
         }
-        return "success";
+        return true;
     }
 }
