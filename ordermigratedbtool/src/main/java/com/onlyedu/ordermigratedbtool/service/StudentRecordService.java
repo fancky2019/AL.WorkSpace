@@ -95,7 +95,7 @@ public class StudentRecordService {
             List<UserInfoAssign> userInfoAssignList = new ArrayList<>();
             List<UserRemarks> userRemarksList = new ArrayList<>();
             List<CallInRecord> callInRecordList = new ArrayList<>();
-            String addBy = "ExcelImport";
+            String addBy = "system";
             for (StudentRecordDto p : notExistList) {
                 try {
 
