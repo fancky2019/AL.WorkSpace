@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
+import org.springframework.util.StopWatch;
 
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
@@ -58,10 +59,17 @@ public class StudentRecordService {
     private SysUserMapper sysUserMapper;
 
     @Transactional(rollbackFor = Exception.class)
-    public MessageResult<Void> importData(String fileFullName,String repeatDataFileName) {
+    public MessageResult<Void> importData(String fileFullName, String repeatDataFileName) {
         MessageResult<Void> messageResult = new MessageResult<>();
         try {
+            StopWatch stopWatch = new StopWatch();
+            stopWatch.start("reading data");
             List<StudentRecordDto> studentRecordDtoList = ExcelHelper.getStudentRecord(fileFullName);
+            stopWatch.stop();
+            Long time1 = stopWatch.getTotalTimeMillis();
+
+            logger.info("reading data:" + time1 + "ms");
+            stopWatch.start("removing repeat data");
             //去重
             Integer maxSize = 2000;
             Integer maxLoopCount = studentRecordDtoList.size() / 2000 + 1;
@@ -79,9 +87,17 @@ public class StudentRecordService {
                 }
 
             }
+            stopWatch.stop();
+            Long time2 = stopWatch.getTotalTimeMillis();
 
+            logger.info("removing repeat data:" + (time2 - time1) + "ms");
+            stopWatch.start("notExistList");
             List<StudentRecordDto> notExistList = studentRecordDtoList.stream().filter(p -> !getByPhoneList.stream().anyMatch(m -> m.getMobilePhone().equals(p.getPhone()))).collect(Collectors.toList());
+            stopWatch.stop();
+            Long time3 = stopWatch.getTotalTimeMillis();
 
+            logger.info("notExistList:" + (time3 - time2) + "ms");
+            stopWatch.start("get base data");
 
             //导入
             List<School> schoolList = schoolMapper.getAll();
@@ -89,6 +105,12 @@ public class StudentRecordService {
             List<UserIntention> userIntentionList = userIntentionMapper.getAll();
             List<ChannelType> channelTypeMapperList = channelTypeMapper.getAll();
             List<UserCallByWhy> userCallByWhyList = userCallByWhyMapper.getAll();
+            stopWatch.stop();
+            Long time4 = stopWatch.getTotalTimeMillis();
+
+            logger.info("get base data:" + (time4 - time3) + "ms");
+            stopWatch.start("init data");
+
 
             List<UserInfo> userInfoList = new ArrayList<>();
             List<UserValid> userValidList = new ArrayList<>();
@@ -98,7 +120,9 @@ public class StudentRecordService {
             String addBy = "system";
             for (StudentRecordDto p : notExistList) {
                 try {
-
+//                    if (p.getName().equals("邓滢滢")) {
+//                        int m = 0;
+//                    }
 
                     SysUser sysUser = sysUserMapper.selectByAdminUserName(p.getSalesman());
 
@@ -168,8 +192,12 @@ public class StudentRecordService {
                     return messageResult;
                 }
             }
-            ;
 
+            stopWatch.stop();
+            Long time5 = stopWatch.getTotalTimeMillis();
+
+            logger.info("init data:" + (time5 - time4) + "ms");
+            stopWatch.start("insert data");
             //一次插入200条
             Integer maxInsertCount = 200;
             Integer loopCount = notExistList.size() / maxInsertCount + 1;
@@ -238,10 +266,14 @@ public class StudentRecordService {
 
                 }
             }
+            stopWatch.stop();
+            Long time6 = stopWatch.getTotalTimeMillis();
+            logger.info("insert  data:" + (time6 - time1) + "ms");
+
             messageResult.setCode(0);
             String importCountStr = "成功导入：" + notExistList.size() + "人；姓名号码重复：" + (studentRecordDtoList.size() - notExistList.size()) + "人";
             List<StudentRecordDto> repeatRecordList = CollectionUtils.removeAll(studentRecordDtoList, notExistList).stream().collect(Collectors.toList());
-            generalRepeatRecordFile(repeatRecordList,repeatDataFileName);
+            generalRepeatRecordFile(repeatRecordList, repeatDataFileName);
             messageResult.setMessage(importCountStr);
             logger.debug(importCountStr);
         } catch (Exception e) {
@@ -253,9 +285,9 @@ public class StudentRecordService {
         return messageResult;
     }
 
-    private void generalRepeatRecordFile(List<StudentRecordDto> repeatRecordList,String repeatDataFileName) {
-        String[] csvHeaders={"name","phone"};
-        CsvUtil.write(repeatDataFileName,csvHeaders,repeatRecordList);
+    private void generalRepeatRecordFile(List<StudentRecordDto> repeatRecordList, String repeatDataFileName) {
+        String[] csvHeaders = {"name", "phone"};
+        CsvUtil.write(repeatDataFileName, csvHeaders, repeatRecordList);
     }
 
 }
