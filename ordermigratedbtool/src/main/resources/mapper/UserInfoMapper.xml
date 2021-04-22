@@ -5,6 +5,7 @@
         INSERT into [NewClassesAdmin].[dbo].[UserInfo] (StudentId,[UserName],[MobilePhone],[Grade],[DistrictId],
                      [SchoolId],[UserType],[UserSourceId] ,[AddBy])
         values
+        /* 如果collection是对象的一个属性直接用属性名称。如:userIds */
         <foreach collection="list" item="item" separator=",">
             (#{item.studentId,jdbcType=NVARCHAR},#{item.userName,jdbcType=NVARCHAR},#{item.mobilePhone,jdbcType=NVARCHAR},
             #{item.grade,jdbcType=NVARCHAR},#{item.districtId,jdbcType=NVARCHAR},#{item.schoolId,jdbcType=NVARCHAR},'1',
@@ -21,6 +22,7 @@
     <update id="updateRelativeBatch" parameterType="java.util.List">
         UPDATE [NewClassesAdmin].[dbo].[UserInfo] SET [RelativeState] = 1
         where Id in
+        /* 如果collection是对象的一个属性直接用属性名称。如:userIds */
         <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
             #{item}
         </foreach>
@@ -29,6 +31,7 @@
     <update id="updateUnRelativeBatch" parameterType="java.util.List">
         UPDATE [NewClassesAdmin].[dbo].[UserInfo] SET [RelativeState] = 0
         where Id in
+        /* 如果collection是对象的一个属性直接用属性名称。如:userIds */
         <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
             #{item}
         </foreach>
@@ -36,6 +39,7 @@
 
 
     <sql id="dynamicWhere">
+     /*mysql  like  and co.pay_time <![CDATA[ >= ]]> #{startTime,jdbcType=DATE}*/
         <if test="userName != null and userName !='' ">
             and ui.UserName LIKE '%'+#{userName,jdbcType=NVARCHAR}+'%'
         </if>
