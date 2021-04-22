@@ -126,4 +126,12 @@ public class UserInfoController {
         return userInfoService.autoRelative();
     }
 
+    //region GlobalExceptionHandler
+    @GetMapping("/globalExceptionHandlerTest")
+    public String globalExceptionHandlerTest() {
+        Integer m = Integer.parseInt("m");
+        return "error";
+    }
+    //endregion
+
 }
