@@ -50,17 +50,15 @@ public class OrderController {
     public MessageResult<Void> updateRelative(@RequestBody RelativeOrderHeadEosOrderDto relativeOrderHeadEosOrderDto) {
 
         if (relativeOrderHeadEosOrderDto.getOrderHeads().size() > 1 && relativeOrderHeadEosOrderDto.getEosOrderIds().size() > 1) {
-            return returnError("订单不存在多对多关联关系!",200);
+            return returnError("订单不存在多对多关联关系!", 200);
         }
-        if(relativeOrderHeadEosOrderDto.getOrderHeads().size() ==0|| relativeOrderHeadEosOrderDto.getEosOrderIds().size() ==0)
-        {
-            return returnError("存在空参数!",200);
+        if (relativeOrderHeadEosOrderDto.getOrderHeads().size() == 0 || relativeOrderHeadEosOrderDto.getEosOrderIds().size() == 0) {
+            return returnError("存在空参数!", 200);
         }
         return orderHeadService.updateRelative(relativeOrderHeadEosOrderDto);
     }
 
-    private  MessageResult<Void> returnError(String errMessage,Integer code)
-    {
+    private MessageResult<Void> returnError(String errMessage, Integer code) {
         MessageResult<Void> result = new MessageResult<>();
         result.setCode(code);
         result.setMessage(errMessage);
@@ -85,4 +83,7 @@ public class OrderController {
 //        orderHead.setRelativeState(relativeState);
 //        return orderHeadService.updateRelative(orderHead);
 //    }
+
+
+
 }
