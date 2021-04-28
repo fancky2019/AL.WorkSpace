@@ -7,3 +7,5 @@ uploadfiles/
 *.ipr
 .idea/
 studentrecord/
+
+*.log

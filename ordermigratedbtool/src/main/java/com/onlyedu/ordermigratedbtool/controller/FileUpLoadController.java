@@ -1,5 +1,6 @@
 package com.onlyedu.ordermigratedbtool.controller;
 
+import com.onlyedu.ordermigratedbtool.model.dto.EosStudentDto;
 import com.onlyedu.ordermigratedbtool.model.pojo.MessageResult;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,8 +13,17 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+/*
+上传进度依赖类：
+ MultipartResolverConfig
+ CustomMultipartResolver
+ FileUploadProgressListener
+ */
 
 
+/*
+ OkHttp 测试
+ */
 @RestController
 @RequestMapping("/fileupload")
 public class FileUpLoadController {
@@ -55,6 +65,12 @@ public class FileUpLoadController {
         return messageResult;
     }
 
+    /**
+     *  postman 选择多个文件; 参数files value: 选择多个文件
+     * @param files
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/uploadFileAndForm", method = RequestMethod.POST)
     public MessageResult<Void> uploadFileAndForm(@RequestParam(value = "files") MultipartFile[] files, HttpServletRequest request) {
         MessageResult<Void> messageResult = new MessageResult<>();
@@ -136,4 +152,26 @@ public class FileUpLoadController {
 
     }
 
+
+    @GetMapping("/getUser")
+    public MessageResult<Void> getUser(EosStudentDto eosStudentDto) {
+
+        MessageResult<Void> result = new MessageResult<>();
+        result.setCode(0);
+        result.setMessage(eosStudentDto.getStudentName());
+        return result;
+    }
+
+    // SpringMVC的自动装箱（实体类接收参数）
+    //post提交 data:{}是一个对象，要用对象接收，类的访问级别是共有，否则MVC反射找不到报。
+    //  @ResponseBody  返回业务对象，不要返回字符串，不然前台无法转换JSON而报错，还要Json 序列化操作。
+    // @RequestMapping("/addUser")
+    // @RequestMapping(value = "/addUser",method = RequestMethod.POST)
+    @PostMapping("/addUser")
+    public MessageResult<Void> addUser(@RequestBody EosStudentDto eosStudentDto) {
+        MessageResult<Void> result = new MessageResult<>();
+        result.setCode(0);
+        result.setMessage(eosStudentDto.getStudentName());
+        return result;
+    }
 }
