@@ -37,4 +37,6 @@ public interface UserInfoMapper {
     void syncStudent_CC_RelationShip();
 
     List<UserInfo> getByPhones(List<String> mobilePhoneList);
+
+    List<UserInfoRemarkDto> getUserInfoRemarksByPhones(List<String> mobilePhoneList);
 }
