@@ -1,19 +1,17 @@
 package com.onlyedu.ordermigratedbtool.utility;
 
-import com.onlyedu.ordermigratedbtool.model.dto.StudentRecordDto;
+import com.onlyedu.ordermigratedbtool.model.dto.FieldObject;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class CsvUtil {
-    public static void write(String fileFullPath, String[] csvHeaders ,List<StudentRecordDto> content) {
+    public static <T extends FieldObject> void write(String fileFullPath, String[] csvHeaders, List<T> content) throws Exception {
         try {
-
             File file = new File(fileFullPath);
             //获取父目录
             String filePath = file.getParent();
@@ -30,7 +28,8 @@ public class CsvUtil {
             content.forEach(p ->
             {
                 try {
-                    csvPrinter.printRecord(p.toFieldObject());
+                    Object[] objects = p.toFieldObject();
+                    csvPrinter.printRecord(objects);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -39,33 +38,32 @@ public class CsvUtil {
             csvPrinter.flush();
             csvPrinter.close();
         } catch (Exception ex) {
-            System.out.println(ex.toString());
+            throw ex;
         }
 
     }
 
-    public static void read(String fileFullPath) {
+    public static void read(String fileFullPath) throws Exception {
         try {
             //中文乱码
             //   Reader reader = new FileReader(fileFullPath);
 
             DataInputStream in = new DataInputStream(new FileInputStream(new File(fileFullPath)));
-            BufferedReader bufferedReader= new BufferedReader(new InputStreamReader(in,"GBK"));//这里如果csv文件编码格式是utf-8,改成utf-8即可
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in, "GBK"));//这里如果csv文件编码格式是utf-8,改成utf-8即可
             Iterable<CSVRecord> records = CSVFormat.RFC4180.withFirstRecordAsHeader().parse(bufferedReader);
             for (CSVRecord csvRecord : records) {// 第一行不会被打印出来
-               // System.out.println(csvRecord.get("Id")+","+csvRecord.get("姓名") + "," +  csvRecord.get("年龄") );
+                // System.out.println(csvRecord.get("Id")+","+csvRecord.get("姓名") + "," +  csvRecord.get("年龄") );
             }
             bufferedReader.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw e;
         }
     }
 
-    public static Boolean downloadFile(HttpServletResponse response, String fileName) {
+    public static Boolean downloadFile(HttpServletResponse response, String fileName) throws Exception {
         File file = new File(fileName);
-        if(!file.exists())
-        {
-            return  false;
+        if (!file.exists()) {
+            return false;
         }
         response.setHeader("content-type", "application/octet-stream");
         response.setContentType("application/octet-stream");
@@ -85,15 +83,16 @@ public class CsvUtil {
             bis = new BufferedInputStream(new FileInputStream(file));
             int i = bis.read(buff);
             while (i != -1) {
-                os.write(buff, 0, buff.length);
+                os.write(buff, 0, i);
                 os.flush();
                 i = bis.read(buff);
             }
         } catch (FileNotFoundException e1) {
             //e1.getMessage()+"系统找不到指定的文件";
-            return false;
+            throw e1;
         } catch (IOException e) {
             e.printStackTrace();
+            throw e;
         } finally {
             if (bis != null) {
                 try {

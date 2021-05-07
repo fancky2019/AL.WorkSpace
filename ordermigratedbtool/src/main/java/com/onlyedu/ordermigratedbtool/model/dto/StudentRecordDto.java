@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class StudentRecordDto {
+public class StudentRecordDto  implements FieldObject{
     private  String name;
     private  String phone;
     private  String grade;
@@ -30,9 +30,15 @@ public class StudentRecordDto {
     private  String salesman;
     private  String salesmanId;
 
+    @Override
     public Object[] toFieldObject()
     {
         Object[] objects= {this.name,this.phone};
         return  objects;
+    }
+
+    @Override
+    public String[] csvHeaders() {
+        return new String[]{"name","phone"};
     }
 }

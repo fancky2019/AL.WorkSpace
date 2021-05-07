@@ -1,14 +1,14 @@
 package com.onlyedu.ordermigratedbtool.service;
 
 import com.onlyedu.ordermigratedbtool.dao.*;
+import com.onlyedu.ordermigratedbtool.model.dto.FieldObject;
 import com.onlyedu.ordermigratedbtool.model.dto.StudentRecordDto;
+import com.onlyedu.ordermigratedbtool.model.dto.UserInfoRemarkDto;
 import com.onlyedu.ordermigratedbtool.model.entity.*;
 import com.onlyedu.ordermigratedbtool.model.pojo.MessageResult;
-import com.onlyedu.ordermigratedbtool.utility.Commons;
 import com.onlyedu.ordermigratedbtool.utility.CsvUtil;
 import com.onlyedu.ordermigratedbtool.utility.ExcelHelper;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.util.StopWatch;
+import org.springframework.util.StringUtils;
 
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
@@ -71,12 +72,12 @@ public class StudentRecordService {
             logger.info("reading data:" + time1 + "ms");
             stopWatch.start("removing repeat data");
             //去重
-            Integer maxSize = 2000;
-            Integer maxLoopCount = studentRecordDtoList.size() / 2000 + 1;
+            int maxSize = 2000;
+            int maxLoopCount = studentRecordDtoList.size() / 2000 + 1;
             List<UserInfo> getByPhoneList = new ArrayList<>();
             for (int i = 0; i < maxLoopCount; i++) {
-                Integer fromIndex = i * maxSize;
-                Integer toIndex = (i + 1) * maxSize;
+                int fromIndex = i * maxSize;
+                int toIndex = (i + 1) * maxSize;
                 toIndex = toIndex > studentRecordDtoList.size() ? studentRecordDtoList.size() : toIndex;
                 //subList区间：[)
                 List<String> currentPhoneList = studentRecordDtoList.subList(fromIndex, toIndex).stream().map(p -> p.getPhone()).collect(Collectors.toList());
@@ -199,11 +200,11 @@ public class StudentRecordService {
             logger.info("init data:" + (time5 - time4) + "ms");
             stopWatch.start("insert data");
             //一次插入200条
-            Integer maxInsertCount = 200;
-            Integer loopCount = notExistList.size() / maxInsertCount + 1;
+            int maxInsertCount = 200;
+            int loopCount = notExistList.size() / maxInsertCount + 1;
             for (int i = 0; i < loopCount; i++) {
-                Integer fromIndex = i * maxInsertCount;
-                Integer toIndex = (i + 1) * maxInsertCount;
+                int fromIndex = i * maxInsertCount;
+                int toIndex = (i + 1) * maxInsertCount;
                 toIndex = toIndex > notExistList.size() ? notExistList.size() : toIndex;
                 //subList区间：[)
                 List<UserInfo> currentUserInfoList = userInfoList.subList(fromIndex, toIndex);
@@ -272,7 +273,7 @@ public class StudentRecordService {
 
             messageResult.setCode(0);
             String importCountStr = "成功导入：" + notExistList.size() + "人；姓名号码重复：" + (studentRecordDtoList.size() - notExistList.size()) + "人";
-            List<StudentRecordDto> repeatRecordList = CollectionUtils.removeAll(studentRecordDtoList, notExistList).stream().collect(Collectors.toList());
+            List<StudentRecordDto> repeatRecordList = new ArrayList<>(CollectionUtils.removeAll(studentRecordDtoList, notExistList));
             generalRepeatRecordFile(repeatRecordList, repeatDataFileName);
             messageResult.setMessage(importCountStr);
             logger.debug(importCountStr);
@@ -285,9 +286,66 @@ public class StudentRecordService {
         return messageResult;
     }
 
-    private void generalRepeatRecordFile(List<StudentRecordDto> repeatRecordList, String repeatDataFileName) {
-        String[] csvHeaders = {"name", "phone"};
-        CsvUtil.write(repeatDataFileName, csvHeaders, repeatRecordList);
+    private void generalRepeatRecordFile(List<StudentRecordDto> repeatRecordList, String repeatDataFileName) throws Exception {
+        int maxSize = 2000;
+        int maxLoopCount = repeatRecordList.size() / 2000 + 1;
+        List<UserInfoRemarkDto> userInfoRemarks = new ArrayList<>();
+        for (int i = 0; i < maxLoopCount; i++) {
+            int fromIndex = i * maxSize;
+            int toIndex = (i + 1) * maxSize;
+            toIndex = Math.min(repeatRecordList.size(), toIndex);
+            //subList区间：[)
+            List<String> currentPhoneList = repeatRecordList.subList(fromIndex, toIndex).stream().map(p -> p.getPhone()).collect(Collectors.toList());
+
+            if (currentPhoneList.size() > 0) {
+                List<UserInfoRemarkDto> list = this.userInfoMapper.getUserInfoRemarksByPhones(currentPhoneList);
+                userInfoRemarks.addAll(list);
+            }
+
+        }
+
+//        userInfoRemarks.forEach(p ->
+//        {
+//            p.setRemarks(StringUtils.trimWhitespace(p.getRemarks()));
+//            p.setUserIntention(StringUtils.trimWhitespace(p.getUserIntention()));
+//
+//            if (StringUtils.hasLength(p.getRemarks())) {
+//                p.setRemarks(csvHandlerStr(p.getRemarks()));
+//            }
+//            if (StringUtils.hasLength(p.getUserIntention())) {
+//                p.setUserIntention(csvHandlerStr(p.getRemarks()));
+//            }
+//        });
+
+        if (org.springframework.util.CollectionUtils.isEmpty(userInfoRemarks)) {
+            return;
+        }
+        String[] csvHeaders = userInfoRemarks.get(0).csvHeaders();
+        CsvUtil.write(repeatDataFileName, csvHeaders, userInfoRemarks);
     }
+
+    /**
+     * 方法名称: csvHandlerStr</br>
+     * 方法描述: 处理包含逗号，或者双引号的字段</br>
+     * 方法参数: @param forecastName
+     * 方法参数: @return  </br>
+     * 返回类型: String</br>
+     * 抛出异常:</br>
+     */
+    private String csvHandlerStr(String str) {
+        //csv格式如果有逗号，整体用双引号括起来；如果里面还有双引号就替换成两个双引号，这样导出来的格式就不会有问题了
+        String tempDescription=str;
+        //如果有逗号
+        if(str.contains(",")){
+            //如果还有双引号，先将双引号转义，避免两边加了双引号后转义错误
+            if(str.contains("\"")){
+                tempDescription=str.replace("\"", "\"\"");
+            }
+            //在将逗号转义
+            tempDescription="\""+tempDescription+"\"";
+        }
+        return tempDescription;
+    }
+
 
 }

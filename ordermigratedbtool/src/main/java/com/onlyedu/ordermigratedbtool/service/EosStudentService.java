@@ -55,13 +55,13 @@ public class EosStudentService {
             //sqlserver最大支持2100个参数，此插入语句有4个参数。
             //每次插入500条确保小于2100最大值。
 //            Integer num=2100/4;
-            Integer paramCount = 4;
-            Integer maxInsertCount = 2099 / paramCount;
-            Integer loopCount = eosStudentList.size() / maxInsertCount + 1;
+            int paramCount = 4;
+            int maxInsertCount = 2099 / paramCount;
+            int loopCount = eosStudentList.size() / maxInsertCount + 1;
             for (int i = 0; i < loopCount; i++) {
-                Integer fromIndex = i * maxInsertCount;
-                Integer toIndex = (i + 1) * maxInsertCount;
-                toIndex = toIndex > eosStudentList.size() ? eosStudentList.size() : toIndex;
+                int fromIndex = i * maxInsertCount;
+                int toIndex = (i + 1) * maxInsertCount;
+                toIndex = Math.min(toIndex, eosStudentList.size());
                 //subList区间：[)
                 List<EosStudent> subList = eosStudentList.subList(fromIndex, toIndex);
                 logger.info(MessageFormat.format("Insert form {0} to {1}", fromIndex, toIndex));
