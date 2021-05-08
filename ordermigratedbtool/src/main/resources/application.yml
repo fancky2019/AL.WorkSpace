@@ -29,11 +29,11 @@ spring:
   datasource:
     #注意冒号有空格，多数据源是jdbcUrl，spring默认url
     url: jdbc:sqlserver://106.14.212.77:1433;DatabaseName=NewClassesAdmin
-#    url: jdbc:sqlserver://139.224.207.63:1433;DatabaseName=NewClassesAdmin
+    #    url: jdbc:sqlserver://139.224.207.63:1433;DatabaseName=NewClassesAdmin
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
     username: EduLifeOnline
     password: 123qwe!@#QWE #测试环境
-#    password: gyxl43401  #生产环境密码
+    #    password: gyxl43401  #生产环境密码
 
     # HikariCP： springboot2.0 默认的连接池。https://github.com/brettwooldridge/HikariCP
     #HikariCP  高并发性能优。mysql 8h 空闲断开连接可用quartz 调度定期select 1  。

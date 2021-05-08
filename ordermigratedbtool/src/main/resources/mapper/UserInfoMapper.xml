@@ -206,20 +206,20 @@
     <select id="getUserInfoRemarksByPhones"
                      resultType="com.onlyedu.ordermigratedbtool.model.dto.UserInfoRemarkDto">
 	select  ui.UserName,ui.MobilePhone,su.AdminUserName, ur.Remarks,i.UserIntention,ur.AddedTime
-    from NewClassesAdmin.dbo.UserInfo ui
-             left join
-         (
-             select  ur.StudentId, ur.Remarks,ur.UserIntentionId,ur.AddedTime,ur.AddBy
-             from UserRemarks ur
-                      join (
-                 select MAX(Id)Id ,StudentId,max( AddedTime ) LatestAddedTime
-                 from  NewClassesAdmin.dbo.UserRemarks
-                 where IsDelete=0 AND RemarkType NOT IN(5,8)
-                 group by StudentId
-             )t1 on ur.Id=t1.Id
-         ) ur on ui.StudentId=ur.StudentId
-             left join NewClassesAdmin.dbo.SysUser  su on ur.AddBy = su.AdminUserId
-             left join NewClassesAdmin.dbo.UserIntention i on ur.UserIntentionId = i.[Guid]
+	from NewClassesAdmin.dbo.UserInfo ui
+     left join NewClassesAdmin.dbo.UserInfoAssign uia on uia.StudentId=ui.StudentId
+   	 left join NewClassesAdmin.dbo.SysUser  su on uia.ddlAdmin = su.SysUserGuid
+	 left join (
+			     select  ur.StudentId, ur.Remarks,ur.UserIntentionId,ur.AddedTime,ur.AddBy
+				 from UserRemarks ur
+				 join (
+						select MAX(Id)Id
+						from  NewClassesAdmin.dbo.UserRemarks
+						where IsDelete=0 AND RemarkType NOT IN(5,8)
+						group by StudentId,AddBy
+					  )t1 on ur.Id=t1.Id
+			  ) ur  on ui.StudentId=ur.StudentId and su.AdminUserId=ur.AddBy
+	 left join NewClassesAdmin.dbo.UserIntention i on ur.UserIntentionId = i.[Guid]
     where 1=1
       and  ui.MobilePhone in
     <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
