@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.util.StringUtils;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
@@ -15,6 +16,7 @@ import java.time.format.DateTimeFormatter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserInfoRemarkDto implements FieldObject {
+    private String excelUserName;
     private String userName;
     private String mobilePhone;
     private String adminUserName;
@@ -30,6 +32,7 @@ public class UserInfoRemarkDto implements FieldObject {
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             timeStr = addedTime.format(dateTimeFormatter);
         }
+        String excelUserName = this.excelUserName == null ? "" : this.excelUserName;
         String userName = this.userName == null ? "" : this.userName;
         String mobilePhone = this.mobilePhone == null ? "" : this.mobilePhone;
         String adminUserName = this.adminUserName == null ? "" : this.adminUserName;
@@ -37,13 +40,13 @@ public class UserInfoRemarkDto implements FieldObject {
         String remarks = this.remarks == null ? "" : this.remarks;
         String userIntention = this.userIntention == null ? "" : this.userIntention;
 
-        return new Object[]{userName, mobilePhone, adminUserName, addBy, remarks, timeStr, userIntention};
+        return new Object[]{excelUserName,userName, mobilePhone, adminUserName, addBy, remarks, timeStr, userIntention};
     }
 
     @Override
     public String[] csvHeaders() {
 //        return new String[]{"userName", "mobilePhone", "adminUserName", "addBy","remarks", "addedTime", "userIntention"};
 
-        return new String[]{"姓名", "手机号", "当前跟进人", "最近跟进人","最近跟进内容", "最近跟进时间", "最近跟进用户意向"};
+        return new String[]{"excel姓名","姓名", "手机号", "当前跟进人", "最近跟进人","最近跟进内容", "最近跟进时间", "最近跟进用户意向"};
     }
 }
