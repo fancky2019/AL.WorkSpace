@@ -11,6 +11,7 @@ import com.onlyedu.ordermigratedbtool.utility.ExcelHelper;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +23,7 @@ import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -320,6 +322,19 @@ public class StudentRecordService {
         if (org.springframework.util.CollectionUtils.isEmpty(userInfoRemarks)) {
             return;
         }
+
+        userInfoRemarks.forEach(p->
+        {
+            Optional<StudentRecordDto>  studentRecordDto= repeatRecordList.stream().filter(m-> m.getPhone().equals(StringUtils.trimAllWhitespace(p.getMobilePhone()))).findFirst();
+            studentRecordDto.ifPresent(s->
+            {
+                p.setExcelUserName(s.getName());
+            });
+        });
+
+//        Optional<?> re= repeatRecordList.stream().filter(p->p.getPhone().equals("13818279739")).findFirst();
+//        Optional<?> re1= userInfoRemarks.stream().filter(p->p.getUserName().equals("单畅")).findFirst();
+
         String[] csvHeaders = userInfoRemarks.get(0).csvHeaders();
         CsvUtil.write(repeatDataFileName, csvHeaders, userInfoRemarks);
     }
