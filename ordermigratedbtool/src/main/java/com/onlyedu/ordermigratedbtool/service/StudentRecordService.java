@@ -123,10 +123,6 @@ public class StudentRecordService {
             String addBy = "system";
             for (StudentRecordDto p : notExistList) {
                 try {
-//                    if (p.getName().equals("邓滢滢")) {
-//                        int m = 0;
-//                    }
-
                     SysUser sysUser = sysUserMapper.selectByAdminUserName(p.getSalesman());
 
                     School school = schoolList.stream().filter(m -> m.getSchool().equals(p.getSchool())).findFirst().get();
