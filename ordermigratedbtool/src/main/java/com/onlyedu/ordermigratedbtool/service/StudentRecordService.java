@@ -261,8 +261,6 @@ public class StudentRecordService {
                         logger.debug(msg);
                         return MessageResult.returnError("同步Student_CC_RelationShip失败", 200);
                     }
-
-
                 }
             }
             stopWatch.stop();
