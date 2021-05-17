@@ -39,7 +39,8 @@
 
 
     <sql id="dynamicWhere">
-     /*mysql  like  and co.pay_time <![CDATA[ >= ]]> #{startTime,jdbcType=DATE}*/
+     /*mysql  时间 大于等于  and co.pay_time <![CDATA[ >= ]]> #{startTime,jdbcType=DATE}*/
+        <!-- 小于等于    <![CDATA[ <= ]]>-->
         <if test="userName != null and userName !='' ">
             and ui.UserName LIKE '%'+#{userName,jdbcType=NVARCHAR}+'%'
         </if>
