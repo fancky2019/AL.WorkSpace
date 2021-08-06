@@ -81,6 +81,7 @@
         FROM [NewClassesAdmin].[dbo].[EosStudent]
     </select>
 
+<!--    ：mysql默认接受sql的大小是1048576(1M)，即第三种方式若数据量超过1M会报如下异常：（可通过调整MySQL安装目录下的my.ini文件中[mysqld]段的＂max_allowed_packet = 1M＂）-->
     <insert id="batchInsert" parameterType="com.onlyedu.ordermigratedbtool.model.entity.EosStudent">
         insert into EosStudent (EosStudentID, StudentName,
         Grade, Phone
